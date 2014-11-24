@@ -9,27 +9,24 @@
  * Main module of the application.
  */
 angular
-  .module('fv0004App', [
-    'ngAnimate',
-    'ngAria',
-    'ngCookies',
-    'ngMessages',
-    'ngResource',
-    'ngRoute',
-    'ngSanitize',
-    'ngTouch'
-  ])
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
-      });
-  });
+	.module('fv0004App', [
+		'ngAnimate',
+		'ngAria',
+		'ngCookies',
+		'ngMessages',
+		'ngResource',
+		'ngRoute',
+		'ngSanitize',
+		'ngTouch',
+		'firebase'
+	])
+	.config(function ($routeProvider) {
+		$routeProvider
+			.when('/comments', {
+				templateUrl: 'views/comments.html',
+				controller: 'CommentsCtrl'
+			})
+			.otherwise({
+				redirectTo: '/comments'
+			});
+	});
