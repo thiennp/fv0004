@@ -22,11 +22,19 @@ angular
 	])
 	.config(function ($routeProvider) {
 		$routeProvider
-			.when('/comments', {
-				templateUrl: 'views/comments.html',
-				controller: 'CommentsCtrl'
+			.when('/comment_users', {
+				templateUrl: 'views/comment_users.html',
+				controller: 'CommentUsersCtrl'
+			})
+			.when('/comment_groups/:userId', {
+				templateUrl: 'views/comment_groups.html',
+				controller: 'CommentGroupsCtrl'
+			})
+			.when('/comment/:id', {
+				templateUrl: 'views/comment.html',
+				controller: 'CommentCtrl'
 			})
 			.otherwise({
-				redirectTo: '/comments'
+				redirectTo: '/comment_users'
 			});
 	});

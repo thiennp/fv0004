@@ -1,0 +1,29 @@
+Hi,
+
+  I'll answer the questions below:
+- I'll do this feature base on a setup Angular project or I'll setup and start the Angular project with this feature?
+  Setup a new project, would Github be the best place to share code?
+
+- Which language (coffee/javascript; jade/html; sass/scss/less/css) will be used on this project?
+  Javascript. For the CSS part you can use what you like, but you do not need to style this "comment"-widget. Just use the HTML and CSS that I sent you earlier.
+
+- Is there any code convention I have to follow?
+  Normal good practices for Javascript, please use long and descriptive names for functions and variables. Otherwise I trust that you have good conventions yourself.
+
+- Do we need to write unit testing (like Karma) or not?
+  Not for this widget.
+
+- Will comment data be stored on Firebase only? do we need to save those data to our server?
+  Only on Firebase. I have a backend set up for other data processing, but we do not need to integrate right now.
+  
+- Does this task include authentication features (login, logout, register & forgot password)?
+  No. Do not create pages for that. But you will need to do some thinking about how this works, because you need to authenticate when connecting to Firebase. I'll try to explain:
+  
+  The users will be authenticated through a login on the backend. That backend can store the authentication credentials for login to Firebase, per user. Since I don't know how Firebase works, we have not yet implemented this. You can assume that there will be REST-call or an active session that will contain the users credentials. This integration will be done later. Right now we just need the basic commenting to work and to understand what credentials Firebase needs so that we can use it. 
+  
+  I imagine that you will beed to have some sort of "group" in Firebase that you can add users comments to. Comments posted to this "group" will be visible to all the other members of that "group". One "group" can have any number of users, but they are known when we create the "group". And all the comments stored within this one "group" can be retrieved with one REST-call later on.
+  
+  I'll draw aquick picture in PPT and attach it as well.
+
+- Do I need to style the UI?
+  No. Just use the HTML and CSS I sent you.

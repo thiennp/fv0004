@@ -1,0 +1,7 @@
+Instructions:
+ - the commenting widget HTML and CSS are included
+ - the commenting should connect to Firebase and store the messages there. You can get a free Firebase account to test with if you do not have one already.
+ - please use AngularFire 
+ - By using Firebase the commenting should automatically update on all connected devices when a new commenting-message is sent
+ - the individual commenting messages and the entire conversation should be possible to retrieve from Firebase using a REST-call, please include the description of the REST-call.
+ - If you know how to use all the tools, this should not take very long to make. Please let me know if you think that this is a large task and we can negotiate.

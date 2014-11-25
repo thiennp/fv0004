@@ -1,0 +1,9 @@
+<div class="message-wrap col-lg-8">
+	<div class="msg-wrap">
+		<h1>User list</h1>
+		<div ng-repeat="user in users" class="row">
+			<div class="col-xs-2">{{ user.id }}</div>
+			<div class="col-xs-10"><a href="#/comment_groups/{{ user.id }}">{{ user.name }}</a></div>
+		</div>
+	</div>
+</div>
