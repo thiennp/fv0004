@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('fv0004App')
-	.controller('CommentCtrl', function ($scope, $firebase, $routeParams, $rootScope) {
+	.controller('CommentCtrl', function ($scope, $firebase, $routeParams, $rootScope, $wakanda) {
 		var ref = new Firebase('https://popping-inferno-4762.firebaseio.com/'),
 			sync = $firebase(ref.child('fv0004').child('groups').child($routeParams.id).child('messages')),
 			dateString = function (month, day) {

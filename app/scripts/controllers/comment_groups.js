@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('fv0004App')
-	.controller('CommentGroupsCtrl', function ($scope, $firebase, $routeParams, $rootScope) {
+	.controller('CommentGroupsCtrl', function ($scope, $firebase, $routeParams, $rootScope, $wakanda) {
 		var ref = new Firebase('https://popping-inferno-4762.firebaseio.com/');
 
 		$rootScope.userid = parseInt($routeParams.userId);

@@ -1,0 +1,19 @@
+Users:
+
+amanda.aaron@tester.com
+billy.bob@tester.com
+charon.centavo@tester.com
+david.duchovny@tester.com
+gabriel.guest@testing.com
+
+They all have password: test
+
+This address has a testing page:
+http://kuveno.us.wak-apps.com/
+
+ * Note that the data-grids do not update automatically. You have to refresh the page once you have logged in to see the content.
+
+You can test access using curl:
+  curl -u amanda.aaron@tester.com:test http://kuveno.us.wak-apps.com/rest/User
+  
+  

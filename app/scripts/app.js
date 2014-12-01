@@ -18,7 +18,8 @@ angular
 		'ngRoute',
 		'ngSanitize',
 		'ngTouch',
-		'firebase'
+		'firebase',
+		'wakanda'
 	])
 	.config(function ($routeProvider) {
 		$routeProvider
