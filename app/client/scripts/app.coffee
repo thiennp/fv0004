@@ -48,7 +48,7 @@ angular.module('app', [
 		$stateProvider
 			.state 'main',
 				url: '/main'
-				templateURL: 'views/main.html'
+				templateUrl: 'views/main.html'
 				controller: ($scope)->
 ])
 

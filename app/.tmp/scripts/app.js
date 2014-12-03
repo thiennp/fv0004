@@ -10,7 +10,7 @@
       $urlRouterProvider.otherwise('/main');
       return $stateProvider.state('main', {
         url: '/main',
-        templateURL: 'views/main.html',
+        templateUrl: 'views/main.html',
         controller: function($scope) {}
       });
     }
@@ -45,3 +45,5 @@
   ]);
 
 }).call(this);
+
+//# sourceMappingURL=app.js.map

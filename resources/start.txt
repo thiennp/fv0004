@@ -1,0 +1,8 @@
+start working on something else, and return to this issue when it is resolved by the Wakanda-team.
+
+ This task would include setting up an development environment for the frontend. I have a framework that is built on Angular, Bootstrap and SASS. You can see it live here: http://iarouse.com/dist-flatify/v1.2/index.html#/dashboard I would like to use the styles of this project to build an app. Most of the stuff in the framework is not needed, only the basic CSS including the animations.
+
+  In the setup task, you would take the styling of this project and create a skeleton application complete with build scripts. There are several changes that need to be made to the basic setup, so I think it would be easiest to start from scratch. Specifically, I would like to have the following libraries included, which are not a part of the Flatify-theme:
+ - angular-translate: https://github.com/angular-translate/angular-translate
+ - ui-router: https://github.com/angular-ui/ui-router
+While you set this up, I will construct a basic page flow that we can then put in and start to build the complete app.
