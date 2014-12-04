@@ -52,6 +52,18 @@ angular.module('app', [
 				url: '/main'
 				templateUrl: 'views/main.html'
 
+			.state 'auth',
+				url: '/auth'
+				templateUrl: 'views/auth.html'
+
+			.state 'auth.SignUp',
+				url: '/sign_up'
+				templateUrl: 'views/auth/sign_up.html'
+
+			.state 'auth.SignIn',
+				url: '/sign_in'
+				templateUrl: 'views/auth/sign_in.html'
+
 			.state 'createMeetingNote',
 				url: '/create_meeting_note'
 				templateUrl: 'views/create_meeting_note.html'
