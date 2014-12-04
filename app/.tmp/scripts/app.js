@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  angular.module('app', ['ngRoute', 'ngAnimate', 'ngCookies', 'ui.bootstrap', 'easypiechart', 'mgo-angular-wizard', 'textAngular', 'angular-loading-bar', 'app.ui.ctrls', 'app.ui.directives', 'app.ui.services', 'app.controllers', 'app.user.controllers', 'app.action.controllers', 'app.directives', 'app.form.validation', 'app.ui.form.ctrls', 'app.ui.form.directives', 'app.tables', 'app.task', 'app.localization', 'app.chart.ctrls', 'app.chart.directives', 'pascalprecht.translate', 'ui.router']).run([
+  angular.module('app', ['ngRoute', 'ngAnimate', 'ngCookies', 'ui.bootstrap', 'easypiechart', 'mgo-angular-wizard', 'textAngular', 'angular-loading-bar', 'app.ui.ctrls', 'app.ui.directives', 'app.ui.services', 'app.controllers', 'app.auth.controllers', 'app.user.controllers', 'app.action.controllers', 'app.directives', 'app.form.validation', 'app.ui.form.ctrls', 'app.ui.form.directives', 'app.tables', 'app.task', 'app.localization', 'app.chart.ctrls', 'app.chart.directives', 'pascalprecht.translate', 'ui.router']).run([
     '$rootScope', '$state', '$stateParams', function($rootScope, $state, $stateParams) {
       $rootScope.$state = $state;
       return $rootScope.$stateParams = $stateParams;

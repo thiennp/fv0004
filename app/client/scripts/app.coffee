@@ -18,6 +18,7 @@ angular.module('app', [
 	'app.ui.directives'
 	'app.ui.services'
 	'app.controllers'
+	'app.auth.controllers'
 	'app.user.controllers'
 	'app.action.controllers'
 	'app.directives'

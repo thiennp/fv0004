@@ -1,11 +1,10 @@
 'use strict';
 
-angular.module('app.action.controllers', [])
+angular.module('app.auth.controllers', [])
 
 .controller('SignUpCtrl', [
-	'$scope'
-	($scope) ->
-		console.log 'Sign Up'
+	'$scope', '$stateParams',
+	($scope, $stateParams) ->
 ])
 
 .controller('SignInCtrl', [

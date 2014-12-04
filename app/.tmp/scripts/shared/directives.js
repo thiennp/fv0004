@@ -24,10 +24,8 @@
             switch (path) {
               case '/':
                 return $element.addClass('body-home');
-              case '/404':
-              case '/pages/500':
-              case '/pages/signin':
-              case '/pages/signup':
+              case '/auth/sign_in':
+              case '/auth/sign_up':
                 return $element.addClass('body-special');
               case '/pages/lock-screen':
                 return $element.addClass('body-special body-lock');
