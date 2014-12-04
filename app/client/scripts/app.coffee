@@ -18,6 +18,8 @@ angular.module('app', [
 	'app.ui.directives'
 	'app.ui.services'
 	'app.controllers'
+	'app.user.controllers'
+	'app.action.controllers'
 	'app.directives'
 	'app.form.validation'
 	'app.ui.form.ctrls'
@@ -49,9 +51,61 @@ angular.module('app', [
 			.state 'main',
 				url: '/main'
 				templateUrl: 'views/main.html'
-				controller: ($scope)->
-])
 
+			.state 'createMeetingNote',
+				url: '/create_meeting_note'
+				templateUrl: 'views/create_meeting_note.html'
+
+			# Action group
+			.state 'action',
+				url: '/action'
+				templateUrl: 'views/action.html'
+
+			.state 'action.agreeOnDate',
+				url: '/agree_on_date'
+				templateUrl: 'views/action/agree_on_date.html'
+
+			.state 'action.createAgenda',
+				url: '/create_agenda'
+				templateUrl: 'views/action/create_agenda.html'
+
+			.state 'action.viewMeeting',
+				url: '/view_meeting/:meetingId'
+				templateUrl: 'views/action/view_meeting.html'
+
+			.state 'action.listAllMeeting',
+				url: '/list_all_meeting'
+				templateUrl: 'views/action/list_all_meeting.html'
+
+			.state 'action.createEMeeting',
+				url: '/create_e_meeting'
+				templateUrl: 'views/action/create_e_meeting.html'
+
+			.state 'action.viewEMeeting',
+				url: '/view_e_meeting/:eMeetingId'
+				templateUrl: 'views/action/view_e_meeting.html'
+
+			# User group
+			.state 'user',
+				url: '/user'
+				templateUrl: 'views/user.html'
+
+			.state 'user.profile',
+				url: '/profile'
+				templateUrl: 'views/user/profile.html'
+
+			.state 'user.groups',
+				url: '/groups'
+				templateUrl: 'views/user/groups.html'
+
+			.state 'user.myTask',
+				url: '/my_task'
+				templateUrl: 'views/user/my_task.html'
+
+			.state 'user.upcommingMeeting',
+				url: '/upcomming_meeting'
+				templateUrl: 'views/user/upcomming_meeting.html'
+])
 
 .config(['$translateProvider', ($translateProvider)->
 	$translateProvider.translations "en_US",

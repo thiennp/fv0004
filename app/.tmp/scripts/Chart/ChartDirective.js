@@ -215,5 +215,3 @@
   ]);
 
 }).call(this);
-
-//# sourceMappingURL=ChartDirective.js.map

@@ -27,8 +27,10 @@
     '$scope', '$stateParams', function($scope, $stateParams) {
       return console.log($stateParams);
     }
+  ]).controller('CreateMeetingNoteCtrl', [
+    '$scope', function($scope) {
+      return console.log('Create Meeting Note');
+    }
   ]);
 
 }).call(this);
-
-//# sourceMappingURL=main.js.map

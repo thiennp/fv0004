@@ -186,5 +186,3 @@
   ]);
 
 }).call(this);
-
-//# sourceMappingURL=UICtrl.js.map
