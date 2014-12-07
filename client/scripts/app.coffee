@@ -48,6 +48,7 @@ angular.module('app', [
 
 .config (FacebookProvider)->
 	FacebookProvider.init('1655840277976205');
+	# FacebookProvider.init('771785776234961');
 
 .config([
 	'$stateProvider'

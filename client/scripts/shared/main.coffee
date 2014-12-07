@@ -11,10 +11,21 @@ angular.module('app.controllers', [])
 			path = $location.path()
 			return _.contains( ['/auth/sign_up', '/auth/sign_in'], path )
 
-		$scope.main =
-			brand: 'Flatify'
-			name: 'Lisa Doe' # those which uses i18n can not be replaced with two way binding var for now.
+		$scope.user = 
+			'id': localStorage.getItem 'user_id'
+			'first_name': localStorage.getItem 'user_first_name'
+			'last_name': localStorage.getItem 'user_last_name'
+			'link': localStorage.getItem 'user_link'
+			'locale': localStorage.getItem 'user_locale'
+			'name': localStorage.getItem 'user_name'
+			'timezone': localStorage.getItem 'user_timezone'
+			'updated_time': localStorage.getItem 'user_updated_time'
+			'verified': localStorage.getItem 'user_verified'
+			'avatar': 'http://graph.facebook.com/'+localStorage.getItem('user_id')+'/picture'
 
+		$scope.main =
+			brand: 'Webapp'
+			name: $scope.user.name
 ])
 
 .controller('NavCtrl', [
