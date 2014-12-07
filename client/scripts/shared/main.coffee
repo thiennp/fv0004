@@ -35,7 +35,11 @@ angular.module('app.controllers', [])
 	'$scope'
 	'$state'
 	'Auth'
-	($scope, $state, Auth) ->
+	'$location'
+	($scope, $state, Auth, $location) ->
+		if $location.$$absUrl.split('?code=').length > 1
+			linkedinCode = $location.$$absUrl.split('?code=')[1].split('#/')[0]
+			Auth.linkedin(linkedinCode)
 		Auth.verify()
 ])
 

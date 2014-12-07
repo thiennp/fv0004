@@ -51,4 +51,7 @@ angular.module('app.auth.controllers', [])
 					Facebook.api '/me', (response)->
 						storeUser response
 						$state.go 'main'
+
+		$scope.linkedinLogin = ->
+			window.location.href = 'https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=7581d2bszc4sid&scope=r_emailaddress%20r_fullprofile%20r_basicprofile&state=KbyUmhTLMpYj7CD2di7JKP1PcqmLlkPt&redirect_uri=http://localhost:9000'
 ])
