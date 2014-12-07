@@ -1,0 +1,27 @@
+<div id="nav-wrapper">
+	<ul id="nav"
+		data-ng-controller="NavCtrl"
+		data-collapse-nav
+		data-slim-scroll
+		data-highlight-active>
+		<li><a ui-sref="main"> <i class="fa fa-dashboard"><span class="icon-bg bg-danger"></span></i><span data-i18n="Main"></span> </a></li>
+		<li>
+			<a ui-sref="user"><i class="fa fa-magic"><span class="icon-bg bg-orange"></span></i><span data-i18n="User"></span></a>
+			<ul>
+				<li><a ui-sref="user.profile"><i class="fa fa-caret-right"></i><span data-i18n="Profile"></span></a></li>
+				<li><a ui-sref="user.groups"><i class="fa fa-caret-right"></i><span data-i18n="Groups"></span></a></li>
+				<li><a ui-sref="user.myTask"><i class="fa fa-caret-right"></i><span data-i18n="My Task"></span></a></li>
+				<li><a ui-sref="user.upcommingMeeting"><i class="fa fa-caret-right"></i><span data-i18n="Upcomming Meeting"></span></a></li>
+			</ul>
+		</li>
+		<li>
+			<a ui-sref="action"><i class="fa fa-magic"><span class="icon-bg bg-orange"></span></i><span data-i18n="Action"></span></a>
+			<ul>
+				<li><a ui-sref="action/agreeOnDate"><i class="fa fa-caret-right"></i><span data-i18n="Agree On Date"></span></a></li>
+				<li><a ui-sref="action/createAgenda"><i class="fa fa-caret-right"></i><span data-i18n="Create Agenda"></span></a></li>
+				<li><a ui-sref="action/listAllMeeting"><i class="fa fa-caret-right"></i><span data-i18n="List All Meeting"></span> <span class="badge badge-success">12</span></a></li>
+				<li><a ui-sref="action/createEMeeting"><i class="fa fa-caret-right"></i><span data-i18n="Create E-Meeting"></span></a></li>
+			</ul>
+		</li>
+	</ul>
+</div>
