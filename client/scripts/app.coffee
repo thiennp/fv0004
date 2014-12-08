@@ -43,7 +43,13 @@ angular.module('app', [
 	($rootScope, $state, $stateParams) ->
 		$rootScope.$state = $state
 		$rootScope.$stateParams = $stateParams
-
+		$rootScope.$stateHistory = []
+		$rootScope.onBack = false
+		$rootScope.back = ->
+			$rootScope.onBack = true
+			if $rootScope.$stateHistory.length>1
+				$state.go $rootScope.$stateHistory[$rootScope.$stateHistory.length-2]
+				$rootScope.$stateHistory.pop()
 ])
 
 .config (FacebookProvider)->
@@ -72,6 +78,10 @@ angular.module('app', [
 				url: '/sign_in'
 				templateUrl: 'views/auth/sign_in.html'
 
+			.state 'auth.ChangePassword',
+				url: '/change_password'
+				templateUrl: 'views/auth/change_password.html'
+
 			.state 'auth.SignOut',
 				url: '/sign_out'
 				controller: ($state)->
@@ -97,27 +107,27 @@ angular.module('app', [
 				url: '/action'
 				templateUrl: 'views/action.html'
 
-			.state 'action.agreeOnDate',
+			.state 'action.AgreeOnDate',
 				url: '/agree_on_date'
 				templateUrl: 'views/action/agree_on_date.html'
 
-			.state 'action.createAgenda',
+			.state 'action.CreateAgenda',
 				url: '/create_agenda'
 				templateUrl: 'views/action/create_agenda.html'
 
-			.state 'action.viewMeeting',
+			.state 'action.ViewMeeting',
 				url: '/view_meeting/:meetingId'
 				templateUrl: 'views/action/view_meeting.html'
 
-			.state 'action.listAllMeeting',
+			.state 'action.ListAllMeeting',
 				url: '/list_all_meeting'
 				templateUrl: 'views/action/list_all_meeting.html'
 
-			.state 'action.createEMeeting',
+			.state 'action.CreateEMeeting',
 				url: '/create_e_meeting'
 				templateUrl: 'views/action/create_e_meeting.html'
 
-			.state 'action.viewEMeeting',
+			.state 'action.ViewEMeeting',
 				url: '/view_e_meeting/:eMeetingId'
 				templateUrl: 'views/action/view_e_meeting.html'
 
@@ -126,19 +136,23 @@ angular.module('app', [
 				url: '/user'
 				templateUrl: 'views/user.html'
 
-			.state 'user.profile',
+			.state 'user.Profile',
 				url: '/profile'
 				templateUrl: 'views/user/profile.html'
 
-			.state 'user.groups',
+			.state 'user.SendFeedback',
+				url: '/send_feedback'
+				templateUrl: 'views/user/send_feedback.html'
+
+			.state 'user.Groups',
 				url: '/groups'
 				templateUrl: 'views/user/groups.html'
 
-			.state 'user.myTask',
+			.state 'user.MyTask',
 				url: '/my_task'
 				templateUrl: 'views/user/my_task.html'
 
-			.state 'user.upcommingMeeting',
+			.state 'user.UpcommingMeeting',
 				url: '/upcomming_meeting'
 				templateUrl: 'views/user/upcomming_meeting.html'
 ])

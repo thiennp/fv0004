@@ -200,25 +200,19 @@
 				</a>
 				<ul class="dropdown-menu with-arrow pull-right">
 					<li>
-						<a href="#/user/profile">
+						<a ui-sref="user.Profile">
 							<i class="fa fa-user"></i>
 							<span data-i18n="My Profile"></span>
 						</a>
 					</li>
 					<li>
-						<a href="#">
-							<i class="fa fa-check"></i>
-							<span data-i18n="My Tasks"></span>
+						<a ui-sref="auth.ChangePassword">
+							<i class="fa fa-key"></i>
+							<span data-i18n="Change Password"></span>
 						</a>
 					</li>
 					<li>
-						<a href="#">
-							<i class="fa fa-lock"></i>
-							<span data-i18n="Lock"></span>
-						</a>
-					</li>
-					<li>
-						<a href="#/auth/sign_out">
+						<a ui-sref="auth.SignOut">
 							<i class="fa fa-sign-out"></i>
 							<span data-i18n="Log Out"></span>
 						</a>

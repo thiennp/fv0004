@@ -48,19 +48,28 @@ angular.module('app.controllers', [])
 ])
 
 .controller('MainCtrl', [
+	'$rootScope'
 	'$scope'
 	'$state'
 	'Auth'
 	'$location'
-	($scope, $state, Auth, $location) ->
-		if $location.$$absUrl.split('?code=').length > 1
-			linkedinCode = $location.$$absUrl.split('?code=')[1].split('#/')[0]
-			Auth.linkedin(linkedinCode)
-		Auth.verify()
+	($rootScope, $scope, $state, Auth, $location) ->
+		Auth.verify().then (data)->
+			if data
+				if $rootScope.onBack
+					$rootScope.onBack = false
+				else
+					$rootScope.$stateHistory.push 'main'
+				if $location.$$absUrl.split('?code=').length > 1
+					linkedinCode = $location.$$absUrl.split('?code=')[1].split('#/')[0]
+					Auth.linkedin(linkedinCode)
 ])
 
 .controller('CreateMeetingNoteCtrl', [
 	'$scope'
 	($scope) ->
-		console.log 'Create Meeting Note'
+		if $rootScope.onBack
+			$rootScope.onBack = false
+		else
+			$rootScope.$stateHistory.push 'createMeetingNote'
 ])

@@ -11105,3 +11105,7 @@ a {
 .icon.fa {
   width: 15px;
 }
+
+.media .media-body {
+  width: 100%;
+}

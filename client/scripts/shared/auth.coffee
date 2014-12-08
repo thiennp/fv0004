@@ -3,11 +3,15 @@
 angular.module('app.auth.controllers', [])
 
 .controller('SignUpCtrl', [
-	'$scope'
 	'$rootScope'
+	'$scope'
 	'Facebook'
 	'$state'
 	($scope, $rootScope, Facebook, $state) ->
+		if $rootScope.onBack
+			$rootScope.onBack = false
+		else
+			$rootScope.$stateHistory.push 'auth.SignUp'
 		$scope.facebookRegister = ->
 			Facebook.getLoginStatus (response)->
 				if response.status is 'connected' then $scope.loggedIn = true
@@ -21,16 +25,21 @@ angular.module('app.auth.controllers', [])
 ])
 
 .controller('SignInCtrl', [
+	'$q'
 	'$rootScope'
 	'$scope'
 	'$state'
 	'Assist'
 	'Facebook'
-	($rootScope, $scope, $state, Assist, Facebook) ->
+	($q, $rootScope, $scope, $state, Assist, Facebook) ->
+		if $rootScope.onBack
+			$rootScope.onBack = false
+		else
+			$rootScope.$stateHistory.push 'auth.SignIn'
+		defer = $q.defer()
 		storeUser = (response)->
 			$rootScope.user = response
 			Assist.localeToCountry(response.locale).then (data)->
-				console.log data
 				localStorage.setItem 'user_id', response.id
 				localStorage.setItem 'user_first_name', response.first_name
 				localStorage.setItem 'user_last_name', response.last_name
@@ -44,6 +53,8 @@ angular.module('app.auth.controllers', [])
 				localStorage.setItem 'user_country', data
 				$rootScope.user.country = localStorage.getItem 'user_country'
 				$rootScope.user.picture = localStorage.getItem 'user_picture'
+				defer.resolve $rootScope.user
+			defer.promise
 			
 		$scope.facebookLogin = ->
 			Facebook.getLoginStatus (response)->
@@ -51,13 +62,30 @@ angular.module('app.auth.controllers', [])
 				else $scope.loggedIn = false
 				if $scope.loggedIn is false
 					Facebook.login (response)->
-						storeUser response
-						$state.go 'user.profile'
+						storeUser(response).then ->
+							$state.go 'user.Profile'
 				else
 					Facebook.api '/me', (response)->
-						storeUser response
-						$state.go 'user.profile'
+						storeUser(response).then ->
+							$state.go 'user.Profile'
 
 		$scope.linkedinLogin = ->
 			window.location.href = 'https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=7581d2bszc4sid&scope=r_emailaddress%20r_fullprofile%20r_basicprofile&state=KbyUmhTLMpYj7CD2di7JKP1PcqmLlkPt&redirect_uri=http://localhost:9000'
+])
+
+
+
+.controller('ChangePasswordCtrl', [
+	'$q'
+	'$rootScope'
+	'Auth'
+	($q, $rootScope, Auth) ->
+		if $rootScope.onBack
+			$rootScope.onBack = false
+		else
+			$rootScope.$stateHistory.push 'auth.ChangePassword'
+		changePassword = ->
+			alert 'here'
+			if String($scope.newPassword) isnt String($scope.retypeNewPassword)
+				alert 'wrong'
 ])
