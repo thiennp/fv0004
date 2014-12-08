@@ -193,7 +193,7 @@
 			</li>
 			<li class="dropdown text-normal nav-profile">
 				<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-					<img  ng-src="{{user.avatar}}" alt="" class="img-circle img30_30">
+					<img data-ng-cloak data-ng-src="{{user.avatar}}" alt="" class="img-circle img30_30">
 					<span class="hidden-xs">
 					<span data-i18n="{{user.name}}"></span>
 					</span>
@@ -218,7 +218,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="#/auth/sign_out">
 							<i class="fa fa-sign-out"></i>
 							<span data-i18n="Log Out"></span>
 						</a>

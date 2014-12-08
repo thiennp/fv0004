@@ -19,3 +19,21 @@ angular.module('app.services', [])
 					$rootScope.error = data
 					$state.go 'auth.SignIn'
 ]
+
+.factory 'Assist', [
+	'$http'
+	'$q'
+	($http, $q)->
+		defer = $q.defer()
+		localeToCountry: (locale)->
+			$http
+				.get 'scripts/vendors/FacebookLocales.json'
+				.success (data, status, headers, config)->
+					for item in data.locales.locale
+						if item.codes.code.standard.representation is locale
+							defer.resolve item.englishName
+							break
+				.error (data, status, headers, config)->
+					defer.reject data
+			defer.promise
+]

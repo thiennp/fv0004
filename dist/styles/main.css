@@ -11101,3 +11101,7 @@ button.toast-close-button {
 a {
   cursor: pointer;
 }
+
+.icon.fa {
+  width: 15px;
+}

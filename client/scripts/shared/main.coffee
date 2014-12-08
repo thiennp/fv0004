@@ -4,28 +4,33 @@ angular.module('app.controllers', [])
 
 # overall control
 .controller('AppCtrl', [
+	'$rootScope'
 	'$scope'
 	'$location'
-	($scope, $location) ->
+	($rootScope, $scope, $location) ->
 		$scope.isSpecificPage = ->
 			path = $location.path()
 			return _.contains( ['/auth/sign_up', '/auth/sign_in'], path )
 
-		$scope.user = 
-			'id': localStorage.getItem 'user_id'
-			'first_name': localStorage.getItem 'user_first_name'
-			'last_name': localStorage.getItem 'user_last_name'
-			'link': localStorage.getItem 'user_link'
-			'locale': localStorage.getItem 'user_locale'
-			'name': localStorage.getItem 'user_name'
-			'timezone': localStorage.getItem 'user_timezone'
-			'updated_time': localStorage.getItem 'user_updated_time'
-			'verified': localStorage.getItem 'user_verified'
-			'avatar': 'http://graph.facebook.com/'+localStorage.getItem('user_id')+'/picture'
+		if localStorage.getItem('user_id')
+			$rootScope.user = 
+				'id': localStorage.getItem 'user_id'
+				'first_name': localStorage.getItem 'user_first_name'
+				'last_name': localStorage.getItem 'user_last_name'
+				'link': localStorage.getItem 'user_link'
+				'locale': localStorage.getItem 'user_locale'
+				'name': localStorage.getItem 'user_name'
+				'timezone': localStorage.getItem 'user_timezone'
+				'updated_time': localStorage.getItem 'user_updated_time'
+				'verified': localStorage.getItem 'user_verified'
+				'avatar': localStorage.getItem 'user_avatar'
+				'country': localStorage.getItem 'user_country'
+		else
+			$rootScope.user = {}
 
 		$scope.main =
 			brand: 'Webapp'
-			name: $scope.user.name
+			name: $rootScope.user.name
 ])
 
 .controller('NavCtrl', [

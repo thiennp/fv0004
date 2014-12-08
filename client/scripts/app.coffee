@@ -72,6 +72,22 @@ angular.module('app', [
 				url: '/sign_in'
 				templateUrl: 'views/auth/sign_in.html'
 
+			.state 'auth.SignOut',
+				url: '/sign_out'
+				controller: ($state)->
+					localStorage.removeItem 'user_id'
+					localStorage.removeItem 'user_first_name'
+					localStorage.removeItem 'user_last_name'
+					localStorage.removeItem 'user_link'
+					localStorage.removeItem 'user_locale'
+					localStorage.removeItem 'user_name'
+					localStorage.removeItem 'user_timezone'
+					localStorage.removeItem 'user_updated_time'
+					localStorage.removeItem 'user_verified'
+					localStorage.removeItem 'user_avatar'
+					localStorage.removeItem 'user_country'
+					$state.go 'auth.SignIn'
+
 			.state 'createMeetingNote',
 				url: '/create_meeting_note'
 				templateUrl: 'views/create_meeting_note.html'
