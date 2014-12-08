@@ -63,6 +63,7 @@ angular.module('app.controllers', [])
 				if $location.$$absUrl.split('?code=').length > 1
 					linkedinCode = $location.$$absUrl.split('?code=')[1].split('#/')[0]
 					Auth.linkedin(linkedinCode)
+			Auth.login('amanda.aaron@tester.com', 'test')
 ])
 
 .controller('CreateMeetingNoteCtrl', [

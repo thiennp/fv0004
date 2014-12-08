@@ -73,19 +73,69 @@ angular.module('app.auth.controllers', [])
 			window.location.href = 'https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=7581d2bszc4sid&scope=r_emailaddress%20r_fullprofile%20r_basicprofile&state=KbyUmhTLMpYj7CD2di7JKP1PcqmLlkPt&redirect_uri=http://localhost:9000'
 ])
 
-
-
 .controller('ChangePasswordCtrl', [
 	'$q'
 	'$rootScope'
+	'$scope'
 	'Auth'
-	($q, $rootScope, Auth) ->
+	($q, $rootScope, $scope, Auth) ->
+		$scope.success = false
+		$scope.error = false
 		if $rootScope.onBack
 			$rootScope.onBack = false
 		else
 			$rootScope.$stateHistory.push 'auth.ChangePassword'
-		changePassword = ->
-			alert 'here'
-			if String($scope.newPassword) isnt String($scope.retypeNewPassword)
-				alert 'wrong'
+
+		$scope.changePassword = ->
+			if !$scope.currentPassword
+				$scope.error = true
+				$scope.errorMessage = 'Please enter current password'
+				document.getElementById('currentPassword').focus()
+				$scope.currentPasswordError = true
+				$scope.newPasswordError = false
+				$scope.retypeNewPasswordError = false
+			else
+				Auth.checkPassword($scope.currentPassword).then (data)->
+					if data
+						$scope.currentPasswordSuccess = true
+						$scope.currentPasswordError = false
+						if !$scope.newPassword
+							$scope.error = true
+							$scope.errorMessage = 'Please enter new password'
+							document.getElementById('newPassword').focus()
+							$scope.newPasswordError = true
+							$scope.retypeNewPasswordError = false
+						else if String($scope.newPassword).length < 8
+							$scope.error = true
+							$scope.errorMessage = 'Password must be contain at least 8 characters'
+							document.getElementById('newPassword').focus()
+							$scope.newPasswordError = true
+							$scope.retypeNewPasswordError = false
+						else if String($scope.newPassword) isnt String($scope.retypeNewPassword)
+							$scope.error = true
+							$scope.errorMessage = 'Password does not match the confirm password'
+							document.getElementById('newPassword').focus()
+							$scope.newPasswordError = true
+							$scope.retypeNewPasswordError = true
+						else
+							$scope.newPasswordError = false
+							$scope.retypeNewPasswordError = false
+							Auth.changePassword($scope.newPassword).then (data)->
+								if data
+									$scope.error = false
+									$scope.success = true
+									$scope.currentPasswordSuccess = false
+									$scope.currentPassword = ''
+									$scope.newPassword = ''
+									$scope.retypeNewPassword = ''
+								else
+									$scope.error = true
+									$scope.errorMessage = 'Password can not be changed'
+					else
+						$scope.error = true
+						$scope.errorMessage = 'Current password is not correct'
+						document.getElementById('currentPassword').focus()
+						$scope.currentPasswordError = true
+						$scope.newPasswordError = false
+						$scope.retypeNewPasswordError = false
 ])

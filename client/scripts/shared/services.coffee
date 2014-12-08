@@ -24,6 +24,50 @@ angular.module('app.services', [])
 				.error (data, status, headers, config)->
 					$rootScope.error = data
 					$state.go 'auth.SignIn'
+		login: (username, password)->
+			$http
+				.post 'http://ec2-54-149-98-176.us-west-2.compute.amazonaws.com:8081/rest/$directory/login/', [username, password]
+				.success (data, status, headers, config)->
+					defer.resolve data
+				.error (data, status, headers, config)->
+					defer.resolve data
+			defer.promise
+		checkPassword: (password)->
+			defer.resolve true
+			# $http
+			# 	.post 'http://ec2-54-149-98-176.us-west-2.compute.amazonaws.com:8081/rest/$directory/login/', [username, password]
+			# 	.success (data, status, headers, config)->
+			# 		defer.resolve data
+			# 	.error (data, status, headers, config)->
+			# 		defer.resolve data
+			defer.promise
+		changePassword: (password)->
+			defer.resolve 'done'
+			# $http
+			# 	.post 'http://ec2-54-149-98-176.us-west-2.compute.amazonaws.com:8081/rest/$directory/login/', [username, password]
+			# 	.success (data, status, headers, config)->
+			# 		defer.resolve data
+			# 	.error (data, status, headers, config)->
+			# 		defer.resolve data
+			defer.promise
+]
+
+.factory 'User', [
+	'$http'
+	'$q'
+	'$rootScope'
+	'$state'
+	($http, $q, $rootScope, $state)->
+		defer = $q.defer()
+		sendFeedback: (title, content)->
+			defer.resolve true
+			# $http
+			# 	.post 'http://ec2-54-149-98-176.us-west-2.compute.amazonaws.com:8081/rest/$directory/login/', [username, password]
+			# 	.success (data, status, headers, config)->
+			# 		defer.resolve data
+			# 	.error (data, status, headers, config)->
+			# 		defer.resolve data
+			defer.promise
 ]
 
 .factory 'Assist', [
