@@ -7,7 +7,8 @@ angular.module('app.services', [])
 	'$q'
 	'$rootScope'
 	'$state'
-	($http, $q, $rootScope, $state)->
+	'$wakanda'
+	($http, $q, $rootScope, $state, $wakanda)->
 		defer = $q.defer()
 		verify: ->
 			if localStorage.user_id is undefined
@@ -25,12 +26,8 @@ angular.module('app.services', [])
 					$rootScope.error = data
 					$state.go 'auth.SignIn'
 		login: (username, password)->
-			$http
-				.post 'http://ec2-54-149-98-176.us-west-2.compute.amazonaws.com:8081/rest/$directory/login/', [username, password]
-				.success (data, status, headers, config)->
-					defer.resolve data
-				.error (data, status, headers, config)->
-					defer.resolve data
+			newUser = $wakanda.$ds.User.signUpNewUser "my@email.com", "myPassword"
+			defer.resolve true
 			defer.promise
 		checkPassword: (password)->
 			defer.resolve true
@@ -89,4 +86,7 @@ angular.module('app.services', [])
 				.error (data, status, headers, config)->
 					defer.reject data
 			defer.promise
+		validateEmail: (email)->
+			re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+			return re.test(email)
 ]

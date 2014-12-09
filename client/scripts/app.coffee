@@ -34,13 +34,19 @@ angular.module('app', [
 	'pascalprecht.translate'
 	'ui.router'
 	'facebook'
+	'wakanda'
 ])
 
 .run([
 	'$rootScope'
 	'$state'
 	'$stateParams'
-	($rootScope, $state, $stateParams) ->
+	'$wakanda'
+	($rootScope, $state, $stateParams, $wakanda) ->
+		$wakanda.init().then oninit = (ds) ->
+			$rootScope.initialized = "initialized"
+			$rootScope.dataClasses = Object.keys ds.getDataClasses()
+			console.log $rootScope.dataClasses
 		$rootScope.$state = $state
 		$rootScope.$stateParams = $stateParams
 		$rootScope.$stateHistory = []

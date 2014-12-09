@@ -22,6 +22,39 @@ angular.module('app.auth.controllers', [])
 				else
 					Facebook.api '/me', (response)->
 						$rootScope.user = response
+		$scope.emailRegister = ->
+			if !$scope.email
+				$scope.error = true
+				$scope.errorMessage = "Please enter your email address"
+				$scope.emailError = true
+				$scope.passwordError = false
+				$scope.showSignUp = false
+				document.getElementById('email').focus()
+			else if !Assist.validateEmail($scope.email)
+				$scope.error = true
+				$scope.errorMessage = "Please enter correct email address"
+				$scope.emailError = true
+				$scope.passwordError = false
+				$scope.showSignUp = false
+				document.getElementById('email').focus()
+			else if !$scope.password
+				$scope.error = true
+				$scope.errorMessage = "Please enter your password"
+				$scope.emailError = false
+				$scope.passwordError = true
+				$scope.showSignUp = false
+				document.getElementById('password').focus()
+			else
+				newUser = $wakanda.$ds.User.signUpNewUser $scope.email, $scope.password
+				if newUser is null
+					$scope.error = true
+					$scope.emailError = true
+					$scope.passwordError = false
+					$scope.showSignUp = true
+					$scope.errorMessage = "Sign up unsuccessful"
+				else
+					$rootScope.user = newUser
+					$state.go 'user.Profile'
 ])
 
 .controller('SignInCtrl', [
@@ -29,9 +62,10 @@ angular.module('app.auth.controllers', [])
 	'$rootScope'
 	'$scope'
 	'$state'
+	'$wakanda'
 	'Assist'
 	'Facebook'
-	($q, $rootScope, $scope, $state, Assist, Facebook) ->
+	($q, $rootScope, $scope, $state, $wakanda, Assist, Facebook) ->
 		if $rootScope.onBack
 			$rootScope.onBack = false
 		else
@@ -71,7 +105,50 @@ angular.module('app.auth.controllers', [])
 
 		$scope.linkedinLogin = ->
 			window.location.href = 'https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=7581d2bszc4sid&scope=r_emailaddress%20r_fullprofile%20r_basicprofile&state=KbyUmhTLMpYj7CD2di7JKP1PcqmLlkPt&redirect_uri=http://localhost:9000'
+
+		$scope.emailLogin = ->
+			if !$scope.email
+				$scope.error = true
+				$scope.errorMessage = "Please enter your email address"
+				$scope.emailError = true
+				$scope.passwordError = false
+				$scope.showSignUp = false
+				document.getElementById('email').focus()
+			else if !Assist.validateEmail($scope.email)
+				$scope.error = true
+				$scope.errorMessage = "Please enter correct email address"
+				$scope.emailError = true
+				$scope.passwordError = false
+				$scope.showSignUp = false
+				document.getElementById('email').focus()
+			else if !$scope.password
+				$scope.error = true
+				$scope.errorMessage = "Please enter your password"
+				$scope.emailError = false
+				$scope.passwordError = true
+				$scope.showSignUp = false
+				document.getElementById('password').focus()
+			else
+				user = $wakanda.login $scope.email, $scope.password
+				# if newUser is null
+				# 	$scope.error = true
+				# 	$scope.emailError = true
+				# 	$scope.passwordError = false
+				# 	$scope.showSignUp = true
+				# 	$scope.errorMessage = "Your email address is not exist, please sign up"
+				# else if newUser.isNew() is false
+				# 	$scope.error = true
+				# 	$scope.emailError = true
+				# 	$scope.passwordError = false
+				# 	$scope.showSignUp = true
+				# 	$scope.errorMessage = "Your email address is not exist, please sign up"
+				# else
+				# 	console.log newUser
+				# 	$rootScope.user = newUser
+				# 	$state.go 'user.Profile'
+			return
 ])
+
 
 .controller('ChangePasswordCtrl', [
 	'$q'

@@ -48,12 +48,13 @@ angular.module('app.controllers', [])
 ])
 
 .controller('MainCtrl', [
+	'$location'
 	'$rootScope'
 	'$scope'
 	'$state'
 	'Auth'
-	'$location'
-	($rootScope, $scope, $state, Auth, $location) ->
+	'$wakanda'
+	($location, $rootScope, $scope, $state, Auth, $wakanda) ->
 		Auth.verify().then (data)->
 			if data
 				if $rootScope.onBack
