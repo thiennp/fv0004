@@ -5,29 +5,30 @@ angular.module('app.auth.controllers', [])
 .controller('SignUpCtrl', [
 	'$rootScope'
 	'$scope'
-	'Facebook'
 	'$state'
-	($scope, $rootScope, Facebook, $state) ->
+	'$wakanda'
+	'Assist'
+	'Auth'
+	($scope, $rootScope, $state, $wakanda, Assist, Auth) ->
+		$scope.email = ''
 		if $rootScope.onBack
 			$rootScope.onBack = false
 		else
 			$rootScope.$stateHistory.push 'auth.SignUp'
+
 		$scope.facebookRegister = ->
-			Facebook.getLoginStatus (response)->
-				if response.status is 'connected' then $scope.loggedIn = true
-				else $scope.loggedIn = false
-				if $scope.loggedIn is false
-					Facebook.login (response)->
-						$rootScope.user = response
-				else
-					Facebook.api '/me', (response)->
-						$rootScope.user = response
+			Auth.facebookLogin()
+
 		$scope.emailRegister = ->
+			$scope.email = $rootScope.email
+			$scope.password = $rootScope.password
+			$scope.retypePassword = $rootScope.retypePassword
 			if !$scope.email
 				$scope.error = true
 				$scope.errorMessage = "Please enter your email address"
 				$scope.emailError = true
 				$scope.passwordError = false
+				$scope.retypePasswordError = false
 				$scope.showSignUp = false
 				document.getElementById('email').focus()
 			else if !Assist.validateEmail($scope.email)
@@ -35,6 +36,7 @@ angular.module('app.auth.controllers', [])
 				$scope.errorMessage = "Please enter correct email address"
 				$scope.emailError = true
 				$scope.passwordError = false
+				$scope.retypePasswordError = false
 				$scope.showSignUp = false
 				document.getElementById('email').focus()
 			else if !$scope.password
@@ -42,19 +44,39 @@ angular.module('app.auth.controllers', [])
 				$scope.errorMessage = "Please enter your password"
 				$scope.emailError = false
 				$scope.passwordError = true
+				$scope.retypePasswordError = false
 				$scope.showSignUp = false
 				document.getElementById('password').focus()
+			else if String($scope.password).length < 8
+				$scope.error = true
+				$scope.errorMessage = 'Password must be contain at least 8 characters'
+				document.getElementById('password').focus()
+				$scope.emailError = false
+				$scope.passwordError = true
+				$scope.retypePasswordError = false
+				$scope.showSignUp = false
+			else if String($scope.password) isnt String($scope.retypePassword)
+				$scope.error = true
+				$scope.errorMessage = 'Password does not match the confirm password'
+				document.getElementById('password').focus()
+				$scope.emailError = false
+				$scope.passwordError = true
+				$scope.retypePasswordError = true
+				$scope.showSignUp = false
 			else
 				newUser = $wakanda.$ds.User.signUpNewUser $scope.email, $scope.password
+				console.log newUser
 				if newUser is null
 					$scope.error = true
 					$scope.emailError = true
 					$scope.passwordError = false
+					$scope.retypePasswordError = false
 					$scope.showSignUp = true
 					$scope.errorMessage = "Sign up unsuccessful"
 				else
 					$rootScope.user = newUser
-					$state.go 'user.Profile'
+					if newUser.status is "ok-user-and-account-added"
+						$state.go 'user.ProfileUpdate'
 ])
 
 .controller('SignInCtrl', [
@@ -64,44 +86,17 @@ angular.module('app.auth.controllers', [])
 	'$state'
 	'$wakanda'
 	'Assist'
+	'Auth'
 	'Facebook'
-	($q, $rootScope, $scope, $state, $wakanda, Assist, Facebook) ->
+	($q, $rootScope, $scope, $state, $wakanda, Assist, Auth, Facebook) ->
 		if $rootScope.onBack
 			$rootScope.onBack = false
 		else
 			$rootScope.$stateHistory.push 'auth.SignIn'
 		defer = $q.defer()
-		storeUser = (response)->
-			$rootScope.user = response
-			Assist.localeToCountry(response.locale).then (data)->
-				localStorage.setItem 'user_id', response.id
-				localStorage.setItem 'user_first_name', response.first_name
-				localStorage.setItem 'user_last_name', response.last_name
-				localStorage.setItem 'user_link', response.link
-				localStorage.setItem 'user_locale', response.locale
-				localStorage.setItem 'user_name', response.name
-				localStorage.setItem 'user_timezone', response.timezone
-				localStorage.setItem 'user_updated_time', response.updated_time
-				localStorage.setItem 'user_verified', response.verified
-				localStorage.setItem 'user_avatar', 'http://graph.facebook.com/'+response.id+'/picture'
-				localStorage.setItem 'user_country', data
-				$rootScope.user.country = localStorage.getItem 'user_country'
-				$rootScope.user.picture = localStorage.getItem 'user_picture'
-				defer.resolve $rootScope.user
-			defer.promise
-			
+					
 		$scope.facebookLogin = ->
-			Facebook.getLoginStatus (response)->
-				if response.status is 'connected' then $scope.loggedIn = true
-				else $scope.loggedIn = false
-				if $scope.loggedIn is false
-					Facebook.login (response)->
-						storeUser(response).then ->
-							$state.go 'user.Profile'
-				else
-					Facebook.api '/me', (response)->
-						storeUser(response).then ->
-							$state.go 'user.Profile'
+			Auth.facebookLogin()
 
 		$scope.linkedinLogin = ->
 			window.location.href = 'https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=7581d2bszc4sid&scope=r_emailaddress%20r_fullprofile%20r_basicprofile&state=KbyUmhTLMpYj7CD2di7JKP1PcqmLlkPt&redirect_uri=http://localhost:9000'

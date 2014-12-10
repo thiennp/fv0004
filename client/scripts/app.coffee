@@ -146,6 +146,10 @@ angular.module('app', [
 				url: '/profile'
 				templateUrl: 'views/user/profile.html'
 
+			.state 'user.ProfileUpdate',
+				url: '/profile_update'
+				templateUrl: 'views/user/profile_update.html'
+
 			.state 'user.SendFeedback',
 				url: '/send_feedback'
 				templateUrl: 'views/user/send_feedback.html'

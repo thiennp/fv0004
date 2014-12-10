@@ -10,7 +10,7 @@ angular.module('app.controllers', [])
 	($rootScope, $scope, $location) ->
 		$scope.isSpecificPage = ->
 			path = $location.path()
-			return _.contains( ['/auth/sign_up', '/auth/sign_in'], path )
+			return _.contains( ['/auth/sign_up', '/auth/sign_in', '/user/profile_update'], path )
 
 		if localStorage.getItem('user_id')
 			$rootScope.user = 
@@ -29,7 +29,7 @@ angular.module('app.controllers', [])
 			$rootScope.user = {}
 
 		$scope.main =
-			brand: 'Webapp'
+			brand: 'Kuveno'
 			name: $rootScope.user.name
 ])
 
