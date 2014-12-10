@@ -65,7 +65,6 @@ angular.module('app.auth.controllers', [])
 				$scope.showSignUp = false
 			else
 				newUser = $wakanda.$ds.User.signUpNewUser $scope.email, $scope.password
-				console.log newUser
 				if newUser is null
 					$scope.error = true
 					$scope.emailError = true
@@ -138,7 +137,6 @@ angular.module('app.auth.controllers', [])
 				# 	$scope.showSignUp = true
 				# 	$scope.errorMessage = "Your email address is not exist, please sign up"
 				# else
-				# 	console.log newUser
 				# 	$rootScope.user = newUser
 				# 	$state.go 'user.Profile'
 			return

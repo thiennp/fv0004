@@ -46,7 +46,6 @@ angular.module('app', [
 		$wakanda.init().then oninit = (ds) ->
 			$rootScope.initialized = "initialized"
 			$rootScope.dataClasses = Object.keys ds.getDataClasses()
-			console.log $rootScope.dataClasses
 		$rootScope.$state = $state
 		$rootScope.$stateParams = $stateParams
 		$rootScope.$stateHistory = []
