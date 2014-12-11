@@ -1,0 +1,93 @@
+'use strict';
+angular.module('app.auth.controllers', [])
+
+.controller('SignUpCtrl', [
+	'$rootScope', '$scope', '$state', '$wakanda', 'Assist', 'Auth',
+	function ($scope, $rootScope, $state, $wakanda, Assist, Auth) {
+		$scope.facebookRegister = function () {
+			Auth.facebookLogin();
+		};
+		$scope.unmatchedPassword = function () {
+			if (signupForm.password.value != signupForm.retypePassword.value) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		$scope.emailRegister = function (isValid) {
+			var newUser = $wakanda.$ds.User.signUpNewUser(signupForm.email.value, signupForm.password.value);
+			$rootScope.user = newUser;
+			$wakanda.$login(signupForm.email.value, signupForm.password.value).then(function (data) {
+				if (data.result) {
+					$wakanda.$currentUser().then(function (user) {
+						localStorage.setItem('user_id', user.result.ID);
+						localStorage.setItem('user_email', user.result.userName);
+						$state.go('user.ProfileUpdate');
+					});
+				} else {
+					console.log(data);
+				};
+			});
+			return $state.go('user.ProfileUpdate');
+		};
+	}
+])
+
+.controller('SignInCtrl', [
+	'$q', '$rootScope', '$scope', '$state', '$wakanda', 'Assist', 'Auth', 'Facebook',
+	function ($q, $rootScope, $scope, $state, $wakanda, Assist, Auth, Facebook) {
+		var defer = $q.defer();
+		$scope.facebookLogin = function () {
+			return Auth.facebookLogin();
+		};
+		$scope.linkedinLogin = function () {
+			return window.location.href = 'https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=7581d2bszc4sid&scope=r_emailaddress%20r_fullprofile%20r_basicprofile&state=KbyUmhTLMpYj7CD2di7JKP1PcqmLlkPt&redirect_uri=http://localhost:9000';
+		};
+		$scope.emailLogin = function () {
+			var user;
+			$wakanda.$login(signinForm.email.value, signinForm.password.value).then(function (data) {
+				if (data.result) {
+					$scope.error = false;
+					$wakanda.$currentUser().then(function (user) {
+						localStorage.setItem('user_id', user.result.ID);
+						localStorage.setItem('user_email', user.result.userName);
+						$state.go('user.Profile');
+					});
+				} else {
+					$scope.error = true;
+				};
+			});
+		};
+	}
+])
+
+.controller('ChangePasswordCtrl', [
+	'$q', '$rootScope', '$scope', 'Auth',
+	function ($q, $rootScope, $scope, Auth) {
+		$scope.success = false;
+		$scope.error = false;
+		if ($rootScope.onBack) {
+			$rootScope.onBack = false;
+		} else {
+			$rootScope.$stateHistory.push('auth.ChangePassword');
+		}
+		$scope.unmatchedPassword = function () {
+			if (changePasswordForm.newPassword.value != changePasswordForm.retypeNewPassword.value) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		$scope.changePassword = function () {
+			Auth.checkPassword(changePasswordForm.currentPassword.value).then(function (data) {
+				if (data) {
+					Auth.changePassword(changePasswordForm.newPassword.value).then(function (data) {
+						$scope.success = true;
+					})
+				} else {
+					$scope.error = true;
+				}
+			});
+		};
+	}
+]);

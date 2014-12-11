@@ -52,9 +52,9 @@ module.exports = (grunt) ->
 		yeoman: yeomanConfig
 		wakandaApp : wakandaApp
 		watch:
-			coffee:
-				files: ["<%= yeoman.app %>/scripts/**/*.coffee"]
-				tasks: ["coffee:dist"]
+			js:
+				files: ["<%= yeoman.app %>/scripts/**/*.js"]
+				tasks: ["copy:js"]
 
 			compass:
 				files: ["<%= yeoman.app %>/styles/**/*.{scss,sass}"]
@@ -192,31 +192,6 @@ module.exports = (grunt) ->
 		#			 '.tmp/styles/addon.css': '<%= yeoman.app %>/styles/addon.less'
 
 
-		coffee:
-			server:
-				options:
-					sourceMap: true
-					# join: true,
-					sourceRoot: ""
-				files: [
-					expand: true
-					cwd: "<%= yeoman.app %>/scripts"
-					src: "**/*.coffee"
-					dest: ".tmp/scripts"
-					ext: ".js"
-				]
-			dist:
-				options:
-					sourceMap: false
-					sourceRoot: ""
-				files: [
-					expand: true
-					cwd: "<%= yeoman.app %>/scripts"
-					src: "**/*.coffee"
-					dest: ".tmp/scripts"
-					ext: ".js"
-				]
-
 		useminPrepare:
 			html: "<%= yeoman.app %>/index.html"
 			options:
@@ -293,6 +268,12 @@ module.exports = (grunt) ->
 					src: ["generated/*"]
 				]
 
+			js:
+				expand: true
+				cwd: "<%= yeoman.app %>/scripts"
+				dest: ".tmp/scripts/"
+				src: "**/*.*"
+
 			styles:
 				expand: true
 				cwd: "<%= yeoman.app %>/styles"
@@ -300,8 +281,8 @@ module.exports = (grunt) ->
 				src: "**/*.css"
 
 		concurrent:
-			server: ["coffee:server", "compass:server", "copy:styles"]
-			dist: ["coffee:dist", "compass:dist", "copy:styles", "htmlmin"]
+			server: ["copy:js", "compass:server", "copy:styles"]
+			dist: ["copy:js", "compass:dist", "copy:styles", "htmlmin"]
 
 		concat:
 			options:
