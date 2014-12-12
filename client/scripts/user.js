@@ -73,26 +73,13 @@ angular
 			}
 		});
 		return $scope.sendFeedback = function () {
-			if (!$scope.title) {
-				$scope.error = true;
-				$scope.errorMessage = 'Please enter feedback title';
-				document.getElementById('title').focus();
-				return $scope.titleError = true;
-			} else {
-				return User.sendFeedback($scope.title, $scope.content).then(function (data) {
-					if (data) {
-						$scope.error = false;
-						$scope.success = true;
-						$scope.titleError = false;
-						$scope.title = '';
-						return $scope.content = '';
-					} else {
-						$scope.error = true;
-						$scope.errorMessage = 'Feedback can not be sent';
-						return $scope.titleError = false;
-					}
-				});
-			}
+			User.sendFeedback($scope.title, $scope.content).then(function (data) {
+				if (data) {
+					$scope.success = true;
+				} else {
+					$scope.error = true;
+				}
+			});
 		};
 	}
 ])

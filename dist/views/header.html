@@ -160,34 +160,13 @@
 				</a>
 				<ul class="dropdown-menu with-arrow pull-right list-langs" role="menu">
 					<li data-ng-show="lang !== 'English' ">
-						<a href="javascript:;" data-ng-click="setLang('English')"><div class="flag flags-american"></div> English</a>
+						<a href="javascript:;" data-ng-click="changeLang('English')"><div class="flag flags-american"></div> English</a>
 					</li>
-					<li data-ng-show="lang !== 'Español' ">
-						<a href="javascript:;" data-ng-click="setLang('Español')"><div class="flag flags-spain"></div> Español</a>
+					<li data-ng-show="lang !== 'Suomi' ">
+						<a href="javascript:;" data-ng-click="changeLang('Suomi')"><div class="flag flags-finland"></div> Suomi</a>
 					</li>
-					<li data-ng-show="lang !== '日本語' ">
-						<a href="javascript:;" data-ng-click="setLang('日本語')"><div class="flag flags-japan"></div> 日本語</a>
-					</li>
-					<li data-ng-show="lang !== '中文' ">
-						<a href="javascript:;" data-ng-click="setLang('中文')"><div class="flag flags-china"></div> 中文</a>
-					</li>
-					<li data-ng-show="lang !== 'Deutsch' ">
-						<a href="javascript:;" data-ng-click="setLang('Deutsch')"><div class="flag flags-german"></div> Deutsch</a>
-					</li>
-					<li data-ng-show="lang !== 'français' ">
-						<a href="javascript:;" data-ng-click="setLang('français')"><div class="flag flags-france"></div> français</a>
-					</li>
-					<li data-ng-show="lang !== 'Italiano' ">
-						<a href="javascript:;" data-ng-click="setLang('Italiano')"><div class="flag flags-italy"></div> Italiano</a>
-					</li>
-					<li data-ng-show="lang !== 'Portugal' ">
-						<a href="javascript:;" data-ng-click="setLang('Portugal')"><div class="flag flags-portugal"></div> Portugal</a>
-					</li>
-					<li data-ng-show="lang !== 'Русский язык' ">
-						<a href="javascript:;" data-ng-click="setLang('Русский язык')"><div class="flag flags-russia"></div> Русский язык</a>
-					</li>
-					<li data-ng-show="lang !== '한국어' ">
-						<a href="javascript:;" data-ng-click="setLang('한국어')"><div class="flag flags-korea"></div> 한국어</a>
+					<li data-ng-show="lang !== 'Svenska' ">
+						<a href="javascript:;" data-ng-click="changeLang('Svenska')"><div class="flag flags-sweden"></div> Svenska</a>
 					</li>
 				</ul>
 			</li>
@@ -195,26 +174,25 @@
 				<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
 					<img data-ng-cloak data-ng-src="{{user.avatar}}" alt="" class="img-circle img30_30">
 					<span class="hidden-xs">
-					<span data-i18n="{{user.name}}"></span>
-					</span>
+					<span>{{user.name}}</span></span>
 				</a>
 				<ul class="dropdown-menu with-arrow pull-right">
 					<li>
 						<a ui-sref="user.Profile">
 							<i class="fa fa-user"></i>
-							<span data-i18n="My Profile"></span>
+							<span>{{ 'My Profile' | translate }}</span>
 						</a>
 					</li>
 					<li>
 						<a ui-sref="auth.ChangePassword">
 							<i class="fa fa-key"></i>
-							<span data-i18n="Change Password"></span>
+							<span>{{ 'Change Password' | translate }}</span>
 						</a>
 					</li>
 					<li>
 						<a ui-sref="auth.SignOut">
 							<i class="fa fa-sign-out"></i>
-							<span data-i18n="Log Out"></span>
+							<span>{{ 'Log Out' | translate }}</span>
 						</a>
 					</li>
 				</ul>

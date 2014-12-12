@@ -8970,8 +8970,8 @@ img.img80_80 {
   border-bottom: 3px solid #e22c19;
 }
 
-.flags-sprite, .flags-american, .flags-china, .flags-france, .flags-german, .flags-italy, .flags-japan, .flags-korea, .flags-portugal, .flags-russia, .flags-spain {
-  background-image: url('ui/images/flags-sa787615a22.png');
+.flags-sprite, .flags-american, .flags-china, .flags-finland, .flags-france, .flags-german, .flags-italy, .flags-japan, .flags-korea, .flags-portugal, .flags-russia, .flags-spain, .flags-sweden {
+  background-image: url('ui/images/flags-s636f2e974d.png');
   background-repeat: no-repeat;
 }
 
@@ -8987,50 +8987,62 @@ img.img80_80 {
   width: 32px;
 }
 
-.flags-france {
+.flags-finland {
   background-position: 0 -42px;
   height: 21px;
   width: 32px;
 }
 
-.flags-german {
+.flags-france {
   background-position: 0 -63px;
   height: 21px;
   width: 32px;
 }
 
-.flags-italy {
+.flags-german {
   background-position: 0 -84px;
   height: 21px;
   width: 32px;
 }
 
-.flags-japan {
+.flags-italy {
   background-position: 0 -105px;
   height: 21px;
   width: 32px;
 }
 
-.flags-korea {
+.flags-japan {
   background-position: 0 -126px;
   height: 21px;
   width: 32px;
 }
 
-.flags-portugal {
+.flags-korea {
   background-position: 0 -147px;
   height: 21px;
   width: 32px;
 }
 
-.flags-russia {
+.flags-portugal {
   background-position: 0 -168px;
   height: 21px;
   width: 32px;
 }
 
-.flags-spain {
+.flags-russia {
   background-position: 0 -189px;
+  height: 21px;
+  width: 32px;
+}
+
+.flags-spain {
+  background-position: 0 -210px;
+  height: 21px;
+  width: 32px;
+}
+
+.flags-sweden {
+  background-position: 0 -231px;
   height: 21px;
   width: 32px;
 }

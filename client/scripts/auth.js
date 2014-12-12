@@ -34,7 +34,14 @@ angular.module('app.auth.controllers', [])
 ])
 
 .controller('SignInCtrl', [
-	'$q', '$rootScope', '$scope', '$state', '$wakanda', 'Assist', 'Auth', 'Facebook',
+	'$q',
+	'$rootScope',
+	'$scope',
+	'$state',
+	'$wakanda',
+	'Assist',
+	'Auth',
+	'Facebook',
 	function ($q, $rootScope, $scope, $state, $wakanda, Assist, Auth, Facebook) {
 		var defer = $q.defer();
 		$scope.facebookLogin = function () {

@@ -2,9 +2,9 @@
 	<aside id="nav-container">
 		<div id="nav-wrapper">
 			<ul id="nav" data-collapse-nav data-slim-scroll data-highlight-active>
-				<li data-ng-show="$stateHistory.length > 1"><a data-ng-click="back()"><i class="fa fa-arrow-left"><span class="icon-bg bg-danger"></span></i><span data-i18n="Back"></span> </a></li>
-				<li><a ui-sref="auth.ChangePassword"><i class="fa fa-key"><span class="icon-bg bg-warning"></span></i><span data-i18n="Change Password"></span> </a></li>
-				<li><a ui-sref="user.SendFeedback"><i class="fa fa-envelope"><span class="icon-bg bg-info"></span></i><span data-i18n="Send Feedback"></span> </a></li>
+				<li data-ng-show="$stateHistory.length > 1"><a data-ng-click="back()"><i class="fa fa-arrow-left"><span class="icon-bg bg-danger"></span></i><span>{{ 'Back' | translate }}</span> </a></li>
+				<li><a ui-sref="auth.ChangePassword"><i class="fa fa-key"><span class="icon-bg bg-warning"></span></i><span>{{ 'Change Password' | translate }}</span> </a></li>
+				<li><a ui-sref="user.SendFeedback"><i class="fa fa-envelope"><span class="icon-bg bg-info"></span></i><span>{{ 'Send Feedback' | translate }}</span> </a></li>
 			</ul>
 		</div>
 	</aside>
@@ -26,32 +26,32 @@
 									<ul class="list-unstyled list-info">
 										<li>
 											<i class="icon fa fa-user"></i>
-											<label>Firstname</label>
+											<label>{{ 'First name' | translate }}</label>
 											{{user.first_name}}
 										</li>
 										<li>
 											<i class="icon fa fa-user"></i>
-											<label>Lastname</label>
+											<label>{{ 'Last name' | translate }}</label>
 											{{user.last_name}}
 										</li>
 										<li>
 											<i class="icon fa fa-user"></i>
-											<label>Title</label>
+											<label>{{ 'Title' | translate }}</label>
 											{{user.title}}
 										</li>
 										<li>
 											<i class="icon fa fa-envelope"></i>
-											<label>Email</label>
+											<label>{{ 'Email' | translate }}</label>
 											{{user.email}}
 										</li>
 										<li>
 											<i class="icon fa fa-facebook"></i>
-											<label>Facebook</label>
-											<a ng-href="{{user.link}}" target="_blank">Facebook page</a>
+											<label>{{ 'Facebook' | translate }}</label>
+											<a ng-href="{{user.link}}" target="_blank">{{ 'Link' | translate }}</a>
 										</li>
 										<li>
 											<i class="icon fa fa-flag"></i>
-											<label>Nationality</label>
+											<label>{{ 'Nationality' | translate }}</label>
 											{{user.country}}
 										</li>
 									</ul>
