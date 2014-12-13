@@ -10,10 +10,9 @@ angular.module('app.services', [])
 	'Assist',
 	'Facebook',
 	function ($http, $q, $rootScope, $state, $wakanda, Assist, Facebook) {
-		var defer;
-		defer = $q.defer();
 		return {
 			verify: function () {
+				var defer = $q.defer();
 				if (localStorage.user_id === void 0) {
 					defer.resolve(false);
 					$state.go('auth.SignIn');
@@ -36,15 +35,10 @@ angular.module('app.services', [])
 					$state.go('auth.SignIn');
 				});
 			},
-			login: function (username, password) {
-				var newUser;
-				newUser = $wakanda.$ds.User.signUpNewUser("my@email.com", "myPassword");
-				defer.resolve(true);
-				return defer.promise;
-			},
 			facebookLogin: function () {
 				var getFacebookInformation, storeUser;
 				storeUser = function (response) {
+					var defer = $q.defer();
 					$rootScope.user = response;
 					Assist.localeToCountry(response.locale).then(function (data) {
 						localStorage.setItem('user_facebook_id', response.id);
@@ -110,11 +104,19 @@ angular.module('app.services', [])
 				});
 			},
 			checkPassword: function (password) {
-				defer.resolve(true);
+				var defer = $q.defer();
+				if (!localStorage.getItem('user_facebook_id')) {
+					$wakanda.$loginByPassword(localStorage.getItem('user_email'), password).then(function (loginResult) {
+						defer.resolve(loginResult.result);
+					});
+				} else {
+					defer.resolve(true);
+				}
 				return defer.promise;
 			},
 			changePassword: function (password) {
-				defer.resolve('done');
+				var defer = $q.defer();
+				defer.resolve(true);
 				return defer.promise;
 			},
 			getUserData: function () {
@@ -151,13 +153,14 @@ angular.module('app.services', [])
 	'Facebook',
 	function ($http, $q, $rootScope, $state, Facebook) {
 		var defer;
-		defer = $q.defer();
 		return {
 			sendFeedback: function (title, content) {
+				defer = $q.defer();
 				defer.resolve(true);
 				return defer.promise;
 			},
 			getFacebookFollower: function (uid) {
+				defer = $q.defer();
 				Facebook.api('/uid', function (response) {
 					defer.resolve(response);
 				})
@@ -171,10 +174,9 @@ angular.module('app.services', [])
 	'$http',
 	'$q',
 	function ($http, $q) {
-		var defer;
-		defer = $q.defer();
 		return {
 			localeToCountry: function (locale) {
+				var defer = $q.defer();
 				$http.get('scripts/vendors/FacebookLocales.json').success(function (data, status, headers, config) {
 					var item, _i, _len, _ref, _results;
 					_ref = data.locales.locale;
@@ -192,9 +194,9 @@ angular.module('app.services', [])
 							_results.push(void 0);
 						}
 					}
-					return _results;
+					defer.resolve(_results);
 				}).error(function (data, status, headers, config) {
-					return defer.reject(data);
+					defer.reject(data);
 				});
 				return defer.promise;
 			},

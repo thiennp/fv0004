@@ -12,14 +12,13 @@ angular
 		Auth.verify().then(function (data) {
 			if (data) {
 				User.getFacebookFollower($rootScope.user.facebook_id).then(function (data) {
-					console.log($rootScope.user.facebook_id);
 					// Currently this function doesn't work because of facebook permission limit
 					for (var key in data) {
 						$rootScope.user[key] = data[key];
 						// So you'll see error on this console log
-						console.log(key, ':');
-						console.log($rootScope.user[key]);
-						console.log('------------------------------------------------------------');
+						// console.log(key, ':');
+						// console.log($rootScope.user[key]);
+						// console.log('------------------------------------------------------------');
 					}
 				});
 				if ($rootScope.onBack) {
@@ -45,7 +44,7 @@ angular
 				if ($rootScope.onBack) {
 					$rootScope.onBack = false;
 				} else {
-					$rootScope.$stateHistory.push('user.UpdateProfile');
+					$rootScope.$stateHistory.push('user.ProfileUpdate');
 				}
 				$scope.updateProfile = function () {
 					var user = $wakanda.$ds.User.$findOne(localStorage.getItem('user_id'));
@@ -113,5 +112,38 @@ angular
 	'$scope',
 	function ($scope) {
 		return console.log('Up Comming Meeting');
+	}
+])
+
+.controller('ChangePasswordCtrl', [
+	'$q', '$rootScope', '$scope', 'Auth',
+	function ($q, $rootScope, $scope, Auth) {
+		$scope.success = false;
+		$scope.error = false;
+		if ($rootScope.onBack) {
+			$rootScope.onBack = false;
+		} else {
+			$rootScope.$stateHistory.push('auth.ChangePassword');
+		}
+		$scope.unmatchedPassword = function () {
+			if (changePasswordForm.newPassword.value != changePasswordForm.retypeNewPassword.value) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		$scope.changePassword = function () {
+			Auth.checkPassword(changePasswordForm.currentPassword.value).then(function (data) {
+				if (data) {
+					Auth.changePassword(changePasswordForm.newPassword.value).then(function (data) {
+						$scope.success = true;
+						$scope.error = false;
+					})
+				} else {
+					$scope.success = false;
+					$scope.error = true;
+				}
+			});
+		};
 	}
 ]);

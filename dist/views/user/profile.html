@@ -2,9 +2,10 @@
 	<aside id="nav-container">
 		<div id="nav-wrapper">
 			<ul id="nav" data-collapse-nav data-slim-scroll data-highlight-active>
-				<li data-ng-show="$stateHistory.length > 1"><a data-ng-click="back()"><i class="fa fa-arrow-left"><span class="icon-bg bg-danger"></span></i><span>{{ 'Back' | translate }}</span> </a></li>
-				<li><a ui-sref="auth.ChangePassword"><i class="fa fa-key"><span class="icon-bg bg-warning"></span></i><span>{{ 'Change Password' | translate }}</span> </a></li>
+				<li data-ng-show="$stateHistory.length > 1"><a data-ng-click="back()"><i class="fa fa-arrow-left"><span class="icon-bg bg-success"></span></i><span>{{ 'Back' | translate }}</span> </a></li>
+				<li><a ui-sref="user.ChangePassword"><i class="fa fa-key"><span class="icon-bg bg-warning"></span></i><span>{{ 'Change Password' | translate }}</span> </a></li>
 				<li><a ui-sref="user.SendFeedback"><i class="fa fa-envelope"><span class="icon-bg bg-info"></span></i><span>{{ 'Send Feedback' | translate }}</span> </a></li>
+				<li><a ui-sref="user.ProfileUpdate"><i class="fa fa-user"><span class="icon-bg bg-danger"></span></i><span>{{ 'Update Profile' | translate }}</span> </a></li>
 			</ul>
 		</div>
 	</aside>
@@ -18,7 +19,7 @@
 								<a href="" class="pull-left profile">
 									<img alt="" ng-src="{{user.avatar}}" class="img-circle img80_80">
 								</a>
-								<h3>{{main.name}}</h3>
+								<h3> {{user.firstname}} {{user.lastname}}</h3>
 								<p>{{user.title}}</p>
 							</div>
 							<div class="media">
@@ -27,12 +28,12 @@
 										<li>
 											<i class="icon fa fa-user"></i>
 											<label>{{ 'First name' | translate }}</label>
-											{{user.first_name}}
+											{{user.firstname}}
 										</li>
 										<li>
 											<i class="icon fa fa-user"></i>
 											<label>{{ 'Last name' | translate }}</label>
-											{{user.last_name}}
+											{{user.lastname}}
 										</li>
 										<li>
 											<i class="icon fa fa-user"></i>
@@ -53,6 +54,9 @@
 											<i class="icon fa fa-flag"></i>
 											<label>{{ 'Nationality' | translate }}</label>
 											{{user.country}}
+										</li>
+										<li>
+											<a class="btn btn-primary btn-block" ui-sref="user.ProfileUpdate">{{ 'Update Profile' | translate }}</a>
 										</li>
 									</ul>
 									

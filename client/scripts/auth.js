@@ -70,35 +70,4 @@ angular.module('app.auth.controllers', [])
 			});
 		};
 	}
-])
-
-.controller('ChangePasswordCtrl', [
-	'$q', '$rootScope', '$scope', 'Auth',
-	function ($q, $rootScope, $scope, Auth) {
-		$scope.success = false;
-		$scope.error = false;
-		if ($rootScope.onBack) {
-			$rootScope.onBack = false;
-		} else {
-			$rootScope.$stateHistory.push('auth.ChangePassword');
-		}
-		$scope.unmatchedPassword = function () {
-			if (changePasswordForm.newPassword.value != changePasswordForm.retypeNewPassword.value) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-		$scope.changePassword = function () {
-			Auth.checkPassword(changePasswordForm.currentPassword.value).then(function (data) {
-				if (data) {
-					Auth.changePassword(changePasswordForm.newPassword.value).then(function (data) {
-						$scope.success = true;
-					})
-				} else {
-					$scope.error = true;
-				}
-			});
-		};
-	}
 ]);
