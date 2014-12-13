@@ -1,6 +1,14 @@
 'use strict';
-angular.module('app.services', []).factory('Auth', [
-	'$http', '$q', '$rootScope', '$state', '$wakanda', 'Assist', 'Facebook',
+angular.module('app.services', [])
+
+.factory('Auth', [
+	'$http',
+	'$q',
+	'$rootScope',
+	'$state',
+	'$wakanda',
+	'Assist',
+	'Facebook',
 	function ($http, $q, $rootScope, $state, $wakanda, Assist, Facebook) {
 		var defer;
 		defer = $q.defer();
@@ -10,6 +18,7 @@ angular.module('app.services', []).factory('Auth', [
 					defer.resolve(false);
 					$state.go('auth.SignIn');
 				} else {
+					$rootScope.user = this.getUserData();
 					var itv = setInterval(function () {
 						if ($rootScope.wakandaInit) {
 							defer.resolve(true);
@@ -20,11 +29,11 @@ angular.module('app.services', []).factory('Auth', [
 				return defer.promise;
 			},
 			linkedin: function (code) {
-				return $http.post('https://www.linkedin.com/uas/oauth2/accessToken?grant_type=authorization_code&code=code&redirect_uri=https://thiepcuoiviet.net/freelance/fv0004/dist&client_id=7581d2bszc4sid&client_secret=oDYszogper1pau5d').success(function (data, status, headers, config) {
-					return console.log(data);
+				$http.post('https://www.linkedin.com/uas/oauth2/accessToken?grant_type=authorization_code&code=code&redirect_uri=https://thiepcuoiviet.net/freelance/fv0004/dist&client_id=7581d2bszc4sid&client_secret=oDYszogper1pau5d').success(function (data, status, headers, config) {
+					console.log(data);
 				}).error(function (data, status, headers, config) {
 					$rootScope.error = data;
-					return $state.go('auth.SignIn');
+					$state.go('auth.SignIn');
 				});
 			},
 			login: function (username, password) {
@@ -38,9 +47,9 @@ angular.module('app.services', []).factory('Auth', [
 				storeUser = function (response) {
 					$rootScope.user = response;
 					Assist.localeToCountry(response.locale).then(function (data) {
-						localStorage.setItem('user_id', response.id);
-						localStorage.setItem('user_first_name', response.first_name);
-						localStorage.setItem('user_last_name', response.last_name);
+						localStorage.setItem('user_facebook_id', response.id);
+						localStorage.setItem('user_firstname', response.first_name);
+						localStorage.setItem('user_lastname', response.last_name);
 						localStorage.setItem('user_link', response.link);
 						localStorage.setItem('user_locale', response.locale);
 						localStorage.setItem('user_name', response.name);
@@ -51,39 +60,52 @@ angular.module('app.services', []).factory('Auth', [
 						localStorage.setItem('user_country', data);
 						$rootScope.user.country = localStorage.getItem('user_country');
 						$rootScope.user.picture = localStorage.getItem('user_picture');
-						return defer.resolve($rootScope.user);
+						defer.resolve($rootScope.user);
 					});
 					return defer.promise;
 				};
 				getFacebookInformation = function () {
 					return Facebook.api('/me', function (response) {
-						var newUser;
-						storeUser(response);
-						newUser = $wakanda.$ds.User.signUpNewFBUser(response.id);
-						return $state.go('user.Profile');
+						var newUser = $wakanda.$ds.User.signUpNewFBUser(response.id);
+						$wakanda.$login(response.id, "FB-login").then(function (data) {
+							if (data.result) {
+								$wakanda.$currentUser().then(function (user) {
+									var user = $wakanda.$ds.User.$findOne(user.result.ID)
+									user.$promise.then(function () {
+										localStorage.setItem('user_id', user.ID);
+										localStorage.setItem('user_email', user.email);
+										localStorage.setItem('user_title', user.title);
+										storeUser(response);
+										$state.go('user.Profile');
+									})
+								});
+							} else {
+								console.log(data);
+							};
+						})
 					});
 				};
-				return Facebook.getLoginStatus(function (response) {
+				Facebook.getLoginStatus(function (response) {
 					if (response.status === 'connected') {
 						$rootScope.loggedIn = true;
 					} else {
 						$rootScope.loggedIn = false;
 					}
 					if ($rootScope.loggedIn === false) {
-						return Facebook.login(function (response) {
+						Facebook.login(function (response) {
 							if (response.status === 'connected') {
 								$rootScope.loggedIn = true;
 							} else {
 								$rootScope.loggedIn = false;
 							}
 							if ($rootScope.loggedIn) {
-								return getFacebookInformation();
+								getFacebookInformation();
 							} else {
-								return $rootScope.facebookLoginError = true;
+								$rootScope.facebookLoginError = true;
 							}
 						});
 					} else {
-						return getFacebookInformation();
+						getFacebookInformation();
 					}
 				});
 			},
@@ -94,23 +116,60 @@ angular.module('app.services', []).factory('Auth', [
 			changePassword: function (password) {
 				defer.resolve('done');
 				return defer.promise;
+			},
+			getUserData: function () {
+				var user = {
+					'id': localStorage.getItem('user_id'),
+					'email': localStorage.getItem('user_email'),
+					'title': localStorage.getItem('user_title'),
+					'facebook_id': localStorage.getItem('user_facebook_id'),
+					'firstname': localStorage.getItem('user_firstname'),
+					'lastname': localStorage.getItem('user_lastname'),
+					'link': localStorage.getItem('user_link'),
+					'locale': localStorage.getItem('user_locale'),
+					'name': localStorage.getItem('user_name'),
+					'timezone': localStorage.getItem('user_timezone'),
+					'updated_time': localStorage.getItem('user_updated_time'),
+					'verified': localStorage.getItem('user_verified'),
+					'avatar': localStorage.getItem('user_avatar'),
+					'country': localStorage.getItem('user_country')
+				};
+				if (!user.avatar) {
+					user.avatar = '/images/profile.png'
+				}
+				return user;
 			}
 		};
 	}
-]).factory('User', [
-	'$http', '$q', '$rootScope', '$state',
-	function ($http, $q, $rootScope, $state) {
+])
+
+.factory('User', [
+	'$http',
+	'$q',
+	'$rootScope',
+	'$state',
+	'Facebook',
+	function ($http, $q, $rootScope, $state, Facebook) {
 		var defer;
 		defer = $q.defer();
 		return {
 			sendFeedback: function (title, content) {
 				defer.resolve(true);
 				return defer.promise;
+			},
+			getFacebookFollower: function (uid) {
+				Facebook.api('/uid', function (response) {
+					defer.resolve(response);
+				})
+				return defer.promise;
 			}
 		};
 	}
-]).factory('Assist', [
-	'$http', '$q',
+])
+
+.factory('Assist', [
+	'$http',
+	'$q',
 	function ($http, $q) {
 		var defer;
 		defer = $q.defer();

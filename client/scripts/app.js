@@ -20,7 +20,10 @@ angular
 ])
 
 .run([
-	'$rootScope', '$state', '$stateParams', '$wakanda',
+	'$rootScope',
+	'$state',
+	'$stateParams',
+	'$wakanda',
 	function ($rootScope, $state, $stateParams, $wakanda) {
 		var oninit;
 		$rootScope.wakandaInit = false;
@@ -48,7 +51,8 @@ angular
 })
 
 .config([
-	'$stateProvider', '$urlRouterProvider',
+	'$stateProvider',
+	'$urlRouterProvider',
 	function ($stateProvider, $urlRouterProvider) {
 		$urlRouterProvider.otherwise('/main');
 		return $stateProvider.state('main', {
@@ -68,10 +72,11 @@ angular
 			templateUrl: 'views/auth/change_password.html'
 		}).state('auth.SignOut', {
 			url: '/sign_out',
-			controller: function ($state) {
+			controller: function ($state, $rootScope) {
 				localStorage.removeItem('user_id');
-				localStorage.removeItem('user_first_name');
-				localStorage.removeItem('user_last_name');
+				localStorage.removeItem('user_facebook_id');
+				localStorage.removeItem('user_firstname');
+				localStorage.removeItem('user_lastname');
 				localStorage.removeItem('user_link');
 				localStorage.removeItem('user_locale');
 				localStorage.removeItem('user_name');
@@ -80,6 +85,9 @@ angular
 				localStorage.removeItem('user_verified');
 				localStorage.removeItem('user_avatar');
 				localStorage.removeItem('user_country');
+				localStorage.removeItem('user_email');
+				localStorage.removeItem('user_title');
+				$rootScope.user = {};
 				return $state.go('auth.SignIn');
 			}
 		}).state('createMeetingNote', {

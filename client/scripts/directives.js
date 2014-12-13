@@ -1,4 +1,6 @@
-angular.module('app.directives', []).directive('imgHolder', [
+angular
+
+.module('app.directives', []).directive('imgHolder', [
 
 	function () {
 		return {
@@ -10,7 +12,9 @@ angular.module('app.directives', []).directive('imgHolder', [
 			}
 		};
 	}
-]).directive('customBackground', function () {
+])
+
+.directive('customBackground', function () {
 	return {
 		restrict: "A",
 		controller: [
@@ -28,8 +32,6 @@ angular.module('app.directives', []).directive('imgHolder', [
 					case '/auth/sign_in':
 					case '/auth/sign_up':
 						return $element.addClass('body-special');
-					case '/pages/lock-screen':
-						return $element.addClass('body-special body-lock');
 					case '/tasks':
 						return $element.addClass('body-tasks');
 					}
@@ -44,7 +46,9 @@ angular.module('app.directives', []).directive('imgHolder', [
 			}
 		]
 	};
-}).directive('uiColorSwitch', [
+})
+
+.directive('uiColorSwitch', [
 
 	function () {
 		return {
@@ -70,7 +74,9 @@ angular.module('app.directives', []).directive('imgHolder', [
 			}
 		};
 	}
-]).directive('toggleMinNav', [
+])
+
+.directive('toggleMinNav', [
 	'$rootScope',
 	function ($rootScope) {
 		return {
@@ -104,7 +110,9 @@ angular.module('app.directives', []).directive('imgHolder', [
 			}
 		};
 	}
-]).directive('collapseNav', [
+])
+
+.directive('collapseNav', [
 
 	function () {
 		return {
@@ -137,7 +145,9 @@ angular.module('app.directives', []).directive('imgHolder', [
 			}
 		};
 	}
-]).directive('highlightActive', [
+])
+
+.directive('highlightActive', [
 
 	function () {
 		return {
@@ -176,7 +186,9 @@ angular.module('app.directives', []).directive('imgHolder', [
 			]
 		};
 	}
-]).directive('toggleOffCanvas', [
+])
+
+.directive('toggleOffCanvas', [
 
 	function () {
 		return {
@@ -188,7 +200,9 @@ angular.module('app.directives', []).directive('imgHolder', [
 			}
 		};
 	}
-]).directive('slimScroll', [
+])
+
+.directive('slimScroll', [
 
 	function () {
 		return {
@@ -200,7 +214,9 @@ angular.module('app.directives', []).directive('imgHolder', [
 			}
 		};
 	}
-]).directive('goBack', [
+])
+
+.directive('goBack', [
 
 	function () {
 		return {

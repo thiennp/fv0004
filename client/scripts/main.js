@@ -1,11 +1,15 @@
 'use strict';
-angular.module('app.controllers', []).controller('AppCtrl', [
+angular
+
+.module('app.controllers', [])
+
+.controller('AppCtrl', [
 	'$rootScope', '$scope', '$location',
 	function ($rootScope, $scope, $location) {
 		$scope.isSpecificPage = function () {
 			var path;
 			path = $location.path();
-			return _.contains(['/auth/sign_up', '/auth/sign_in', '/user/profile_update'], path);
+			return _.contains(['/auth/sign_up', '/auth/sign_in'], path);
 		};
 		if (localStorage.getItem('user_id')) {
 			$rootScope.user = {
@@ -29,7 +33,9 @@ angular.module('app.controllers', []).controller('AppCtrl', [
 			name: $rootScope.user.name
 		};
 	}
-]).controller('NavCtrl', [
+])
+
+.controller('NavCtrl', [
 	'$scope', 'taskStorage', 'filterFilter',
 	function ($scope, taskStorage, filterFilter) {
 		var tasks;
@@ -41,7 +47,9 @@ angular.module('app.controllers', []).controller('AppCtrl', [
 			return $scope.taskRemainingCount = count;
 		});
 	}
-]).controller('MainCtrl', [
+])
+
+.controller('MainCtrl', [
 	'$location', '$rootScope', '$scope', '$state', 'Auth', '$wakanda',
 	function ($location, $rootScope, $scope, $state, Auth, $wakanda) {
 		return Auth.verify().then(function (data) {
@@ -60,7 +68,9 @@ angular.module('app.controllers', []).controller('AppCtrl', [
 			return Auth.login('amanda.aaron@tester.com', 'test');
 		});
 	}
-]).controller('CreateMeetingNoteCtrl', [
+])
+
+.controller('CreateMeetingNoteCtrl', [
 	'$scope',
 	function ($scope) {
 		if ($rootScope.onBack) {

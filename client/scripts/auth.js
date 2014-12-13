@@ -13,7 +13,7 @@ angular.module('app.auth.controllers', [])
 			} else {
 				return false;
 			}
-		}
+		};
 		$scope.emailRegister = function (isValid) {
 			var newUser = $wakanda.$ds.User.signUpNewUser(signupForm.email.value, signupForm.password.value);
 			$rootScope.user = newUser;
@@ -28,7 +28,6 @@ angular.module('app.auth.controllers', [])
 					console.log(data);
 				};
 			});
-			return $state.go('user.ProfileUpdate');
 		};
 	}
 ])
@@ -41,8 +40,7 @@ angular.module('app.auth.controllers', [])
 	'$wakanda',
 	'Assist',
 	'Auth',
-	'Facebook',
-	function ($q, $rootScope, $scope, $state, $wakanda, Assist, Auth, Facebook) {
+	function ($q, $rootScope, $scope, $state, $wakanda, Assist, Auth) {
 		var defer = $q.defer();
 		$scope.facebookLogin = function () {
 			return Auth.facebookLogin();
@@ -58,6 +56,12 @@ angular.module('app.auth.controllers', [])
 					$wakanda.$currentUser().then(function (user) {
 						localStorage.setItem('user_id', user.result.ID);
 						localStorage.setItem('user_email', user.result.userName);
+						$wakanda.$ds.User.$findOne(user.result.ID).$promise.then(function (data) {
+							localStorage.setItem('user_firstname', data.result.firstname);
+							localStorage.setItem('user_lastname', data.result.lastname);
+							localStorage.setItem('user_title', data.result.title);
+							$rootScope.user = data.result;
+						});
 						$state.go('user.Profile');
 					});
 				} else {

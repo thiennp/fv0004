@@ -174,13 +174,19 @@
 				<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
 					<img data-ng-cloak data-ng-src="{{user.avatar}}" alt="" class="img-circle img30_30">
 					<span class="hidden-xs">
-					<span>{{user.name}}</span></span>
+					<span>{{user.firstname}}</span></span>
 				</a>
 				<ul class="dropdown-menu with-arrow pull-right">
 					<li>
 						<a ui-sref="user.Profile">
 							<i class="fa fa-user"></i>
 							<span>{{ 'My Profile' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a ui-sref="user.ProfileUpdate">
+							<i class="fa fa-user"></i>
+							<span>{{ 'Update Profile' | translate }}</span>
 						</a>
 					</li>
 					<li>
