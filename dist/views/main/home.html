@@ -1,0 +1,74 @@
+<section id="content" class="animate-fade-up" data-ng-controller="HomeCtrl">
+	<div class="view-container">
+		<div class="page page-profile">
+			<div class="row">
+				<div class="col-sm-12">
+					<section class="panel panel-default">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-3">
+									<a class="btn btn-primary btn-block">{{ 'Agree on dates' | translate }}</a>
+									<a class="btn btn-primary btn-block">{{ 'Create agenda' | translate }}</a>
+									<a class="btn btn-primary btn-block">{{ 'Create e-meeting' | translate }}</a>
+									<a class="btn btn-primary btn-block">{{ 'Write notes' | translate }}</a>
+									<a class="btn btn-primary btn-block">{{ 'List all meetings' | translate }}</a>
+									<div class="clearfix"></div>
+									<span>&nbsp;</span>
+								</div>
+								<div class="col-md-6">
+									<div class="form-container">
+										<accordion close-others="true" class="ui-accordion">
+											<accordion-group heading="{{group.title}}" ng-repeat="group in groups" is-open="group.isopen">
+												<h3>{{ 'Upcoming meetings' | translate }}</h3>
+												<hr>
+												<div class="alert alert-info" ng-repeat="meeting in group.meetings | filter:{status: 'future'}">
+													<strong>{{meeting.title}}</strong>
+													<small>{{'{'+meeting.date+'}'}}</small>
+													<hr>
+													<p><strong>Tasks: </strong>{{meeting.tasks}}</p>
+													<p><strong>Decisions: </strong>{{meeting.decisions}}</p>
+												</div>
+												<h3>{{ 'Past meetings' | translate }}</h3>
+												<hr>
+												<div class="alert alert-info" ng-repeat="meeting in group.meetings | filter:{status: 'past'} | limitTo: group.pastShown">
+													<strong>{{meeting.title}}</strong>
+													<small>{{'{'+meeting.date+'}'}}</small>
+													<hr>
+													<p><strong>Tasks: </strong>{{meeting.tasks}}</p>
+													<p><strong>Decisions: </strong>{{meeting.decisions}}</p>
+												</div>
+												<hr>
+												<a class="btn btn-primary btn-block">{{ 'Click to view more meetings...' | translate}}</a>
+											</accordion-group>
+										</accordion>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="alert alert-info">
+										<strong>{{ 'Summary of tasks' | translate }}</strong>
+										<hr>
+										<p><strong>Overdue tasks</strong>: <a ui-sref="main.Home">{{ overdueTasks }}</a></p>
+										<p><strong>Open tasks</strong>: <a ui-sref="main.Home">{{ openTasks }}</a></p>
+										<p><strong>Closed tasks</strong>: <a ui-sref="main.Home">{{ closedTasks }}</a></p>
+									</div>
+									<div class="alert alert-info">
+										<strong>{{ 'Upcoming meetings' | translate }}</strong>
+										<hr>
+										<p ng-repeat="meeting in allFutureMeetings | limitTo:3">
+										<strong>{{meeting.title}}</strong>
+										<small>{{'{'+meeting.date+'}'}}</small>
+										<br>
+										<strong>Group: </strong>{{meeting.group}}
+										</p>
+										<hr>
+										<p><a class="btn btn-info btn-block">{{ 'View more...' | translate}}</a></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

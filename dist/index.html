@@ -21,6 +21,8 @@
 		<div data-ng-controller="AppCtrl">
 			<div data-ng-hide="isSpecificPage()" data-ng-cloak="">
 				<section data-ng-include=" 'views/header.html' " id="header" class="top-header"></section>
+
+				<aside data-ng-include=" 'views/nav.html' " id="nav-container"></aside>
 			</div>
 			<div ui-view=""></div>
 		</div>

@@ -1,0 +1,130 @@
+'use strict';
+kuvenoApp
+	.controller('HomeCtrl', [
+		'$location',
+		'$rootScope',
+		'$scope',
+		'$state',
+		'$wakanda',
+		'AuthSrv',
+		function ($location, $rootScope, $scope, $state, $wakanda, AuthSrv) {
+			return AuthSrv.verify().then(function (data) {
+				var linkedinCode;
+				if (data) {
+					if ($rootScope.onBack) {
+						$rootScope.onBack = false;
+					} else {
+						$rootScope.$stateHistory.push('main.Home');
+					}
+					if ($location.$$absUrl.split('?code=').length > 1) {
+						linkedinCode = $location.$$absUrl.split('?code=')[1].split('#/')[0];
+						AuthSrv.linkedin(linkedinCode);
+					}
+				}
+				$scope.overdueTasks = Math.floor(Math.random() * 100);
+				$scope.openTasks = Math.floor(Math.random() * 100);
+				$scope.closedTasks = Math.floor(Math.random() * 100);
+				$scope.groups = [{
+					'title': 'Group 1',
+					'meetings': [{
+						'title': 'Meeting 1',
+						'date': '14/12/2014',
+						'status': 'future',
+						'tasks': Math.floor(Math.random() * 100),
+						'decisions': Math.floor(Math.random() * 100)
+					}, {
+						'title': 'Meeting 2',
+						'date': '14/12/2014',
+						'status': 'future',
+						'tasks': Math.floor(Math.random() * 100),
+						'decisions': Math.floor(Math.random() * 100)
+					}, {
+						'title': 'Meeting 3',
+						'date': '14/12/2014',
+						'status': 'past',
+						'tasks': Math.floor(Math.random() * 100),
+						'decisions': Math.floor(Math.random() * 100)
+					}, {
+						'title': 'Meeting 4',
+						'date': '14/12/2014',
+						'status': 'past',
+						'tasks': Math.floor(Math.random() * 100),
+						'decisions': Math.floor(Math.random() * 100)
+					}],
+					'isopen': false
+				}, {
+					'title': 'Group 2',
+					'meetings': [{
+						'title': 'Meeting 1',
+						'date': '14/12/2014',
+						'status': 'future',
+						'tasks': Math.floor(Math.random() * 100),
+						'decisions': Math.floor(Math.random() * 100)
+					}, {
+						'title': 'Meeting 2',
+						'date': '14/12/2014',
+						'status': 'future',
+						'tasks': Math.floor(Math.random() * 100),
+						'decisions': Math.floor(Math.random() * 100)
+					}, {
+						'title': 'Meeting 3',
+						'date': '14/12/2014',
+						'status': 'past',
+						'tasks': Math.floor(Math.random() * 100),
+						'decisions': Math.floor(Math.random() * 100)
+					}, {
+						'title': 'Meeting 4',
+						'date': '14/12/2014',
+						'status': 'past',
+						'tasks': Math.floor(Math.random() * 100),
+						'decisions': Math.floor(Math.random() * 100)
+					}, {
+						'title': 'Meeting 5',
+						'date': '14/12/2014',
+						'status': 'past',
+						'tasks': Math.floor(Math.random() * 100),
+						'decisions': Math.floor(Math.random() * 100)
+					}],
+					'isopen': true
+				}, {
+					'title': 'Group 3',
+					'meetings': [{
+						'title': 'Meeting 1',
+						'date': '14/12/2014',
+						'status': 'future',
+						'tasks': Math.floor(Math.random() * 100),
+						'decisions': Math.floor(Math.random() * 100)
+					}, {
+						'title': 'Meeting 2',
+						'date': '14/12/2014',
+						'status': 'past',
+						'tasks': Math.floor(Math.random() * 100),
+						'decisions': Math.floor(Math.random() * 100)
+					}, {
+						'title': 'Meeting 3',
+						'date': '14/12/2014',
+						'status': 'past',
+						'tasks': Math.floor(Math.random() * 100),
+						'decisions': Math.floor(Math.random() * 100)
+					}],
+					'isopen': false
+				}];
+				$scope.allFutureMeetings = [];
+				for (var group in $scope.groups) {
+					var countFuture = 0;
+					for (var meeting in $scope.groups[group].meetings) {
+						$scope.groups[group].meetings[meeting].group = $scope.groups[group].title;
+						if ($scope.groups[group].meetings[meeting].status === 'future') {
+							$scope.allFutureMeetings.push($scope.groups[group].meetings[meeting]);
+							countFuture++;
+						}
+					}
+					if (countFuture < 3) {
+						$scope.groups[group].pastShown = 3 - countFuture;
+					} else {
+						$scope.groups[group].pastShown = 1;
+					}
+				}
+			});
+		}
+	]);

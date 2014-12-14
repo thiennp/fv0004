@@ -1,159 +1,147 @@
-<div data-ng-controller="ProfileCtrl">
-	<aside id="nav-container">
-		<div id="nav-wrapper">
-			<ul id="nav" data-collapse-nav data-slim-scroll data-highlight-active>
-				<li data-ng-show="$stateHistory.length > 1"><a data-ng-click="back()"><i class="fa fa-arrow-left"><span class="icon-bg bg-success"></span></i><span>{{ 'Back' | translate }}</span> </a></li>
-				<li><a ui-sref="user.ChangePassword"><i class="fa fa-key"><span class="icon-bg bg-warning"></span></i><span>{{ 'Change Password' | translate }}</span> </a></li>
-				<li><a ui-sref="user.SendFeedback"><i class="fa fa-envelope"><span class="icon-bg bg-info"></span></i><span>{{ 'Send Feedback' | translate }}</span> </a></li>
-				<li><a ui-sref="user.ProfileUpdate"><i class="fa fa-user"><span class="icon-bg bg-danger"></span></i><span>{{ 'Update Profile' | translate }}</span> </a></li>
-			</ul>
-		</div>
-	</aside>
-	<section id="content" class="animate-fade-up">
-		<div class="view-container">
-			<div class="page page-profile">
-				<div class="row">
-					<div class="col-md-6">
-						<div class="panel panel-profile">
-							<div class="panel-heading bg-primary clearfix">
-								<a href="" class="pull-left profile">
-									<img alt="" ng-src="{{user.avatar}}" class="img-circle img80_80">
-								</a>
-								<h3> {{user.firstname}} {{user.lastname}}</h3>
-								<p>{{user.title}}</p>
-							</div>
-							<div class="media">
-								<div class="media-body">
-									<ul class="list-unstyled list-info">
-										<li>
-											<i class="icon fa fa-user"></i>
-											<label>{{ 'First name' | translate }}</label>
-											{{user.firstname}}
-										</li>
-										<li>
-											<i class="icon fa fa-user"></i>
-											<label>{{ 'Last name' | translate }}</label>
-											{{user.lastname}}
-										</li>
-										<li>
-											<i class="icon fa fa-user"></i>
-											<label>{{ 'Title' | translate }}</label>
-											{{user.title}}
-										</li>
-										<li>
-											<i class="icon fa fa-envelope"></i>
-											<label>{{ 'Email' | translate }}</label>
-											{{user.email}}
-										</li>
-										<li>
-											<i class="icon fa fa-facebook"></i>
-											<label>{{ 'Facebook' | translate }}</label>
-											<a ng-href="{{user.link}}" target="_blank">{{ 'Link' | translate }}</a>
-										</li>
-										<li>
-											<i class="icon fa fa-flag"></i>
-											<label>{{ 'Nationality' | translate }}</label>
-											{{user.country}}
-										</li>
-										<li>
-											<a class="btn btn-primary btn-block" ui-sref="user.ProfileUpdate">{{ 'Update Profile' | translate }}</a>
-										</li>
-									</ul>
-									
-								</div>
-							</div>
+<section id="content" class="animate-fade-up" data-ng-controller="ProfileCtrl">
+	<div class="view-container">
+		<div class="page page-profile">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="panel panel-profile">
+						<div class="panel-heading bg-primary clearfix">
+							<a href="" class="pull-left profile">
+								<img alt="" ng-src="{{user.avatar}}" class="img-circle img80_80">
+							</a>
+							<h3> {{user.firstname}} {{user.lastname}}</h3>
+							<p>{{user.title}}</p>
 						</div>
-						<div class="row">
-							<div class="col-sm-6">
-								<section class="panel panel-box">
-									<div class="panel-top bg-facebook">
-										<div class="divider divider"></div>
-										<i class="fa fa-facebook size-h1"></i>
-										<div class="divider divider"></div>
-									</div>
-									<div class="list-justified-container">
-										<ul class="list-justified text-center">
-											<li>
-												<p class="size-h3">575</p>
-												<p class="text-muted">Followers</p>
-											</li>
-											<li>
-												<p class="size-h3">23</p>
-												<p class="text-muted">Following</p>
-											</li>
-										</ul>
-									</div>
-								</section>
-							</div>
-							<div class="col-sm-6">
-								<section class="panel panel-box">
-									<div class="panel-top bg-twitter">
-										<div class="divider divider"></div>
-										<i class="fa fa-twitter size-h1"></i>
-										<div class="divider divider"></div>
-									</div>
-									<div class="list-justified-container">
-										<ul class="list-justified text-center">
-											<li>
-												<p class="size-h3">575</p>
-												<p class="text-muted">Followers</p>
-											</li>
-											<li>
-												<p class="size-h3">23</p>
-												<p class="text-muted">Following</p>
-											</li>
-										</ul>
-									</div>
-								</section>
+						<div class="media">
+							<div class="media-body">
+								<ul class="list-unstyled list-info">
+									<li>
+										<i class="icon fa fa-user"></i>
+										<label>{{ 'First name' | translate }}</label>
+										{{user.firstname}}
+									</li>
+									<li>
+										<i class="icon fa fa-user"></i>
+										<label>{{ 'Last name' | translate }}</label>
+										{{user.lastname}}
+									</li>
+									<li>
+										<i class="icon fa fa-user"></i>
+										<label>{{ 'Title' | translate }}</label>
+										{{user.title}}
+									</li>
+									<li>
+										<i class="icon fa fa-envelope"></i>
+										<label>{{ 'Email' | translate }}</label>
+										{{user.email}}
+									</li>
+									<li>
+										<i class="icon fa fa-facebook"></i>
+										<label>{{ 'Facebook' | translate }}</label>
+										<a ng-href="{{user.link}}" target="_blank">{{ 'Link' | translate }}</a>
+									</li>
+									<li>
+										<i class="icon fa fa-flag"></i>
+										<label>{{ 'Nationality' | translate }}</label>
+										{{user.country}}
+									</li>
+									<li>
+										<a class="btn btn-primary btn-block" ui-sref="user.ProfileUpdate">{{ 'Update Profile' | translate }}</a>
+									</li>
+								</ul>
+								
 							</div>
 						</div>
 					</div>
-					<div class="col-md-6">
-						<div class="row">
-							<div class="col-sm-6">
-								<div class="panel mini-box">
-									<span class="box-icon bg-danger">
-									<i class="fa fa-film"></i>
-									</span>
-									<div class="box-info">
-										<p class="size-h2">39</p>
-										<p class="text-muted">Amazing Films</p>
-									</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<section class="panel panel-box">
+								<div class="panel-top bg-facebook">
+									<div class="divider divider"></div>
+									<i class="fa fa-facebook size-h1"></i>
+									<div class="divider divider"></div>
 								</div>
-							</div>
-							<div class="col-sm-6">
-								<div class="panel mini-box">
-									<span class="box-icon bg-warning">
-									<i class="fa fa-camera"></i>
-									</span>
-									<div class="box-info">
-										<p class="size-h2">63</p>
-										<p class="text-muted">Wonderful Photos</p>
-									</div>
+								<div class="list-justified-container">
+									<ul class="list-justified text-center">
+										<li>
+											<p class="size-h3">575</p>
+											<p class="text-muted">Followers</p>
+										</li>
+										<li>
+											<p class="size-h3">23</p>
+											<p class="text-muted">Following</p>
+										</li>
+									</ul>
+								</div>
+							</section>
+						</div>
+						<div class="col-sm-6">
+							<section class="panel panel-box">
+								<div class="panel-top bg-twitter">
+									<div class="divider divider"></div>
+									<i class="fa fa-twitter size-h1"></i>
+									<div class="divider divider"></div>
+								</div>
+								<div class="list-justified-container">
+									<ul class="list-justified text-center">
+										<li>
+											<p class="size-h3">575</p>
+											<p class="text-muted">Followers</p>
+										</li>
+										<li>
+											<p class="size-h3">23</p>
+											<p class="text-muted">Following</p>
+										</li>
+									</ul>
+								</div>
+							</section>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="panel mini-box">
+								<span class="box-icon bg-danger">
+								<i class="fa fa-film"></i>
+								</span>
+								<div class="box-info">
+									<p class="size-h2">39</p>
+									<p class="text-muted">Amazing Films</p>
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-sm-6">
-								<div class="panel mini-box">
-									<span class="box-icon bg-success">
-									<i class="fa fa-bookmark-o"></i>
-									</span>
-									<div class="box-info">
-										<p class="size-h2">55</p>
-										<p class="text-muted">New Collections</p>
-									</div>
+						<div class="col-sm-6">
+							<div class="panel mini-box">
+								<span class="box-icon bg-warning">
+								<i class="fa fa-camera"></i>
+								</span>
+								<div class="box-info">
+									<p class="size-h2">63</p>
+									<p class="text-muted">Wonderful Photos</p>
 								</div>
 							</div>
-							<div class="col-sm-6">
-								<div class="panel mini-box">
-									<span class="box-icon bg-info">
-									<i class="fa fa-check"></i>
-									</span>
-									<div class="box-info">
-										<p class="size-h2">34</p>
-										<p class="text-muted">Tasks Finised</p>
-									</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="panel mini-box">
+								<span class="box-icon bg-success">
+								<i class="fa fa-bookmark-o"></i>
+								</span>
+								<div class="box-info">
+									<p class="size-h2">55</p>
+									<p class="text-muted">New Collections</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="panel mini-box">
+								<span class="box-icon bg-info">
+								<i class="fa fa-check"></i>
+								</span>
+								<div class="box-info">
+									<p class="size-h2">34</p>
+									<p class="text-muted">Tasks Finised</p>
 								</div>
 							</div>
 						</div>
@@ -161,5 +149,5 @@
 				</div>
 			</div>
 		</div>
-	</section>
-</div>
+	</div>
+</section>
