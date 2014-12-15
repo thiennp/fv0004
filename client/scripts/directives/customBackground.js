@@ -1,7 +1,8 @@
+'use strict';
 kuvenoApp
 	.directive('customBackground', function () {
 		return {
-			restrict: "A",
+			restrict: 'A',
 			controller: [
 				'$scope', '$element', '$location',
 				function ($scope, $element, $location) {

@@ -1,9 +1,10 @@
+'use strict';
 kuvenoApp
 	.directive('highlightActive', [
 
 		function () {
 			return {
-				restrict: "A",
+				restrict: 'A',
 				controller: [
 					'$scope', '$element', '$attrs', '$location',
 					function ($scope, $element, $attrs, $location) {

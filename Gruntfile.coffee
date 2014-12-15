@@ -54,7 +54,7 @@ module.exports = (grunt) ->
 		watch:
 			js:
 				files: ["<%= yeoman.app %>/scripts/**/*.js"]
-				tasks: ["copy:js"]
+				tasks: ["jshint", "copy:js"]
 
 			compass:
 				files: ["<%= yeoman.app %>/styles/**/*.{scss,sass}"]
@@ -89,9 +89,8 @@ module.exports = (grunt) ->
 			}]
 			options:
 				port: 9000
-				
 				# Change this to '0.0.0.0' to access the server from outside.
-				hostname: "localhost"
+				hostname: 'localhost'
 				livereload: 35729
 			livereload:
 				options:
@@ -104,7 +103,12 @@ module.exports = (grunt) ->
 			test:
 				options:
 					middleware: (connect) ->
-						[mountFolder(connect, ".tmp"), mountFolder(connect, "test")]
+						[
+							connect.static '.tmp' 
+							connect.static 'test' 
+							connect().use '/bower_components', connect.static('./bower_components')
+							connect.static appConfig.app
+						]
 			dist:
 				options:
 					open: true,

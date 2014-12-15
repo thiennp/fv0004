@@ -31,7 +31,7 @@ kuvenoApp
 							localStorage.setItem('user_lastname', updateProfileForm.lastName.value);
 							localStorage.setItem('user_email', updateProfileForm.email.value);
 							$scope.success = true;
-						})
+						});
 					};
 				}
 			});

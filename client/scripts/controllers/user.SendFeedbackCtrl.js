@@ -9,13 +9,13 @@ kuvenoApp
 			AuthSrv.verify().then(function (data) {
 				if (data) {
 					if ($rootScope.onBack) {
-						return $rootScope.onBack = false;
+						$rootScope.onBack = false;
 					} else {
-						return $rootScope.$stateHistory.push('user.SendFeedback');
+						$rootScope.$stateHistory.push('user.SendFeedback');
 					}
 				}
 			});
-			return $scope.sendFeedback = function () {
+			$scope.sendFeedback = function () {
 				UserSrv.sendFeedback($scope.title, $scope.content).then(function (data) {
 					if (data) {
 						$scope.success = true;

@@ -24,6 +24,8 @@ kuvenoApp
 				$scope.overdueTasks = Math.floor(Math.random() * 100);
 				$scope.openTasks = Math.floor(Math.random() * 100);
 				$scope.closedTasks = Math.floor(Math.random() * 100);
+				var groups = $wakanda.$ds.User.membershipWorkgroups;
+				console.log(groups);
 				$scope.groups = [{
 					'title': 'Group 1',
 					'meetings': [{
@@ -110,21 +112,43 @@ kuvenoApp
 					'isopen': false
 				}];
 				$scope.allFutureMeetings = [];
-				for (var group in $scope.groups) {
+				for (var groupId in $scope.groups) {
 					var countFuture = 0;
-					for (var meeting in $scope.groups[group].meetings) {
-						$scope.groups[group].meetings[meeting].group = $scope.groups[group].title;
-						if ($scope.groups[group].meetings[meeting].status === 'future') {
-							$scope.allFutureMeetings.push($scope.groups[group].meetings[meeting]);
+					for (var meetingId in $scope.groups[groupId].meetings) {
+						$scope.groups[groupId].meetings[meetingId].group = $scope.groups[groupId].title;
+						if ($scope.groups[groupId].meetings[meetingId].status === 'future') {
+							$scope.allFutureMeetings.push($scope.groups[groupId].meetings[meetingId]);
 							countFuture++;
 						}
 					}
 					if (countFuture < 3) {
-						$scope.groups[group].pastShown = 3 - countFuture;
+						$scope.groups[groupId].pastShown = 3 - countFuture;
 					} else {
-						$scope.groups[group].pastShown = 1;
+						$scope.groups[groupId].pastShown = 1;
 					}
 				}
+				$scope.buttonGroupStyle = function () {
+					var totalHeight = 0;
+					groupId = 0;
+					for (var i = 0; i < document.getElementById('meeting-groups').firstChild.childNodes.length; i++) {
+						if ($scope.groups[groupId]) {
+							if ($scope.groups[groupId].isopen) {
+								return {
+									'padding-top': totalHeight + 'px',
+									'opacity': 1
+								};
+							}
+						}
+						if (document.getElementById('meeting-groups').firstChild.childNodes[i].tagName === 'DIV') {
+							totalHeight += document.getElementById('meeting-groups').firstChild.childNodes[i].offsetHeight + 5;
+							groupId++;
+						}
+					}
+					return {
+						'padding-top': 0,
+						'opacity': 0
+					};
+				};
 			});
 		}
 	]);

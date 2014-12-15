@@ -19,11 +19,11 @@ kuvenoApp
 						}
 					});
 					if ($rootScope.onBack) {
-						return $rootScope.onBack = false;
+						$rootScope.onBack = false;
 					} else {
-						return $rootScope.$stateHistory.push('user.Profile');
+						$rootScope.$stateHistory.push('user.Profile');
 					}
 				}
 			});
 		}
-	])
+	]);

@@ -27,7 +27,7 @@ kuvenoApp
 			} else {
 				$rootScope.user = {};
 			}
-			return $scope.main = {
+			$scope.main = {
 				brand: 'Kuveno',
 			};
 		}

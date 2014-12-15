@@ -30,7 +30,7 @@ window.kuvenoApp = angular
 				}
 			};
 			$wakanda.init().then(oninit = function (ds) {
-				$rootScope.initialized = "initialized";
+				$rootScope.initialized = 'initialized';
 				$rootScope.dataClasses = Object.keys(ds.getDataClasses());
 				$rootScope.wakandaInit = true;
 			});

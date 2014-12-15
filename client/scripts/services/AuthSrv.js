@@ -27,6 +27,7 @@ kuvenoApp
 					return defer.promise;
 				},
 				linkedin: function (code) {
+					console.log(code);
 					$http.post('https://www.linkedin.com/uas/oauth2/accessToken?grant_type=authorization_code&code=code&redirect_uri=https://thiepcuoiviet.net/freelance/fv0004/dist&client_id=7581d2bszc4sid&client_secret=oDYszogper1pau5d').success(function (data, status, headers, config) {
 						console.log(data);
 					}).error(function (data, status, headers, config) {
@@ -60,22 +61,22 @@ kuvenoApp
 					getFacebookInformation = function () {
 						return Facebook.api('/me', function (response) {
 							var newUser = $wakanda.$ds.User.signUpNewFBUser(response.id);
-							$wakanda.$login(response.id, "FB-login").then(function (data) {
+							$wakanda.$login(response.id, 'FB-login').then(function (data) {
 								if (data.result) {
 									$wakanda.$currentUser().then(function (user) {
-										var user = $wakanda.$ds.User.$findOne(user.result.ID)
-										user.$promise.then(function () {
+										var currentUser = $wakanda.$ds.User.$findOne(user.result.ID);
+										currentUser.$promise.then(function () {
 											localStorage.setItem('user_id', user.ID);
 											localStorage.setItem('user_email', user.email);
 											localStorage.setItem('user_title', user.title);
 											storeUser(response);
 											$state.go('user.Profile');
-										})
+										});
 									});
 								} else {
 									console.log(data);
-								};
-							})
+								}
+							});
 						});
 					};
 					Facebook.getLoginStatus(function (response) {
@@ -115,7 +116,12 @@ kuvenoApp
 				},
 				changePassword: function (password) {
 					var defer = $q.defer();
-					defer.resolve(true);
+					var user = $wakanda.$ds.User.$findOne(localStorage.getItem('user_id'));
+					user.$promise.then(function () {
+						user.password = password;
+						user.$save();
+						defer.resolve(true);
+					});
 					return defer.promise;
 				},
 				getUserData: function () {
@@ -136,7 +142,7 @@ kuvenoApp
 						'country': localStorage.getItem('user_country')
 					};
 					if (!user.avatar) {
-						user.avatar = '/images/profile.png'
+						user.avatar = '/images/profile.png';
 					}
 					return user;
 				}

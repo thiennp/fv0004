@@ -1,3 +1,4 @@
+'use strict';
 kuvenoApp
 	.directive('slimScroll', [
 

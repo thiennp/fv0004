@@ -6,7 +6,7 @@
 					<section class="panel panel-default">
 						<div class="panel-body">
 							<div class="row">
-								<div class="col-md-3">
+								<div class="col-md-3 home-button-group" ng-style="buttonGroupStyle()">
 									<a class="btn btn-primary btn-block">{{ 'Agree on dates' | translate }}</a>
 									<a class="btn btn-primary btn-block">{{ 'Create agenda' | translate }}</a>
 									<a class="btn btn-primary btn-block">{{ 'Create e-meeting' | translate }}</a>
@@ -17,7 +17,7 @@
 								</div>
 								<div class="col-md-6">
 									<div class="form-container">
-										<accordion close-others="true" class="ui-accordion">
+										<accordion close-others="true" class="ui-accordion" id="meeting-groups">
 											<accordion-group heading="{{group.title}}" ng-repeat="group in groups" is-open="group.isopen">
 												<h3>{{ 'Upcoming meetings' | translate }}</h3>
 												<hr>

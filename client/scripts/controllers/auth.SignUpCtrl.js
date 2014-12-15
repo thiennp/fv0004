@@ -11,7 +11,7 @@ kuvenoApp
 				AuthSrv.facebookLogin();
 			};
 			$scope.unmatchedPassword = function () {
-				if (signupForm.password.value != signupForm.retypePassword.value) {
+				if (signupForm.password.value !== signupForm.retypePassword.value) {
 					return true;
 				} else {
 					return false;
@@ -29,7 +29,7 @@ kuvenoApp
 						});
 					} else {
 						console.log(data);
-					};
+					}
 				});
 			};
 		}

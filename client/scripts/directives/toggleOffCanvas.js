@@ -1,3 +1,4 @@
+'use strict';
 kuvenoApp
 	.directive('toggleMinNav', [
 		'$rootScope',
@@ -28,7 +29,7 @@ kuvenoApp
 					return $window.resize(function () {
 						var t;
 						clearTimeout(t);
-						return t = setTimeout(updateClass, 300);
+						t = setTimeout(updateClass, 300);
 					});
 				}
 			};

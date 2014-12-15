@@ -3,7 +3,7 @@
   "browser": true,
   "esnext": true,
   "bitwise": true,
-  "camelcase": true,
+  "camelcase": false,
   "curly": true,
   "eqeqeq": true,
   "immed": true,
@@ -14,11 +14,18 @@
   "quotmark": "single",
   "regexp": true,
   "undef": true,
-  "unused": true,
+  "unused": false,
   "strict": true,
   "trailing": true,
   "smarttabs": true,
   "globals": {
-    "angular": false
+    "angular": false,
+    "kuvenoApp": false,
+    "$": false,
+    "updateProfileForm": false,
+    "changePasswordForm": false,
+    "signupForm": false,
+    "signinForm": false,
+    "_": false
   }
 }
