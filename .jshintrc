@@ -26,6 +26,7 @@
     "changePasswordForm": false,
     "signupForm": false,
     "signinForm": false,
-    "_": false
+    "_": false,
+    "toastr": false
   }
 }

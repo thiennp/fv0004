@@ -3,7 +3,6 @@ window.kuvenoApp = angular
 	.module('app', [
 		'ngRoute',
 		'ngAnimate',
-		'ngCookies',
 		'ui.bootstrap',
 		'pascalprecht.translate',
 		'ui.router',
@@ -150,6 +149,10 @@ window.kuvenoApp = angular
 				.state('main.Home', {
 					url: '/home',
 					templateUrl: 'views/main/home.html'
+				})
+				.state('main.MyTasks', {
+					url: '/my_tasks',
+					templateUrl: 'views/main/my_tasks.html'
 				});
 		}
 	])
