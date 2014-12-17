@@ -10,24 +10,22 @@ kuvenoApp
 		'MainSrv',
 		'LoggerSrv',
 		function ($location, $rootScope, $scope, $state, $wakanda, AuthSrv, MainSrv, LoggerSrv) {
-			// return AuthSrv.verify().then(function (data) {
-			// 	var linkedinCode;
-			// 	if (data) {
-			// 		if ($rootScope.onBack) {
-			// 			$rootScope.onBack = false;
-			// 		} else {
-			// 			$rootScope.$stateHistory.push('main.MyTasks');
-			// 		}
-			// 		if ($location.$$absUrl.split('?code=').length > 1) {
-			// 			linkedinCode = $location.$$absUrl.split('?code=')[1].split('#/')[0];
-			// 			AuthSrv.linkedin(linkedinCode);
-			// 		}
-			// 	}
-			// });
+			AuthSrv.verify().then(function (data) {
+				var linkedinCode;
+				if (data) {
+					if ($rootScope.onBack) {
+						$rootScope.onBack = false;
+					} else {
+						$rootScope.$stateHistory.push('main.MyTasks');
+					}
+					if ($location.$$absUrl.split('?code=').length > 1) {
+						linkedinCode = $location.$$absUrl.split('?code=')[1].split('#/')[0];
+						AuthSrv.linkedin(linkedinCode);
+					}
+				}
+			});
 			var tasks;
-
 			tasks = $scope.tasks = MainSrv.get();
-
 			$scope.newTask = '';
 
 			// $scope.remainingCount = filterFilter(tasks, {

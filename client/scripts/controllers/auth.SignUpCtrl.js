@@ -18,19 +18,32 @@ kuvenoApp
 				}
 			};
 			$scope.emailRegister = function (isValid) {
+				$scope.error = false;
+				$scope.loading = true;
 				var newUser = $wakanda.$ds.User.signUpNewUser(signupForm.email.value, signupForm.password.value);
-				$rootScope.user = newUser;
-				$wakanda.$login(signupForm.email.value, signupForm.password.value).then(function (data) {
-					if (data.result) {
-						$wakanda.$currentUser().then(function (user) {
-							localStorage.setItem('user_id', user.result.ID);
-							localStorage.setItem('user_email', user.result.userName);
+				switch (newUser.status) {
+				case 'error-existing-account':
+					$scope.error = true;
+					$scope.errorMessage = newUser.info;
+					$scope.loading = false;
+					break;
+				case 'ok-user-and-account-added':
+					$rootScope.user = {
+						'Id': newUser.userId
+					};
+					$wakanda.$login(signupForm.email.value, signupForm.password.value).then(function (data) {
+						$scope.loading = false;
+						if (data.result) {
+							localStorage.setItem('user_id', data.result.userId);
+							localStorage.setItem('user_email', signupForm.email.value);
 							$state.go('user.ProfileUpdate');
-						});
-					} else {
-						console.log(data);
-					}
-				});
+						} else {
+							$scope.error = true;
+							$scope.errorMessage = 'Login error';
+						}
+					});
+					break;
+				}
 			};
 		}
 	]);

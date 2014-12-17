@@ -12,6 +12,9 @@
 				<span class="line-thru">{{ 'OR' | translate }}</span>
 				<section ng-init>
 					<form class="form-horizontal" name="signupForm" data-ng-submit="emailRegister()" novalidate>
+						<div class="row alert alert-danger" data-ng-show="error">
+							{{ errorMessage | translate }}
+						</div>
 						<div class="form-group">
 							<div class="input-group input-group-lg">
 								<span class="input-group-addon">
@@ -82,7 +85,8 @@
 						<div class="form-group">
 							<p class="text-muted text-small">{{ 'By clicking on Sign up, you agree to' | translate }} <a href="javascript:;">{{ 'terms & conditions' | translate }}</a> {{ 'and' | translate }} <a href="javascript:;">{{ 'privacy policy' | translate }}</a></p>
 							<div class="divider"></div>
-							<input class="btn btn-primary btn-lg btn-block" type="submit" value="{{ 'Sign up' | translate }}" ng-disabled="signupForm.$invalid || unmatchedPassword()"/>
+							<input class="btn btn-primary btn-lg btn-block" data-ng-hide="loading" type="submit" value="{{ 'Sign up' | translate }}" ng-disabled="signupForm.$invalid || unmatchedPassword()"/>
+							<input class="btn btn-warning btn-lg btn-block" data-ng-show="loading" type="button" value="{{ 'Loading' | translate }}" ng-disabled="true"/>
 						</div>
 					</form>
 				</section>

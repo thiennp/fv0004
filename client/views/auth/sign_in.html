@@ -12,7 +12,7 @@
 				<form class="form-horizontal" name="signinForm" data-ng-submit="emailLogin()" novalidate>
 					<fieldset>
 						<div class="row alert alert-danger" data-ng-show="error">
-							{{ 'Email or password is not correct' | translate }}
+							{{ errorMessage | translate }}
 						</div>
 						<div class="form-group">
 							<div class="input-group input-group-lg">
@@ -56,7 +56,8 @@
 							{{ 'Password is required' | translate }}
 						</div>
 						<div class="form-group">
-							<input class="btn btn-primary btn-lg btn-block" type="submit" data-ng-click="emailLogin()" value="{{ 'Log in' | translate }}" ng-disabled="signinForm.$invalid"/>
+							<input class="btn btn-primary btn-lg btn-block" data-ng-hide="loading" type="submit" data-ng-click="emailLogin()" value="{{ 'Log in' | translate }}" ng-disabled="signinForm.$invalid"/>
+							<input class="btn btn-warning btn-lg btn-block" data-ng-show="loading" type="button" value="{{ 'Loading' | translate }}" ng-disabled="true"/>
 						</div>
 					</fieldset>
 				</form>
