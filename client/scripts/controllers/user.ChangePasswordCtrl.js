@@ -8,11 +8,15 @@ kuvenoApp
 		function ($q, $rootScope, $scope, AuthSrv) {
 			$scope.success = false;
 			$scope.error = false;
-			if ($rootScope.onBack) {
-				$rootScope.onBack = false;
-			} else {
-				$rootScope.$stateHistory.push('user.ChangePassword');
-			}
+			AuthSrv.verify().then(function (data) {
+				if (data) {
+					if ($rootScope.onBack) {
+						$rootScope.onBack = false;
+					} else {
+						$rootScope.$stateHistory.push('user.ChangePassword');
+					}
+				}
+			});
 			$scope.unmatchedPassword = function () {
 				if (changePasswordForm.newPassword.value !== changePasswordForm.retypeNewPassword.value) {
 					return true;

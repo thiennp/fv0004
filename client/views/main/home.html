@@ -18,7 +18,7 @@
 								<div class="col-md-6">
 									<div class="form-container">
 										<accordion close-others="true" class="ui-accordion" id="meeting-groups">
-											<accordion-group heading="{{group.title}}" ng-repeat="group in groups" is-open="group.isopen">
+											<accordion-group heading="{{group.name}}" ng-repeat="group in groups" is-open="group.isopen">
 												<h3>{{ 'Upcoming meetings' | translate }}</h3>
 												<hr>
 												<div class="alert alert-info" ng-repeat="meeting in group.meetings | filter:{status: 'future'}">

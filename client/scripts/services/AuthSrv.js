@@ -2,13 +2,14 @@
 kuvenoApp
 	.factory('AuthSrv', [
 		'$http',
+		'$location',
 		'$q',
 		'$rootScope',
 		'$state',
 		'$wakanda',
 		'AssistSrv',
 		'Facebook',
-		function ($http, $q, $rootScope, $state, $wakanda, AssistSrv, Facebook) {
+		function ($http, $location, $q, $rootScope, $state, $wakanda, AssistSrv, Facebook) {
 			return {
 				verify: function () {
 					var defer = $q.defer();
@@ -19,12 +20,35 @@ kuvenoApp
 						$rootScope.user = this.getUserData();
 						var itv = setInterval(function () {
 							if ($rootScope.wakandaInit) {
+								$rootScope.userCollection = $wakanda.$ds.User.$find({
+									filter: 'ID == :1',
+									params: [localStorage.user_id]
+								});
+								if (!localStorage.user_firstname || !localStorage.user_lastname) {
+									$state.go('user.ProfileUpdate');
+								}
 								defer.resolve(true);
 								clearInterval(itv);
 							}
 						}, 100);
 					}
 					return defer.promise;
+				},
+				verifyAuthen: function () {
+					var _self = this;
+					var itv = setInterval(function () {
+						if ($rootScope.wakandaInit) {
+							clearInterval(itv);
+							if (localStorage.user_id !== void 0) {
+								$rootScope.user = _self.getUserData();
+								if (localStorage.user_firstname && localStorage.user_lastname) {
+									$location.path('#/user/profile');
+								} else {
+									$location.path('#/user/profile_update');
+								}
+							}
+						}
+					}, 100);
 				},
 				linkedin: function (code) {
 					console.log(code);
@@ -116,10 +140,9 @@ kuvenoApp
 				},
 				changePassword: function (password) {
 					var defer = $q.defer();
-					var user = $wakanda.$ds.User.$findOne(localStorage.getItem('user_id'));
-					user.$promise.then(function () {
-						user.password = password;
-						user.$save();
+					$rootScope.userCollection.$promise.then(function (user) {
+						user.result[0].password = password;
+						user.result[0].$save();
 						defer.resolve(true);
 					});
 					return defer.promise;

@@ -42,7 +42,7 @@ window.kuvenoApp = angular
 		'$stateProvider',
 		'$urlRouterProvider',
 		function ($stateProvider, $urlRouterProvider) {
-			$urlRouterProvider.otherwise('/main');
+			$urlRouterProvider.otherwise('/main/home');
 			return $stateProvider
 				.state('auth', {
 					url: '/auth',
