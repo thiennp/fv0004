@@ -19,23 +19,21 @@
 									<div class="form-container">
 										<accordion close-others="true" class="ui-accordion" id="meeting-groups">
 											<accordion-group heading="{{group.name}}" ng-repeat="group in groups" is-open="group.isopen">
-												<h3>{{ 'Upcoming meetings' | translate }}</h3>
-												<hr>
-												<div class="alert alert-info" ng-repeat="meeting in group.meetings | filter:{status: 'future'}">
-													<strong>{{meeting.title}}</strong>
-													<small>{{'{'+meeting.date+'}'}}</small>
-													<hr>
-													<p><strong>Tasks: </strong>{{meeting.tasks}}</p>
-													<p><strong>Decisions: </strong>{{meeting.decisions}}</p>
+												<h5>{{ 'Upcoming meetings' | translate }}</h5>
+												<div data-ng-show="group.futureMeeting.length == 0" class="alert alert-warning">{{ 'No upcoming meetings' | translate }}</div>
+												<div class="alert alert-info" ng-repeat="meeting in group.futureMeeting">
+													<strong>{{meeting.name}}</strong><br>
+													<small>{{'{'+meeting.time+'}'}}</small>
+													<p><strong>Tasks: </strong>{{meeting.tasks.length}}</p>
+													<p><strong>Decisions: </strong>{{meeting.decisions.length}}</p>
 												</div>
-												<h3>{{ 'Past meetings' | translate }}</h3>
-												<hr>
-												<div class="alert alert-info" ng-repeat="meeting in group.meetings | filter:{status: 'past'} | limitTo: group.pastShown">
-													<strong>{{meeting.title}}</strong>
-													<small>{{'{'+meeting.date+'}'}}</small>
-													<hr>
-													<p><strong>Tasks: </strong>{{meeting.tasks}}</p>
-													<p><strong>Decisions: </strong>{{meeting.decisions}}</p>
+												<h5>{{ 'Past meetings' | translate }}</h5>
+												<div data-ng-show="group.pastMeeting.length == 0" class="alert alert-warning">{{ 'No past meetings' | translate }}</div>
+												<div class="alert alert-info" ng-repeat="meeting in group.pastMeeting">
+													<strong>{{meeting.name}}</strong><br>
+													<small>{{'{'+meeting.time+'}'}}</small>
+													<p><strong>Tasks: </strong>{{meeting.tasks.length}}</p>
+													<p><strong>Decisions: </strong>{{meeting.decisions.length}}</p>
 												</div>
 												<hr>
 												<a class="btn btn-primary btn-block">{{ 'Click to view more meetings...' | translate}}</a>
@@ -54,9 +52,9 @@
 									<div class="alert alert-info">
 										<strong>{{ 'Upcoming meetings' | translate }}</strong>
 										<hr>
-										<p ng-repeat="meeting in allFutureMeetings | limitTo:3">
-										<strong>{{meeting.title}}</strong>
-										<small>{{'{'+meeting.date+'}'}}</small>
+										<p ng-repeat="meeting in futureMeeting | limitTo:3">
+										<strong>{{meeting.name}}</strong>
+										<small>{{'{'+meeting.time+'}'}}</small>
 										<br>
 										<strong>Group: </strong>{{meeting.group}}
 										</p>
