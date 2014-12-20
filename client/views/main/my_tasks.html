@@ -43,18 +43,50 @@
 						<section  data-ng-cloak>
 							<ul class="task-list list-unstyled">
 								<li data-ng-repeat="task in tasks | orderBy:sortType:reverse | filter:statusFilter track by $index" data-ng-class="{completed: task.isCompleted, editing: task == editedTask}">
-									<span class="view">
-									<input type="checkbox" class="toggle-task" data-ng-model="task.isCompleted" data-ng-change="completed(task)">
-									<label data-ng-dblclick="edit(task)">
-										{{ task.description }}
-										<small data-ng-class="{'text-danger':task.overdue, 'text-success':(!task.overdue)}">({{ task.dueTimeString }})</small>
-									</label>
-									<span class="glyphicon glyphicon-pencil" data-ng-click="edit(task)"></span>
-									<span class="glyphicon glyphicon-remove" data-ng-click="remove(task, $index)"></span>
-									</span>
-									<form data-ng-submit="doneEditing(task, $index)">
-										<input type="text" class="edit form-control" data-ng-trim="false" data-ng-model="task.description" data-ng-blur="doneEditing(task, $index)" data-task-focus="task == editedTask">
-									</form>
+									<div class="view">
+										<div class="row">
+											<div class="col-md-1">
+												<input type="checkbox" class="toggle-task" data-ng-model="task.isCompleted" data-ng-change="completed(task)">
+											</div>
+											<div class="col-md-2">
+												<label data-ng-click="edit(task)">
+													{{ task.assignedByUser.firstname }}
+												</label>
+											</div>
+											<div class="col-md-5">
+												<label data-ng-click="edit(task)">
+													{{ task.description }}
+												</label>
+											</div>
+											<div class="col-md-3" data-ng-class="{'text-danger':task.overdue, 'text-success':(!task.overdue)}">
+												<label data-ng-click="edit(task)">
+													<small>({{ task.dueTimeString }})</small>
+												</label>
+											</div>
+											<div class="col-md-1">
+												<span class="glyphicon glyphicon-pencil" data-ng-click="edit(task)"></span>
+												<span class="glyphicon glyphicon-remove" data-ng-click="remove(task, $index)"></span>
+											</div>
+										</div>
+									</div>
+									<div class="edit">
+										<div class="row">
+											<div class="col-md-3">
+												<select class="form-control" data-ng-model="task.assignedByUserValue">
+													<option data-ng-repeat="user in users">{{user.firstname}}</option>
+												</select>
+											</div>
+											<div class="col-md-5">
+												<input type="text" class="form-control" data-ng-trim="false" data-ng-model="task.description" data-task-focus="task == editedTask">
+											</div>
+											<div class="col-md-3">
+												<input type="text" class="form-control" data-ng-trim="false" data-ng-model="task.dueDate">
+											</div>
+											<div class="col-md-1">
+												<span class="glyphicon glyphicon-ok" data-ng-click="doneEditing(task, $index)"></span>
+											</div>
+										</div>
+									</div>
 								</li>
 							</ul>
 						</section>
@@ -66,12 +98,12 @@
 								</li>
 								<li class="text-center">
 									<span>
-									<strong>{{remainingCount}}</strong>
-									<span class="text-muted" data-ng-pluralize count="remainingCount" when="{one: 'item left', other: 'items left'}"></span>
+									<strong>{{openTasks}}</strong>
+									<span class="text-muted" data-ng-pluralize count="openTasks" when="{one: 'item left', other: 'items left'}"></span>
 									</span>
 								</li>
 								<li class="text-right">
-									<span class="clear-completed" data-ng-click="clearCompleted()" data-ng-show="remainingCount < tasks.length">Clear completed ({{tasks.length - remainingCount}})</span>
+									<span class="clear-completed" data-ng-show="openTasks < tasks.length">Completed ({{tasks.length - openTasks}})</span>
 								</li>
 							</ul>
 						</footer>

@@ -46,11 +46,7 @@ kuvenoApp
 					if (timeValue >= 86400000) {
 						day = Math.floor(timeValue / 86400000);
 						remain = timeValue - day * 86400000;
-						if (day > 1) {
-							str += day + ' days ';
-						} else {
-							str += '1 day ';
-						}
+						str += day + 'd ';
 					} else {
 						day = 0;
 						remain = timeValue;
@@ -59,22 +55,14 @@ kuvenoApp
 					if (remain >= 3600000) {
 						hour = Math.floor(remain / 3600000);
 						remain = remain - hour * 3600000;
-						if (hour > 1) {
-							str += hour + ' hours ';
-						} else {
-							str += '1 hour ';
-						}
+						str += hour + 'h ';
 					}
 
 					if (day === 0) {
 						if (remain >= 60000) {
 							min = Math.floor(remain / 60000);
 							remain = remain - min * 60000;
-							if (min > 1) {
-								str += min + ' minutes ';
-							} else {
-								str += '1 minute ';
-							}
+							str += min + 'm ';
 						}
 					}
 
