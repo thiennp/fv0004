@@ -35,17 +35,51 @@ kuvenoApp
 					re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 					return re.test(email);
 				},
-				timeToString: function (time) {
-					var date = time.getDate();
-					if (date < 10) {
-						date = '0' + date;
+				timeToString: function (timeValue) {
+					var str = '';
+					var addedStr = '';
+					if (timeValue < 0) {
+						addedStr = ' ago';
+						timeValue = -timeValue;
 					}
-					var month = time.getMonth() + 1;
-					if (month < 10) {
-						month = '0' + month;
+					var day, hour, min, remain;
+					if (timeValue >= 86400000) {
+						day = Math.floor(timeValue / 86400000);
+						remain = timeValue - day * 86400000;
+						if (day > 1) {
+							str += day + ' days ';
+						} else {
+							str += '1 day ';
+						}
+					} else {
+						day = 0;
+						remain = timeValue;
 					}
-					var year = time.getFullYear();
-					return date + '/' + month + '/' + year;
+
+					if (remain >= 3600000) {
+						hour = Math.floor(remain / 3600000);
+						remain = remain - hour * 3600000;
+						if (hour > 1) {
+							str += hour + ' hours ';
+						} else {
+							str += '1 hour ';
+						}
+					}
+
+					if (day === 0) {
+						if (remain >= 60000) {
+							min = Math.floor(remain / 60000);
+							remain = remain - min * 60000;
+							if (min > 1) {
+								str += min + ' minutes ';
+							} else {
+								str += '1 minute ';
+							}
+						}
+					}
+
+					str += addedStr;
+					return str;
 				}
 			};
 		}

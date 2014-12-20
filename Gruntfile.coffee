@@ -308,7 +308,7 @@ module.exports = (grunt) ->
 
 	grunt.registerTask "serve", (target) ->
 		return grunt.task.run(["build", "open", "connect:dist:keepalive"])  if target is "dist"
-		grunt.task.run ["clean:server", "concurrent:server", "configureProxies:server", "connect:livereload", "open", "watch"]
+		grunt.task.run ["clean:server", "concurrent:server", "configureProxies:server", "connect:livereload", "watch"]
 
 	grunt.registerTask "build", ["clean:dist", "useminPrepare", "concurrent:dist", "copy:dist", "concat", "uglify", "usemin"]
 	grunt.registerTask "default", ["server"]

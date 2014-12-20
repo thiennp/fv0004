@@ -46,7 +46,7 @@ kuvenoApp
 						while (meetings[i]) {
 							$scope.groups[index].meetingList[i] = meetings[i];
 							$scope.groups[index].meetingList[i].meetingTime = new Date($scope.groups[index].meetingList[i].meetingTime);
-							$scope.groups[index].meetingList[i].time = AssistSrv.timeToString($scope.groups[index].meetingList[i].meetingTime);
+							$scope.groups[index].meetingList[i].time = $scope.groups[index].meetingList[i].meetingTime.toLocaleString();
 							$scope.groups[index].meetingList[i].group = $scope.groups[index].name;
 							if ($scope.groups[index].meetingList[i].meetingTime > now) {
 								$scope.groups[index].meetingList[i].status = 'future';
@@ -105,35 +105,6 @@ kuvenoApp
 						$scope.groups[groupId].meetingList[meetingId].decisions = decisions.result;
 					});
 				};
-				// $rootScope.userCollection.$promise.then(function (user) {
-				// 	var workgroups = user.result[0].membershipWorkgroups;
-				// 	var meetings = user.result[0].meetings;
-				// 	workgroups.$fetch().then(function (_workgroups) {
-				// 		for (var i = 0; i < _workgroups.$totalCount; i++) {
-				// 			$scope.groups[i] = _workgroups[i];
-				// 			console.log($scope.groups[i]);
-				// 		}
-				// 		meetings.$fetch().then(function (_meetings) {
-				// 			console.log(_meetings);
-				// 		});
-				// 		// $scope.allFutureMeetings = [];
-				// 		// for (var groupId in $scope.groups) {
-				// 		// 	var countFuture = 0;
-				// 		// 	for (var meetingId in $scope.groups[groupId].meetings) {
-				// 		// 		$scope.groups[groupId].meetings[meetingId].group = $scope.groups[groupId].title;
-				// 		// 		if ($scope.groups[groupId].meetings[meetingId].status === 'future') {
-				// 		// 			$scope.allFutureMeetings.push($scope.groups[groupId].meetings[meetingId]);
-				// 		// 			countFuture++;
-				// 		// 		}
-				// 		// 	}
-				// 		// 	if (countFuture < 3) {
-				// 		// 		$scope.groups[groupId].pastShown = 3 - countFuture;
-				// 		// 	} else {
-				// 		// 		$scope.groups[groupId].pastShown = 1;
-				// 		// 	}
-				// 		// }
-				// 	});
-				// });
 
 				$scope.buttonGroupStyle = function () {
 					var totalHeight = 0;
