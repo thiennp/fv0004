@@ -26,7 +26,7 @@ kuvenoApp
 				$scope.statusFilter = {
 					isCompleted: false
 				};
-				var linkedinCode, tasks, loadUsers, loadTasks, getUser, totalCalculate, newTask = {
+				var linkedinCode, tasks, loadUsers, loadTasks, getUser, totalCalculate, getUserById, newTask = {
 					description: '',
 					assignedBy: '',
 					dueDate: new Date()
@@ -92,9 +92,17 @@ kuvenoApp
 				getUser = function (task) {
 					var assignedBy = task.assignedBy.$fetch();
 					assignedBy.then(function (data) {
-						task.assignedByUser = data;
+						task.assignedByUser = data.firstname;
 						task.assignedByUserValue = data.ID;
 					});
+				};
+
+				getUserById = function (userId) {
+					for (var id in $scope.users) {
+						if ($scope.users[id].ID === userId) {
+							return $scope.users[id];
+						}
+					}
 				};
 
 				loadUsers();
@@ -133,12 +141,16 @@ kuvenoApp
 					if (newTask.description.length === 0) {
 						return;
 					}
+					var assignedUser = getUserById($scope.newTask.assignedByUserValue);
 					var task = {
-						description: newTask.description,
-						dueDate: newTask.dueDate,
-						assignedBy: newTask.assignedByUserValue,
+						description: $scope.newTask.description,
+						dueDate: $scope.newTask.dueDate,
+						assignedBy: assignedUser,
+						assignedByUser: assignedUser.firstname,
+						assignedByUserValue: $scope.newTask.assignedByUserValue,
 						isCompleted: false
 					};
+					console.log(task);
 					tasks.push(task);
 					$wakanda.$ds.Task.$create(task).$save();
 					totalCalculate($scope.tasks);
@@ -158,8 +170,8 @@ kuvenoApp
 				$scope.doneEditing = function (task) {
 					$scope.editedTask = null;
 					task.description = task.description.trim();
-					task.assignedBy.ID = task.assignedByUserValue;
-					console.log(task);
+					task.assignedBy = getUserById(task.assignedByUserValue);
+					task.assignedByUser = task.assignedBy.firstname;
 					if (!task.description) {
 						$scope.remove(task);
 						task.$remove();

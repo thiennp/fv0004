@@ -56,6 +56,8 @@ kuvenoApp
 						hour = Math.floor(remain / 3600000);
 						remain = remain - hour * 3600000;
 						str += hour + 'h ';
+					} else {
+						hour = 0;
 					}
 
 					if (day === 0) {
@@ -63,10 +65,16 @@ kuvenoApp
 							min = Math.floor(remain / 60000);
 							remain = remain - min * 60000;
 							str += min + 'm ';
+						} else {
+							min = 0;
 						}
 					}
 
-					str += addedStr;
+					if (day !== 0 || hour !== 0 || min !== 0) {
+						str += addedStr;
+					} else {
+						str = 'now';
+					}
 					return str;
 				}
 			};
