@@ -31,11 +31,6 @@
     .add-task {
         position: relative;
 
-        input {
-            height: 44px;
-            padding: 6px 12px 6px 40px;
-        }
-
         a.submit-button {
             position: absolute;
             top: 12px;
@@ -131,7 +126,7 @@
             }
             input{
                 margin-bottom: 10px;
-                padding: 6px 12px 6px 26px;
+                padding: 6px 12px;
             }
         }
     }

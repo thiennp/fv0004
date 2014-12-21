@@ -6,10 +6,49 @@
 					<div class="clearfix"></div>
 					<section class="task-container">
 						<form data-ng-submit="add()" class="add-task">
-							<input type="text" placeholder="{{ 'Create new task' | translate }}" class="form-control" data-ng-model="newTask" autofocus>
-							<a type="submit" class="submit-button" data-ng-click="add()">
-								<span class="glyphicon glyphicon-plus"></span>
-							</a>
+							<h4>Create new task</h4>
+							<div class="alert alert-warning">
+								<div class="row">
+									<div class="col-md-2 text-right padding-top-5">
+										{{ 'Description' | translate }}
+									</div>
+									<div class="col-md-10">
+										<input type="text" placeholder="{{ 'Description' | translate }}" class="form-control" data-ng-model="newTask.description" autofocus>
+									</div>
+								</div>
+								<div class="margin-top-10 clearfix"></div>
+								<div class="row">
+									<div class="col-md-2 text-right padding-top-5">
+										{{ 'Assigned to' | translate }}
+									</div>
+									<div class="col-md-3">
+										<select class="form-control" data-ng-model="newTask.assignedByUserValue">
+											<option value="" disabled="disabled">Select an user</option>
+											<option data-ng-repeat="user in users" value="{{user.ID}}">
+												{{user.firstname}}
+											</option>
+										</select>
+									</div>
+									<div class="col-md-2 text-right padding-top-5">
+										{{ 'Due date' | translate }}
+									</div>
+									<div class="col-md-3">
+										<div class="input-group ui-datepicker">
+											<input type="text"
+											class="form-control date-picker"
+											datepicker-popup="dd/MM/yyyy"
+											ng-model="newTask.dueDate"
+											is-open="newTask.datePopupOpen"
+											ng-required="true"
+											ng-click="newTask.datePopupOpen=true"
+											close-text="{{ 'Close' | translate }}">
+										</div>
+									</div>
+									<div class="col-md-2">
+										<input type="submit" class="btn btn-warning btn-block" value="{{ 'Add' | translate }}">
+									</div>
+								</div>
+							</div>
 						</form>
 						<section>
 							<ul class="filters list-inline nav nav-tabs">
@@ -28,13 +67,26 @@
 										{{ 'Completed' | translate }}
 									</a>
 								</li>
-								<li class="pull-right form-group">
+								<li class="pull-right form-group col-md-6">
 									<div class="row">
-										<div class="col-md-6">
-											<input type="button" class="btn btn-primary btn-block" value="{{ 'Sort by group' | translate }}" data-ng-click="sort('group')">
+										<div class="col-md-3 text-right padding-top-10">
+											{{ 'Sort by' | translate }}
 										</div>
-										<div class="col-md-6">
-											<input type="button" class="btn btn-primary btn-block" value="{{ 'Sort by date' | translate }}" data-ng-click="sort('dueTime')">
+										<div class="col-md-4 padding-left-5 padding-right-0">
+											<button class="btn btn-default btn-block" data-ng-click="sort('group')">
+											{{ 'Group' | translate }}
+											<span data-ng-show="sortType=='group'" >
+											<i class="fa" data-ng-class="{'fa-angle-up':reverse,'fa-angle-down':!reverse}"></i>
+											</span>
+											</button>
+										</div>
+										<div class="col-md-5 padding-right-10 padding-left-10">
+											<button class="btn btn-default btn-block" data-ng-click="sort('dueTime')">
+											{{ 'Date' | translate }}
+											<span data-ng-show="sortType=='dueTime'">
+											<i class="fa" data-ng-class="{'fa-angle-up':reverse,'fa-angle-down':!reverse}"></i>
+											</span>
+											</button>
 										</div>
 									</div>
 								</li>
@@ -73,14 +125,24 @@
 										<div class="row">
 											<div class="col-md-3">
 												<select class="form-control" data-ng-model="task.assignedByUserValue">
-													<option data-ng-repeat="user in users">{{user.firstname}}</option>
+													<option data-ng-repeat="user in users" value="{{user.ID}}">{{user.firstname}}</option>
 												</select>
 											</div>
 											<div class="col-md-5">
 												<input type="text" class="form-control" data-ng-trim="false" data-ng-model="task.description" data-task-focus="task == editedTask">
 											</div>
 											<div class="col-md-3">
-												<input type="text" class="form-control" data-ng-trim="false" data-ng-model="task.dueDate">
+												<div class="input-group ui-datepicker">
+													<input type="text"
+													class="form-control date-picker"
+													datepicker-popup="dd/MM/yyyy"
+													ng-model="task.dueDate"
+													is-open="task.datePopupOpen"
+													date-disabled="disabled(date, mode)"
+													ng-required="true"
+													ng-click="task.datePopupOpen=true"
+													close-text="{{ 'Close' | translate }}">
+												</div>
 											</div>
 											<div class="col-md-1">
 												<span class="glyphicon glyphicon-ok" data-ng-click="doneEditing(task, $index)"></span>
@@ -90,6 +152,7 @@
 								</li>
 							</ul>
 						</section>
+						<!-- end Datepicker -->
 						<footer class="task-footer">
 							<ul class="list-inline clearfix">
 								<li class="first-item">

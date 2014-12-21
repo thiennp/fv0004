@@ -15,14 +15,22 @@ kuvenoApp
 				$scope.overdueTasks = 0;
 				$scope.openTasks = 0;
 				$scope.closedTasks = 0;
-				$scope.openTasks = 0;
+				$scope.overdueTasks = 0;
 				$scope.users = [];
-				$scope.newTask = '';
+				$scope.newTask = {
+					description: '',
+					user: '',
+					dueDate: new Date()
+				};
 				$scope.editedTask = null;
 				$scope.statusFilter = {
 					isCompleted: false
 				};
-				var linkedinCode, tasks, loadUsers, loadTasks, getUser;
+				var linkedinCode, tasks, loadUsers, loadTasks, getUser, totalCalculate, newTask = {
+					description: '',
+					user: '',
+					dueDate: new Date()
+				};
 				if (data) {
 					if ($rootScope.onBack) {
 						$rootScope.onBack = false;
@@ -58,47 +66,34 @@ kuvenoApp
 
 				loadTasks = function () {
 					$wakanda.$ds.Task.$find().$promise.then(function (data) {
-						tasks = $scope.tasks = [];
-						var i = 0;
-						while (data.result[i]) {
-							var dueDate = new Date(data.result[i].dueDate);
-							var now = new Date();
-							data.result[i].dueTime = dueDate.valueOf() - now.valueOf();
-							if (data.result[i].dueTime < 0) {
-								if (data.result[i].isCompleted) {
-									data.result[i].overdue = false;
-									$scope.closedTasks++;
-								} else {
-									data.result[i].overdue = true;
-									$scope.openTasks++;
-									$scope.overdueTasks++;
-								}
-							} else {
-								data.result[i].overdue = false;
-								if (data.result[i].isCompleted) {
-									$scope.closedTasks++;
-								} else {
-									$scope.openTasks++;
-								}
-							}
-							data.result[i].dueTimeString = AssistSrv.timeToString(data.result[i].dueTime);
-							$scope.tasks.push(data.result[i]);
-							getUser(data.result[i]);
-							i++;
-						}
-						$scope.openTasks = $scope.openTasks;
+						totalCalculate(data.result, true);
 					});
+				};
+
+				totalCalculate = function (data, user) {
+					tasks = $scope.tasks = [];
+					$scope.openTasks = 0;
+					$scope.closedTasks = 0;
+					$scope.overdueTasks = 0;
+					var i = 0;
+					while (data[i]) {
+						var dateCalculation = $scope.currentDueDate(data[i]);
+						$scope.closedTasks += dateCalculation.closed;
+						$scope.openTasks += dateCalculation.open;
+						$scope.overdueTasks += dateCalculation.overdue;
+						$scope.tasks.push(data[i]);
+						if (user) {
+							getUser(data[i]);
+						}
+						i++;
+					}
 				};
 
 				getUser = function (task) {
 					var assignedBy = task.assignedBy.$fetch();
-					var owner = task.owner.$fetch();
 					assignedBy.then(function (data) {
 						task.assignedByUser = data;
-						task.assignedByUserValue = data.firstname;
-					});
-					owner.then(function (data) {
-						task.ownerUser = data;
+						task.assignedByUserValue = data.ID;
 					});
 				};
 
@@ -134,18 +129,25 @@ kuvenoApp
 				};
 
 				$scope.add = function () {
-					var newTask = $scope.newTask.trim();
-					if (newTask.length === 0) {
+					newTask.description = $scope.newTask.description.trim();
+					if (newTask.description.length === 0) {
 						return;
 					}
 					var task = {
-						description: newTask,
+						description: newTask.description,
+						dueDate: newTask.dueDate,
+						user: newTask.assignedByUserValue,
 						isCompleted: false
 					};
 					tasks.push(task);
 					$wakanda.$ds.Task.$create(task).$save();
+					totalCalculate($scope.tasks);
 					LoggerSrv.logSuccess('New task: "' + newTask + '" added');
-					$scope.newTask = '';
+					$scope.newTask = {
+						description: '',
+						user: '',
+						dueDate: new Date()
+					};
 					$scope.openTasks++;
 				};
 
@@ -156,14 +158,16 @@ kuvenoApp
 				$scope.doneEditing = function (task) {
 					$scope.editedTask = null;
 					task.description = task.description.trim();
+					task.user = task.assignedByUserValue;
 					console.log(task);
 					if (!task.description) {
 						$scope.remove(task);
 						task.$remove();
 					} else {
+						task.$save();
+						totalCalculate($scope.tasks);
 						LoggerSrv.log('Task updated');
 					}
-					task.$save();
 				};
 
 				$scope.remove = function (task) {
@@ -191,18 +195,52 @@ kuvenoApp
 						}
 					}
 					task.$save();
+					totalCalculate($scope.tasks);
 				};
 
 				$scope.markAll = function (isCompleted) {
 					tasks.forEach(function (task) {
 						task.isCompleted = isCompleted;
 						task.$save();
+						totalCalculate($scope.tasks);
 					});
 					$scope.openTasks = isCompleted ? 0 : tasks.length;
 					$scope.closedTasks = isCompleted ? tasks.length : 0;
 					if (isCompleted) {
 						LoggerSrv.logSuccess('Congrats! All done :)');
 					}
+				};
+
+				$scope.currentDueDate = function (task) {
+					var dueDate = new Date(task.dueDate);
+					var now = new Date();
+					task.dueTime = dueDate.valueOf() - now.valueOf();
+					var closed = 0;
+					var open = 0;
+					var overdue = 0;
+					if (task.dueTime < 0) {
+						if (task.isCompleted) {
+							task.overdue = false;
+							closed = 1;
+						} else {
+							task.overdue = true;
+							open = 1;
+							overdue = 1;
+						}
+					} else {
+						task.overdue = false;
+						if (task.isCompleted) {
+							closed = 1;
+						} else {
+							open = 1;
+						}
+					}
+					task.dueTimeString = AssistSrv.timeToString(task.dueTime);
+					return {
+						'closed': closed,
+						'open': open,
+						'overdue': overdue
+					};
 				};
 
 				$scope.$watch('openTasks == 0', function (val) {
