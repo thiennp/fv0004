@@ -19,7 +19,7 @@ kuvenoApp
 				$scope.users = [];
 				$scope.newTask = {
 					description: '',
-					user: '',
+					assignedBy: '',
 					dueDate: new Date()
 				};
 				$scope.editedTask = null;
@@ -28,7 +28,7 @@ kuvenoApp
 				};
 				var linkedinCode, tasks, loadUsers, loadTasks, getUser, totalCalculate, newTask = {
 					description: '',
-					user: '',
+					assignedBy: '',
 					dueDate: new Date()
 				};
 				if (data) {
@@ -136,7 +136,7 @@ kuvenoApp
 					var task = {
 						description: newTask.description,
 						dueDate: newTask.dueDate,
-						user: newTask.assignedByUserValue,
+						assignedBy: newTask.assignedByUserValue,
 						isCompleted: false
 					};
 					tasks.push(task);
@@ -145,7 +145,7 @@ kuvenoApp
 					LoggerSrv.logSuccess('New task: "' + newTask + '" added');
 					$scope.newTask = {
 						description: '',
-						user: '',
+						assignedBy: '',
 						dueDate: new Date()
 					};
 					$scope.openTasks++;
@@ -158,7 +158,7 @@ kuvenoApp
 				$scope.doneEditing = function (task) {
 					$scope.editedTask = null;
 					task.description = task.description.trim();
-					task.user = task.assignedByUserValue;
+					task.assignedBy.ID = task.assignedByUserValue;
 					console.log(task);
 					if (!task.description) {
 						$scope.remove(task);

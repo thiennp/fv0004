@@ -6,7 +6,7 @@
 					<div class="clearfix"></div>
 					<section class="task-container">
 						<form data-ng-submit="add()" class="add-task">
-							<h4>Create new task</h4>
+							<h4>{{ 'Create new task' | translate }}</h4>
 							<div class="alert alert-warning">
 								<div class="row">
 									<div class="col-md-2 text-right padding-top-5">
@@ -23,7 +23,7 @@
 									</div>
 									<div class="col-md-3">
 										<select class="form-control" data-ng-model="newTask.assignedByUserValue">
-											<option value="" disabled="disabled">Select an user</option>
+											<option value="" disabled="disabled">{{ 'Select user' | translate }}</option>
 											<option data-ng-repeat="user in users" value="{{user.ID}}">
 												{{user.firstname}}
 											</option>
@@ -69,20 +69,17 @@
 								</li>
 								<li class="pull-right form-group col-md-6">
 									<div class="row">
-										<div class="col-md-3 text-right padding-top-10">
-											{{ 'Sort by' | translate }}
-										</div>
-										<div class="col-md-4 padding-left-5 padding-right-0">
+										<div class="col-md-6 padding-left-10 padding-right-5">
 											<button class="btn btn-default btn-block" data-ng-click="sort('group')">
-											{{ 'Group' | translate }}
+											{{ 'Sort by group' | translate }}
 											<span data-ng-show="sortType=='group'" >
 											<i class="fa" data-ng-class="{'fa-angle-up':reverse,'fa-angle-down':!reverse}"></i>
 											</span>
 											</button>
 										</div>
-										<div class="col-md-5 padding-right-10 padding-left-10">
+										<div class="col-md-6 padding-right-10 padding-left-5">
 											<button class="btn btn-default btn-block" data-ng-click="sort('dueTime')">
-											{{ 'Date' | translate }}
+											{{ 'Sort by date' | translate }}
 											<span data-ng-show="sortType=='dueTime'">
 											<i class="fa" data-ng-class="{'fa-angle-up':reverse,'fa-angle-down':!reverse}"></i>
 											</span>
