@@ -41,27 +41,53 @@
 										</accordion>
 									</div>
 								</div>
-								<div class="col-md-3">
-									<div class="alert alert-info">
-										<strong>{{ 'Summary of tasks' | translate }}</strong>
-										<hr>
-										<p><strong>Overdue tasks</strong>: <a ui-sref="main.Home">{{ overdueTasks }}</a></p>
-										<p><strong>Open tasks</strong>: <a ui-sref="main.Home">{{ openTasks }}</a></p>
-										<p><strong>Closed tasks</strong>: <a ui-sref="main.Home">{{ closedTasks }}</a></p>
-									</div>
-									<div class="alert alert-info">
-										<strong>{{ 'Upcoming meetings' | translate }}</strong>
-										<hr>
-										<p ng-repeat="meeting in futureMeeting | limitTo:3">
-										<strong>{{meeting.name}}</strong>
-										<small>{{'{'+meeting.time+'}'}}</small>
-										<br>
-										<strong>Group: </strong>{{meeting.group}}
-										</p>
-										<hr>
-										<p><a class="btn btn-info btn-block" ui-sref="main.MyTasks">{{ 'View more...' | translate}}</a></p>
-									</div>
-								</div>
+                                <div class="col-md-3">
+                                    <div class="panel mini-box">
+                                        <span class="box-icon bg-danger">
+                                            <i class="fa fa-warning"></i>
+                                        </span>
+                                        <div class="box-info">
+                                            <p class="size-h2">{{ overdueTasks }}</p>
+                                            <p class="text-muted">Tasks overdue</p>
+                                        </div>
+                                    </div>
+                                    <div class="panel mini-box">
+                                        <span class="box-icon bg-warning">
+                                            <i class="fa fa-edit"></i>
+                                        </span>
+                                        <div class="box-info">
+                                            <p class="size-h2">{{ openTasks }}</p>
+                                            <p class="text-muted">Tasks open</p>
+                                        </div>
+                                    </div>
+                                    <div class="panel mini-box">
+                                        <span class="box-icon bg-success">
+                                            <i class="fa fa-check"></i>
+                                        </span>
+                                        <div class="box-info">
+                                            <p class="size-h2">{{ closedTasks }}</p>
+                                            <p class="text-muted">Tasks closed</p>
+                                        </div>
+                                    </div>
+                                    <div class="panel mini-box">
+                                        <span class="box-icon bg-info">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                        <div class="box-info">
+                                            <p class="size-h3">{{ 'Upcoming' | translate }}</p>
+                                            <p class="size-h3">{{ 'meetings' | translate }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="panel">
+                                        <ul class="list-group" ng-repeat="meeting in futureMeeting | limitTo:3">
+                                            <li class="list-group-item">
+                                                <i class="fa fa-calendar"></i>
+                                                &nbsp;{{meeting.name}} <small>{{meeting.time}}</small>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <p><a class="btn btn-info btn-block">{{ 'View more...' | translate }}</a></p>
+                                </div>
 							</div>
 						</div>
 					</section>
