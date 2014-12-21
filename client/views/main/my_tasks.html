@@ -6,48 +6,48 @@
 					<div class="clearfix"></div>
 					<section class="task-container">
 						<form data-ng-submit="add()" class="add-task">
-							<h4>{{ 'Create new task' | translate }}</h4>
-							<div class="alert alert-warning">
-								<div class="row">
-									<div class="col-md-2 text-right padding-top-5">
-										{{ 'Description' | translate }}
-									</div>
-									<div class="col-md-10">
-										<input type="text" placeholder="{{ 'Description' | translate }}" class="form-control" data-ng-model="newTask.description" autofocus>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									{{ 'Create new task' | translate }}
+								</div>
+								<div class="margin-top-20 clearfix"></div>
+								<div class="col-md-2 text-right padding-top-5">
+									{{ 'Description' | translate }}
+								</div>
+								<div class="col-md-10">
+									<input type="text" placeholder="{{ 'Description' | translate }}" class="form-control" data-ng-model="newTask.description" autofocus>
+								</div>
+								<div class="margin-bottom-10 clearfix"></div>
+								<div class="col-md-2 text-right padding-top-5">
+									{{ 'Assigned to' | translate }}
+								</div>
+								<div class="col-md-3">
+									<select class="form-control" data-ng-model="newTask.assignedByUserValue">
+										<option value="" disabled="disabled">{{ 'Select user' | translate }}</option>
+										<option data-ng-repeat="user in users" value="{{user.ID}}">
+											{{user.firstname}}
+										</option>
+									</select>
+								</div>
+								<div class="col-md-2 text-right padding-top-5">
+									{{ 'Due date' | translate }}
+								</div>
+								<div class="col-md-3">
+									<div class="input-group ui-datepicker">
+										<input type="text"
+										class="form-control date-picker"
+										datepicker-popup="dd/MM/yyyy"
+										ng-model="newTask.dueDate"
+										is-open="newTask.datePopupOpen"
+										ng-required="true"
+										ng-click="newTask.datePopupOpen=true"
+										close-text="{{ 'Close' | translate }}">
 									</div>
 								</div>
-								<div class="margin-top-10 clearfix"></div>
-								<div class="row">
-									<div class="col-md-2 text-right padding-top-5">
-										{{ 'Assigned to' | translate }}
-									</div>
-									<div class="col-md-3">
-										<select class="form-control" data-ng-model="newTask.assignedByUserValue">
-											<option value="" disabled="disabled">{{ 'Select user' | translate }}</option>
-											<option data-ng-repeat="user in users" value="{{user.ID}}">
-												{{user.firstname}}
-											</option>
-										</select>
-									</div>
-									<div class="col-md-2 text-right padding-top-5">
-										{{ 'Due date' | translate }}
-									</div>
-									<div class="col-md-3">
-										<div class="input-group ui-datepicker">
-											<input type="text"
-											class="form-control date-picker"
-											datepicker-popup="dd/MM/yyyy"
-											ng-model="newTask.dueDate"
-											is-open="newTask.datePopupOpen"
-											ng-required="true"
-											ng-click="newTask.datePopupOpen=true"
-											close-text="{{ 'Close' | translate }}">
-										</div>
-									</div>
-									<div class="col-md-2">
-										<input type="submit" class="btn btn-warning btn-block" value="{{ 'Add' | translate }}">
-									</div>
+								<div class="col-md-2">
+									<input type="submit" class="btn btn-warning btn-block" value="{{ 'Add' | translate }}">
 								</div>
+								<div class="margin-bottom-20 clearfix"></div>
 							</div>
 						</form>
 						<section>
@@ -170,15 +170,35 @@
 						
 					</section>
 				</div>
-				<div class="col-md-3">
-					<div class="alert alert-info">
-						<strong>{{ 'Task statistics' | translate }}</strong>
-						<hr>
-						<p><strong>Overdue tasks</strong>: {{ overdueTasks }}</p>
-						<p><strong>Open tasks</strong>: {{ openTasks }}</p>
-						<p><strong>Closed tasks</strong>: {{ closedTasks }}</p>
-					</div>
-					<div class="alert alert-info">
+                <div class="col-md-3">
+                    <div class="panel mini-box">
+                        <span class="box-icon bg-danger">
+                            <i class="fa fa-warning"></i>
+                        </span>
+                        <div class="box-info">
+                            <p class="size-h2">{{ overdueTasks }}</p>
+                            <p class="text-muted">{{ 'Tasks overdue' | translate}}</p>
+                        </div>
+                    </div>
+                    <div class="panel mini-box">
+                        <span class="box-icon bg-warning">
+                            <i class="fa fa-edit"></i>
+                        </span>
+                        <div class="box-info">
+                            <p class="size-h2">{{ openTasks }}</p>
+                            <p class="text-muted">{{ 'Tasks open' | translate}}</p>
+                        </div>
+                    </div>
+                    <div class="panel mini-box">
+                        <span class="box-icon bg-success">
+                            <i class="fa fa-check"></i>
+                        </span>
+                        <div class="box-info">
+                            <p class="size-h2">{{ closedTasks }}</p>
+                            <p class="text-muted">{{ 'Tasks closed' | translate}}</p>
+                        </div>
+                    </div>
+					<div class="panel mini-box">
 						<strong>{{ 'More stats' | translate }}</strong>
 						<hr>
 						<p>Later</p>
