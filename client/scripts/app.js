@@ -155,7 +155,7 @@ window.kuvenoApp = angular
 					templateUrl: 'views/main/my_tasks.html'
 				})
 				.state('main.ViewOneMeeting', {
-					url: '/view_one_meeting',
+					url: '/view_one_meeting/:meetingid',
 					templateUrl: 'views/main/view_one_meeting.html'
 				});
 		}

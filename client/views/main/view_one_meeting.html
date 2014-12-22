@@ -5,7 +5,7 @@
 				<div class="col-md-12">
 					<section class="panel panel-profile">
 						<div class="col-md-12">
-							<h3>{{ 'Meeting name' | translate }}</h3>
+							<h3>{{ meeting.name | translate }}</h3>
 							<hr>
 						</div>
 						<div class="clearfix"></div>
@@ -15,41 +15,40 @@
 									<ul class="list-unstyled list-info">
 										<li>
 											<i class="fa fa-clock-o"></i>
-											<label>Time</label>
-											10.03.2014 18:00
+											<label>{{ 'Time' | translate}}</label><br>
+											{{ meeting.time }}
 										</li>
 										<li>
 											<i class="fa fa-globe"></i>
-											<label>Location</label>
-											Home Street 5a 3
+											<label>{{ 'Location' | translate }}</label><br>
+											{{ meeting.location | translate }}
 										</li>
 										<li>
 											<i class="fa fa-users"></i>
-											<label>Group</label>
+											<label>{{ 'Group' }}</label><br>
 											As Oy Kotikatu 5
+										</li>
+										<li>
+											<i class="fa fa-wifi"></i>
+											<label>{{ 'Type' }}</label><br>
+											<span ng-show="meeting.isOnline">Online</span>
+											<span ng-hide="meeting.isOnline">Offline</span>
 										</li>
 									</ul>
 								</li>
 								<li>
 									<p class="size-h4">Participant</p>
 									<div class="clearfix margin-bottom-10"></div>
-									<span class="label label-primary margin-right-5">
-									<i class="fa fa-user"></i> Taina
-									</span>
-									<span class="label label-primary margin-right-5">
-									<i class="fa fa-user"></i> Timo
-									</span>
-									<span class="label label-primary margin-right-5">
-									<i class="fa fa-user"></i> Rauno
-									</span>
-									<span class="label label-primary margin-right-5">
-									<i class="fa fa-user"></i> Liisa
-									</span>
+									<ul class="list-unstyled list-info">
+										<li ng-repeat="participant in meeting.participants">
+											{{ participant.name}}
+										</li>
+									</ul>
 								</li>
 								<li>
 									<ul class="list-unstyled list-info">
 										<li>
-											<label>Model</label>
+											<label>Model</label><br>
 											Board of Directors Meeting
 										</li>
 										<li>
@@ -74,18 +73,18 @@
 						<div class="col-md-9 margin-bottom-20">
 							<div class="ui-tab-container">
 								<tabset class="ui-tab">
-								<tab heading="{{ 'Agenda' | translate }}">
-								Tab content 1
-								</tab>
-								<tab heading="{{ 'Notes' | translate }}">
-								Tab content 2
-								</tab>
-								<tab heading="{{ 'Decisions' | translate }}">
-								Tab content 3
-								</tab>
-								<tab heading="{{ 'Tasks' | translate }}">
-								Tab content 4
-								</tab>
+									<tab heading="{{ 'Agenda' | translate }}">
+									Tab content 1
+									</tab>
+									<tab heading="{{ 'Notes' | translate }}">
+									Tab content 2
+									</tab>
+									<tab heading="{{ 'Decisions' | translate }}">
+									Tab content 3
+									</tab>
+									<tab heading="{{ 'Tasks' | translate }}">
+									Tab content 4
+									</tab>
 								</tabset>
 							</div>
 						</div>

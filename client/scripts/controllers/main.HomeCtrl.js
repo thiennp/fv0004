@@ -128,6 +128,12 @@ kuvenoApp
 						'opacity': 0
 					};
 				};
+
+				$scope.gotoMeeting = function (meetingId) {
+					$state.go('main.ViewOneMeeting', {
+						'meetingid': meetingId
+					});
+				};
 			});
 		}
 	]);
