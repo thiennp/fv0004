@@ -137,30 +137,45 @@ kuvenoApp
 				};
 
 				$scope.add = function () {
-					newTask.description = $scope.newTask.description.trim();
+
+                    newTask.description = $scope.newTask.description.trim();
 					if (newTask.description.length === 0) {
 						return;
 					}
-					var assignedUser = getUserById($scope.newTask.assignedByUserValue);
+
+                    // @todo: Change AuthSrv, so that the current user is saved in a variable, not in an array.
+					var assignedUser = $rootScope.userCollection[0];
+
+                    //
+                    // You had not set task.owner, so the task would not be saved. I changed this. RN
+                    //
+                    var owner = getUserById($scope.newTask.assignedByUserValue);
 					var task = {
-						description: $scope.newTask.description,
+                        description: $scope.newTask.description,
 						dueDate: $scope.newTask.dueDate,
-						assignedBy: assignedUser,
-						assignedByUser: assignedUser.firstname,
-						assignedByUserValue: $scope.newTask.assignedByUserValue,
+						assignedBy : assignedUser,
+                        owner : owner,
 						isCompleted: false
 					};
 					console.log(task);
-					tasks.push(task);
-					$wakanda.$ds.Task.$create(task).$save();
-					totalCalculate($scope.tasks);
-					LoggerSrv.logSuccess('New task: "' + newTask + '" added');
-					$scope.newTask = {
-						description: '',
-						assignedBy: '',
-						dueDate: new Date()
-					};
-					$scope.openTasks++;
+
+					var wakTask = $wakanda.$ds.Task.$create(task);
+                    var taskPromise = wakTask.$save();
+                    taskPromise.then(function() {
+                        task.assignedByUser = assignedUser.firstname;
+                        task.assignedByUserValue = $scope.newTask.assignedByUserValue;
+                        tasks.push(task);
+                        totalCalculate($scope.tasks);
+                        LoggerSrv.logSuccess('New task: "' + newTask.description + '" added');
+                        $scope.newTask = {
+                            description: '',
+                            assignedBy: '',
+                            dueDate: new Date()
+                        };
+                        $scope.openTasks++;
+                    }, function() {
+                        LoggerSrv.logError('Saving task: "' + newTask.description + '" failed.');
+                    });
 				};
 
 				$scope.edit = function (task) {
