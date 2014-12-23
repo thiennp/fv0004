@@ -6,8 +6,6 @@ kuvenoApp
 		'$scope',
 		'AuthSrv',
 		function ($q, $rootScope, $scope, AuthSrv) {
-			$scope.success = false;
-			$scope.error = false;
 			AuthSrv.verify().then(function (data) {
 				if (data) {
 					if ($rootScope.onBack) {
@@ -17,6 +15,8 @@ kuvenoApp
 					}
 				}
 			});
+			$scope.success = false;
+			$scope.error = false;
 			$scope.unmatchedPassword = function () {
 				if (changePasswordForm.newPassword.value !== changePasswordForm.retypeNewPassword.value) {
 					return true;

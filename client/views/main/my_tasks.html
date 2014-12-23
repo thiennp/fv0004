@@ -22,7 +22,7 @@
 									{{ 'Assigned to' | translate }}
 								</div>
 								<div class="col-md-3">
-									<select class="form-control" data-ng-model="newTask.assignedByUserValue">
+									<select class="form-control" data-ng-model="newTask.ownerUserValue">
 										<option value="" disabled="disabled">{{ 'Select user' | translate }}</option>
 										<option data-ng-repeat="user in users" value="{{user.ID}}">
 											{{user.firstname}}
@@ -99,7 +99,7 @@
 											</div>
 											<div class="col-md-2">
 												<label data-ng-click="edit(task)">
-													{{ task.assignedByUser }}
+													{{ task.ownerUser }}
 												</label>
 											</div>
 											<div class="col-md-5">
@@ -121,7 +121,7 @@
 									<div class="edit">
 										<div class="row">
 											<div class="col-md-3">
-												<select class="form-control" data-ng-model="task.assignedByUserValue">
+												<select class="form-control" data-ng-model="task.ownerUserValue">
 													<option data-ng-repeat="user in users" value="{{user.ID}}">{{user.firstname}}</option>
 												</select>
 											</div>

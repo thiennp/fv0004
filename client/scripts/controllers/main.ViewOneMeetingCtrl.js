@@ -11,6 +11,13 @@ kuvenoApp
 		'AuthSrv',
 		function ($location, $rootScope, $scope, $state, $stateParams, $wakanda, AssistSrv, AuthSrv) {
 			return AuthSrv.verify().then(function (data) {
+				if (data) {
+					if ($rootScope.onBack) {
+						$rootScope.onBack = false;
+					} else {
+						$rootScope.$stateHistory.push('main.ViewOneMeeting');
+					}
+				}
 				$scope.meetingid = $stateParams.meetingid;
 				var meetingCollection = $wakanda.$ds.Meeting.$find({
 					filter: 'ID == :1',

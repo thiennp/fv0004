@@ -11,9 +11,7 @@ kuvenoApp
 			$scope.facebookLogin = function () {
 				return AuthSrv.facebookLogin();
 			};
-			$scope.linkedinLogin = function () {
-				window.location.href = 'https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=7581d2bszc4sid&scope=r_emailaddress%20r_fullprofile%20r_basicprofile&state=KbyUmhTLMpYj7CD2di7JKP1PcqmLlkPt&redirect_uri=http://localhost:9000';
-			};
+			$scope.linkedinLogin = function () {};
 			$scope.emailLogin = function () {
 				$scope.error = false;
 				$scope.loading = true;

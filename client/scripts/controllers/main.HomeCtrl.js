@@ -10,20 +10,15 @@ kuvenoApp
 		'AuthSrv',
 		function ($location, $rootScope, $scope, $state, $wakanda, AssistSrv, AuthSrv) {
 			return AuthSrv.verify().then(function (data) {
-				var linkedinCode;
-				$scope.groups = [];
-				$scope.futureMeeting = [];
 				if (data) {
 					if ($rootScope.onBack) {
 						$rootScope.onBack = false;
 					} else {
 						$rootScope.$stateHistory.push('main.Home');
 					}
-					if ($location.$$absUrl.split('?code=').length > 1) {
-						linkedinCode = $location.$$absUrl.split('?code=')[1].split('#/')[0];
-						AuthSrv.linkedin(linkedinCode);
-					}
 				}
+				$scope.groups = [];
+				$scope.futureMeeting = [];
 				$scope.overdueTasks = 0;
 				$scope.openTasks = 0;
 				$scope.closedTasks = 0;

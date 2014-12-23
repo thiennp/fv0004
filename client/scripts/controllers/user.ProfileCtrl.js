@@ -8,6 +8,11 @@ kuvenoApp
 		function ($rootScope, $scope, AuthSrv, UserSrv) {
 			AuthSrv.verify().then(function (data) {
 				if (data) {
+					if ($rootScope.onBack) {
+						$rootScope.onBack = false;
+					} else {
+						$rootScope.$stateHistory.push('user.Profile');
+					}
 					UserSrv.getFacebookFollower($rootScope.user.facebook_id).then(function (data) {
 						// Currently this function doesn't work because of facebook permission limit
 						for (var key in data) {
@@ -18,11 +23,6 @@ kuvenoApp
 							// console.log('------------------------------------------------------------');
 						}
 					});
-					if ($rootScope.onBack) {
-						$rootScope.onBack = false;
-					} else {
-						$rootScope.$stateHistory.push('user.Profile');
-					}
 				}
 			});
 		}

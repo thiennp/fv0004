@@ -24,10 +24,23 @@ kuvenoApp
 									filter: 'ID == :1',
 									params: [localStorage.user_id]
 								});
-								if (!localStorage.user_firstname || !localStorage.user_lastname) {
-									$state.go('user.ProfileUpdate');
-								}
-								defer.resolve(true);
+								$rootScope.userCollection.$promise.then(function (data) {
+									if (data.result) {
+										if (data.result[0]) {
+											$rootScope.currentUser = data.result[0];
+											if (!localStorage.user_firstname || !localStorage.user_lastname) {
+												$state.go('user.ProfileUpdate');
+											}
+											defer.resolve(true);
+										} else {
+											defer.resolve(false);
+											$state.go('auth.SignIn');
+										}
+									} else {
+										defer.resolve(false);
+										$state.go('auth.SignIn');
+									}
+								});
 								clearInterval(itv);
 							}
 						}, 100);
@@ -49,15 +62,6 @@ kuvenoApp
 							}
 						}
 					}, 100);
-				},
-				linkedin: function (code) {
-					console.log(code);
-					$http.post('https://www.linkedin.com/uas/oauth2/accessToken?grant_type=authorization_code&code=code&redirect_uri=https://thiepcuoiviet.net/freelance/fv0004/dist&client_id=7581d2bszc4sid&client_secret=oDYszogper1pau5d').success(function (data, status, headers, config) {
-						console.log(data);
-					}).error(function (data, status, headers, config) {
-						$rootScope.error = data;
-						$state.go('auth.SignIn');
-					});
 				},
 				facebookLogin: function () {
 					var getFacebookInformation, storeUser;

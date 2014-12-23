@@ -12,36 +12,35 @@ kuvenoApp
 		'LoggerSrv',
 		function ($location, $rootScope, $scope, $state, $wakanda, AssistSrv, AuthSrv, MainSrv, LoggerSrv) {
 			return AuthSrv.verify().then(function (data) {
-				$scope.overdueTasks = 0;
-				$scope.openTasks = 0;
-				$scope.closedTasks = 0;
-				$scope.overdueTasks = 0;
-				$scope.users = [];
-				$scope.newTask = {
-					description: '',
-					assignedBy: '',
-					dueDate: new Date()
-				};
-				$scope.editedTask = null;
-				$scope.statusFilter = {
-					isCompleted: false
-				};
-				var linkedinCode, tasks, loadUsers, loadTasks, getUser, totalCalculate, getUserById, newTask = {
-					description: '',
-					assignedBy: '',
-					dueDate: new Date()
-				};
 				if (data) {
 					if ($rootScope.onBack) {
 						$rootScope.onBack = false;
 					} else {
 						$rootScope.$stateHistory.push('main.MyTasks');
 					}
-					if ($location.$$absUrl.split('?code=').length > 1) {
-						linkedinCode = $location.$$absUrl.split('?code=')[1].split('#/')[0];
-						AuthSrv.linkedin(linkedinCode);
-					}
 				}
+				$scope.overdueTasks = 0;
+				$scope.openTasks = 0;
+				$scope.closedTasks = 0;
+				$scope.users = [];
+				$scope.newTask = {
+					description: '',
+					assignedBy: $rootScope.currentUser,
+					owner: $rootScope.currentUser,
+					dueDate: new Date()
+				};
+				$scope.editedTask = null;
+				$scope.statusFilter = {
+					isCompleted: false
+				};
+				var tasks, loadAllUsers, loadTasks, getUser, totalCalculate, getUserById, newTask = {
+					description: '',
+					assignedBy: $rootScope.currentUser,
+					owner: $rootScope.currentUser,
+					dueDate: new Date()
+				};
+
+				// Load remembered task sorting status
 				if (localStorage.getItem('myTasks_sortType')) {
 					$scope.sortType = localStorage.getItem('myTasks_sortType');
 				} else {
@@ -53,19 +52,23 @@ kuvenoApp
 					$scope.reverse = false;
 				}
 
-				loadUsers = function () {
-					$wakanda.$ds.User.$find().$promise.then(function (data) {
+				// Inject all user entities to $scope.users
+				loadAllUsers = function () {
+					var userCollection = $wakanda.$ds.User.$find();
+					userCollection.$promise.then(function (data) {
 						var i = 0;
 						while (data.result[i]) {
 							$scope.users.push(data.result[i]);
 							i++;
 						}
 						loadTasks();
+						console.log($scope.newTask.owner);
 					});
 				};
 
 				loadTasks = function () {
-					$wakanda.$ds.Task.$find().$promise.then(function (data) {
+					var taskCollection = $wakanda.$ds.Task.$find();
+					taskCollection.$promise.then(function (data) {
 						totalCalculate(data.result, true);
 					});
 				};
@@ -89,14 +92,16 @@ kuvenoApp
 					}
 				};
 
+				// Inject owner firstname and owner id to task
 				getUser = function (task) {
-					var assignedBy = task.assignedBy.$fetch();
-					assignedBy.then(function (data) {
-						task.assignedByUser = data.firstname;
-						task.assignedByUserValue = data.ID;
+					var owner = task.owner.$fetch();
+					owner.then(function (data) {
+						task.ownerUser = data.firstname;
+						task.ownerUserValue = data.ID;
 					});
 				};
 
+				// Get an user entity which is indicated by userId
 				getUserById = function (userId) {
 					for (var id in $scope.users) {
 						if ($scope.users[id].ID === userId) {
@@ -105,7 +110,7 @@ kuvenoApp
 					}
 				};
 
-				loadUsers();
+				loadAllUsers();
 
 				$scope.sort = function (sortType) {
 					if ($scope.sortType !== sortType) {
@@ -137,45 +142,45 @@ kuvenoApp
 				};
 
 				$scope.add = function () {
-
-                    newTask.description = $scope.newTask.description.trim();
+					newTask.description = $scope.newTask.description.trim();
 					if (newTask.description.length === 0) {
+						LoggerSrv.logError('Please input description.');
+						return;
+					}
+					if (!$scope.newTask.ownerUserValue) {
+						LoggerSrv.logError('Please select assigned user.');
 						return;
 					}
 
-                    // @todo: Change AuthSrv, so that the current user is saved in a variable, not in an array.
-					var assignedUser = $rootScope.userCollection[0];
-
-                    //
-                    // You had not set task.owner, so the task would not be saved. I changed this. RN
-                    //
-                    var owner = getUserById($scope.newTask.assignedByUserValue);
+					// Get owner entity by owner id (chosen by select box)
+					var owner = getUserById($scope.newTask.ownerUserValue);
 					var task = {
-                        description: $scope.newTask.description,
+						description: $scope.newTask.description,
 						dueDate: $scope.newTask.dueDate,
-						assignedBy : assignedUser,
-                        owner : owner,
+						assignedBy: $rootScope.currentUser,
+						owner: owner,
 						isCompleted: false
 					};
-					console.log(task);
 
+					console.log(task);
 					var wakTask = $wakanda.$ds.Task.$create(task);
-                    var taskPromise = wakTask.$save();
-                    taskPromise.then(function() {
-                        task.assignedByUser = assignedUser.firstname;
-                        task.assignedByUserValue = $scope.newTask.assignedByUserValue;
-                        tasks.push(task);
-                        totalCalculate($scope.tasks);
-                        LoggerSrv.logSuccess('New task: "' + newTask.description + '" added');
-                        $scope.newTask = {
-                            description: '',
-                            assignedBy: '',
-                            dueDate: new Date()
-                        };
-                        $scope.openTasks++;
-                    }, function() {
-                        LoggerSrv.logError('Saving task: "' + newTask.description + '" failed.');
-                    });
+					var taskPromise = wakTask.$save();
+					taskPromise.then(function () {
+						task.ownerUser = owner.firstname;
+						task.ownerUserValue = $scope.newTask.ownerUserValue;
+						tasks.push(task);
+						totalCalculate($scope.tasks);
+						LoggerSrv.logSuccess('New task: "' + newTask.description + '" added');
+						$scope.newTask = {
+							description: '',
+							assignedBy: $rootScope.currentUser,
+							owner: $rootScope.currentUser,
+							dueDate: new Date()
+						};
+						$scope.openTasks++;
+					}, function () {
+						LoggerSrv.logError('Saving task: "' + newTask.description + '" failed.');
+					});
 				};
 
 				$scope.edit = function (task) {
@@ -185,12 +190,15 @@ kuvenoApp
 				$scope.doneEditing = function (task) {
 					$scope.editedTask = null;
 					task.description = task.description.trim();
-					task.assignedBy = getUserById(task.assignedByUserValue);
-					task.assignedByUser = task.assignedBy.firstname;
+					task.owner = getUserById(task.ownerUserValue);
+					task.ownerUser = task.owner.firstname;
+					task.ownerUserValue = task.owner.ID;
+					task.assignedBy = $rootScope.currentUser;
 					if (!task.description) {
 						$scope.remove(task);
 						task.$remove();
 					} else {
+						console.log(task);
 						task.$save();
 						totalCalculate($scope.tasks);
 						LoggerSrv.log('Task updated');
