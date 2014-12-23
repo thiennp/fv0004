@@ -28,12 +28,13 @@ kuvenoApp
 					console.log($scope.meeting);
 					if ($scope.meeting) {
 						$scope.meeting.time = $scope.meeting.meetingTime.toLocaleString();
-						$scope.meeting.participants = [];
+						$scope.meeting.participantList = [];
 						var participants = $scope.meeting.participants.$fetch();
 						participants.then(function (data) {
 							var i = 0;
 							while (data[i]) {
-								$scope.meeting.participants.push(data[i]);
+								$scope.meeting.participantList.push(data[i]);
+								i++;
 							}
 						});
 					}
