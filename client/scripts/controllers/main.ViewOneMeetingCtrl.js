@@ -37,6 +37,13 @@ kuvenoApp
 								i++;
 							}
 						});
+
+						var agenda = $scope.meeting.agenda;
+						agenda.$fetch();
+						// console.log(agenda);
+						// agenda.then(function (data) {
+						// 	console.log(data);
+						// });
 					}
 				});
 			});
