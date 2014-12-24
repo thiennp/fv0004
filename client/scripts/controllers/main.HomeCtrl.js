@@ -16,34 +16,31 @@ kuvenoApp
 					} else {
 						$rootScope.$stateHistory.push('main.Home');
 					}
+					$scope.groups = [];
+					$scope.futureMeeting = [];
+					$scope.overdueTasks = 0;
+					$scope.openTasks = 0;
+					$scope.closedTasks = 0;
+					var meetingPromise = [];
+					$scope.groups = $wakanda.$ds.Workgroup.$find();
+					$scope.groups.$promise.then(function () {
+						for (var i = 0; i < $scope.groups.length; i++) {
+							$scope.groups[i].meetingList = [];
+							$scope.groups[i].futureMeeting = [];
+							$scope.groups[i].pastMeeting = [];
+							meetingPromise[i] = $scope.groups[i].meetings.$fetch();
+							getMeeting(meetingPromise[i], i);
+						}
+					});
 				}
-				$scope.groups = [];
-				$scope.futureMeeting = [];
-				$scope.overdueTasks = 0;
-				$scope.openTasks = 0;
-				$scope.closedTasks = 0;
-				var meetingPromise = [];
-				$scope.groups = $wakanda.$ds.Workgroup.$find();
-				$scope.groups.$promise.then(function () {
-					for (var i = 0; i < $scope.groups.length; i++) {
-						$scope.groups[i].meetingList = [];
-						$scope.groups[i].futureMeeting = [];
-						$scope.groups[i].pastMeeting = [];
-						meetingPromise[i] = $scope.groups[i].meetings.$fetch();
-						getMeeting(meetingPromise[i], i);
-					}
-				});
 
 				var getMeeting = function (meetingCollection, index) {
 					meetingCollection.then(function (meetings) {
 						var i = 0;
-						var now = new Date();
 						while (meetings[i]) {
 							$scope.groups[index].meetingList[i] = meetings[i];
-							$scope.groups[index].meetingList[i].meetingTime = new Date($scope.groups[index].meetingList[i].meetingTime);
-							$scope.groups[index].meetingList[i].time = $scope.groups[index].meetingList[i].meetingTime.toLocaleString();
 							$scope.groups[index].meetingList[i].group = $scope.groups[index].name;
-							if ($scope.groups[index].meetingList[i].meetingTime > now) {
+							if (moment().diff($scope.groups[index].meetingList[i].meetingTime) < 0) {
 								$scope.groups[index].meetingList[i].status = 'future';
 								$scope.groups[index].futureMeeting.push($scope.groups[index].meetingList[i]);
 								$scope.futureMeeting.push($scope.groups[index].meetingList[i]);
@@ -75,15 +72,13 @@ kuvenoApp
 						params: [$scope.groups[groupId].meetingList[meetingId].ID]
 					}).$promise.then(function (tasks) {
 						$scope.groups[groupId].meetingList[meetingId].tasks = tasks.result;
-						var now = new Date();
 						for (var i in tasks.result) {
 							if (tasks.result[i].isCompleted) {
 								$scope.closedTasks++;
 							} else {
 								$scope.openTasks++;
 								if (tasks.result[i].dueDate) {
-									var date = new Date(tasks.result[i].dueDate);
-									if (date < now) {
+									if (moment().diff(tasks.result[i].dueDate)) {
 										$scope.overdueTasks++;
 									}
 								}
@@ -105,17 +100,19 @@ kuvenoApp
 					var totalHeight = 0;
 					var groupId = 0;
 					for (var i = 0; i < document.getElementById('meeting-groups').firstChild.childNodes.length; i++) {
-						if ($scope.groups[groupId]) {
-							if ($scope.groups[groupId].isopen) {
-								return {
-									'padding-top': totalHeight + 'px',
-									'opacity': 1
-								};
+						if ($scope.groups) {
+							if ($scope.groups[groupId]) {
+								if ($scope.groups[groupId].isopen) {
+									return {
+										'padding-top': totalHeight + 'px',
+										'opacity': 1
+									};
+								}
 							}
-						}
-						if (document.getElementById('meeting-groups').firstChild.childNodes[i].tagName === 'DIV') {
-							totalHeight += document.getElementById('meeting-groups').firstChild.childNodes[i].offsetHeight + 5;
-							groupId++;
+							if (document.getElementById('meeting-groups').firstChild.childNodes[i].tagName === 'DIV') {
+								totalHeight += document.getElementById('meeting-groups').firstChild.childNodes[i].offsetHeight + 5;
+								groupId++;
+							}
 						}
 					}
 					return {

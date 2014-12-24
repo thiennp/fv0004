@@ -1,12 +1,13 @@
 'use strict';
 window.kuvenoApp = angular
 	.module('app', [
-		'ngRoute',
-		'ngAnimate',
-		'ui.bootstrap',
-		'pascalprecht.translate',
-		'ui.router',
+		'angularMoment',
 		'facebook',
+		'ngAnimate',
+		'ngRoute',
+		'pascalprecht.translate',
+		'ui.bootstrap',
+		'ui.router',
 		'wakanda'
 	])
 	.run([
@@ -14,7 +15,8 @@ window.kuvenoApp = angular
 		'$state',
 		'$stateParams',
 		'$wakanda',
-		function ($rootScope, $state, $stateParams, $wakanda) {
+		'amMoment',
+		function ($rootScope, $state, $stateParams, $wakanda, amMoment) {
 			var oninit;
 			$rootScope.wakandaInit = false;
 			$rootScope.$stateHistory = [];
@@ -28,6 +30,19 @@ window.kuvenoApp = angular
 					$rootScope.$stateHistory.pop();
 				}
 			};
+			$rootScope.ago = function (date) {
+				if (!(date instanceof Date)) {
+					date = new Date(date);
+				}
+				return moment(date).fromNow();
+			};
+			if (localStorage.getItem('locale') === null) {
+				var locale = 'en';
+				localStorage.setItem('locale', locale);
+				amMoment.changeLocale(locale);
+			} else {
+				amMoment.changeLocale(localStorage.getItem('locale'));
+			}
 			$wakanda.init().then(oninit = function (ds) {
 				$rootScope.initialized = 'initialized';
 				$rootScope.dataClasses = Object.keys(ds.getDataClasses());

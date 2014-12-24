@@ -109,7 +109,7 @@
 											</div>
 											<div class="col-md-3" data-ng-class="{'text-danger':task.overdue, 'text-success':(!task.overdue)}">
 												<label data-ng-click="edit(task)">
-													<small>({{ task.dueTimeString }})</small>
+													<small>({{ ago(task.dueDate) }})</small>
 												</label>
 											</div>
 											<div class="col-md-1">

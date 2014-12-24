@@ -16,7 +16,7 @@
 										<li>
 											<i class="fa fa-clock-o"></i>
 											<label>{{ 'Time' | translate}}</label><br>
-											{{ meeting.time }}
+											{{ meeting.meetingTime | amDateFormat:'MMMM Do YYYY, h:mm a' }}
 										</li>
 										<li>
 											<i class="fa fa-globe"></i>
@@ -25,14 +25,14 @@
 										</li>
 										<li>
 											<i class="fa fa-users"></i>
-											<label>{{ 'Group' }}</label><br>
+											<label>{{ 'Group' | translate }}</label><br>
 											As Oy Kotikatu 5
 										</li>
 										<li>
 											<i class="fa fa-wifi"></i>
 											<label>{{ 'Type' }}</label><br>
-											<span ng-show="meeting.isOnline">Online</span>
-											<span ng-hide="meeting.isOnline">Offline</span>
+											<span ng-show="meeting.isOnline">{{ 'Online' | translate }}</span>
+											<span ng-hide="meeting.isOnline">{{ 'Offline' | translate }}</span>
 										</li>
 									</ul>
 								</li>

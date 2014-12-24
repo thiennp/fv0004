@@ -3,12 +3,16 @@ kuvenoApp
 	.controller('LangCtrl', [
 		'$scope',
 		'$translate',
-		function ($scope, $translate) {
+		'$rootScope',
+		function ($scope, $rootScope, $translate) {
 			$scope.lang = localStorage.getItem('lang');
-			$scope.changeLang = function (key) {
+			$scope.changeLang = function (key, locale) {
 				$scope.lang = key;
+				// $translate.uses(key);
 				localStorage.setItem('lang', key);
-				$translate.use(key).then(function (key) {}, function (key) {});
+				localStorage.setItem('locale', locale);
+				moment.locale(locale);
+				console.log(moment.localeData());
 			};
 		}
 	]);

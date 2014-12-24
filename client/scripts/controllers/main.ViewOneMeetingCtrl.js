@@ -27,7 +27,6 @@ kuvenoApp
 					$scope.meeting = meeting.result[0];
 					console.log($scope.meeting);
 					if ($scope.meeting) {
-						$scope.meeting.time = $scope.meeting.meetingTime.toLocaleString();
 						$scope.meeting.participantList = [];
 						var participants = $scope.meeting.participants.$fetch();
 						participants.then(function (data) {

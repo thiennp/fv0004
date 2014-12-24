@@ -27,6 +27,7 @@
     "signupForm": false,
     "signinForm": false,
     "_": false,
-    "toastr": false
+    "toastr": false,
+    "moment": false
   }
 }

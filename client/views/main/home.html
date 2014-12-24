@@ -23,7 +23,11 @@
 												<div data-ng-show="group.futureMeeting.length == 0" class="alert alert-warning">{{ 'No upcoming meetings' | translate }}</div>
 												<div class="alert alert-info widget-meeting" ng-repeat="meeting in group.futureMeeting" ng-click="gotoMeeting(meeting.ID)">
 													<strong>{{meeting.name}}</strong><br>
-													<small>{{'{'+meeting.time+'}'}}</small>
+													<small>
+													<em>{</em>
+													{{meeting.meetingTime | amDateFormat:'MMMM Do YYYY, h:mm a'}}
+													<em>}</em>
+													</small>
 													<p><strong>Tasks: </strong>{{meeting.tasks.length}}</p>
 													<p><strong>Decisions: </strong>{{meeting.decisions.length}}</p>
 												</div>
@@ -31,7 +35,11 @@
 												<div data-ng-show="group.pastMeeting.length == 0" class="alert alert-warning">{{ 'No past meetings' | translate }}</div>
 												<div class="alert alert-info widget-meeting" ng-repeat="meeting in group.pastMeeting" ng-click="gotoMeeting(meeting.ID)">
 													<strong>{{meeting.name}}</strong><br>
-													<small>{{'{'+meeting.time+'}'}}</small>
+													<small>
+													<em>{</em>
+													{{meeting.meetingTime | amDateFormat:'dddd, MMMM Do YYYY, h:mm a'}}
+													<em>}</em>
+													</small>
 													<p><strong>Tasks: </strong>{{meeting.tasks.length}}</p>
 													<p><strong>Decisions: </strong>{{meeting.decisions.length}}</p>
 												</div>

@@ -247,13 +247,10 @@ kuvenoApp
 				};
 
 				$scope.currentDueDate = function (task) {
-					var dueDate = new Date(task.dueDate);
-					var now = new Date();
-					task.dueTime = dueDate.valueOf() - now.valueOf();
 					var closed = 0;
 					var open = 0;
 					var overdue = 0;
-					if (task.dueTime < 0) {
+					if (moment().diff(task.dueDate) > 0) {
 						if (task.isCompleted) {
 							task.overdue = false;
 							closed = 1;
@@ -270,7 +267,6 @@ kuvenoApp
 							open = 1;
 						}
 					}
-					task.dueTimeString = AssistSrv.timeToString(task.dueTime);
 					return {
 						'closed': closed,
 						'open': open,
