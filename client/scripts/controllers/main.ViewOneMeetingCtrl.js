@@ -18,7 +18,24 @@ kuvenoApp
 						$rootScope.$stateHistory.push('main.ViewOneMeeting');
 					}
 				}
+				$scope.tabs = [{
+					title: 'Agenda',
+					content: '',
+					active: true
+				}, {
+					title: 'Notes',
+					content: '',
+				}, {
+					title: 'Decisions',
+					content: '',
+					include: 'views/main/view_one_meeting__decisions.html'
+				}, {
+					title: 'Tasks',
+					content: '',
+					include: 'views/main/view_one_meeting__tasks.html'
+				}];
 				$scope.meetingid = $stateParams.meetingid;
+				$scope.tabActive = [false, true, false, false];
 				var meetingCollection = $wakanda.$ds.Meeting.$find({
 					filter: 'ID == :1',
 					params: [$scope.meetingid]
@@ -38,11 +55,20 @@ kuvenoApp
 						});
 
 						var agenda = $scope.meeting.agenda;
-						agenda.$fetch();
-						// console.log(agenda);
-						// agenda.then(function (data) {
-						// 	console.log(data);
-						// });
+						agenda.$fetch().then(function () {
+							$scope.tabs[0].content = $scope.meeting.agenda.content;
+						});
+
+						var notes = $scope.meeting.notes;
+						notes.$fetch().then(function () {
+							$scope.tabs[1].content = $scope.meeting.notes.content;
+						});
+
+						var decisions = $scope.meeting.decisions;
+						decisions.$fetch();
+
+						var tasks = $scope.meeting.tasks;
+						tasks.$fetch();
 					}
 				});
 			});

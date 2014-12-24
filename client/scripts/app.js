@@ -5,6 +5,7 @@ window.kuvenoApp = angular
 		'facebook',
 		'ngAnimate',
 		'ngRoute',
+		'ngSanitize',
 		'pascalprecht.translate',
 		'ui.bootstrap',
 		'ui.router',

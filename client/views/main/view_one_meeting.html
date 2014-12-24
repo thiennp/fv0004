@@ -63,28 +63,34 @@
 							</ul>
 						</div>
 						<div class="col-md-3 margin-bottom-20">
-							<a class="btn btn-primary btn-block">{{ 'Edit agenda' | translate }}</a>
-							<a class="btn btn-primary btn-block">{{ 'Send agenda' | translate }}</a>
-							<a class="btn btn-primary btn-block">{{ 'View PDF' | translate }}</a>
-							<a class="btn btn-primary btn-block">{{ 'View comments' | translate }}</a>
-							<div class="clearfix"></div>
-							<span>&nbsp;</span>
+							<div ng-show="tabs[0].active">
+								<a class="btn btn-primary btn-block margin-top-0">{{ 'Edit agenda' | translate }}</a>
+								<a class="btn btn-primary btn-block">{{ 'Send agenda' | translate }}</a>
+								<a class="btn btn-primary btn-block">{{ 'View PDF' | translate }}</a>
+								<a class="btn btn-primary btn-block">{{ 'View comments' | translate }}</a>
+							</div>
+							<div ng-show="tabs[1].active">
+								<a class="btn btn-primary btn-block margin-top-0">{{ 'Edit notes' | translate }}</a>
+								<a class="btn btn-primary btn-block">{{ 'Send notes' | translate }}</a>
+								<a class="btn btn-primary btn-block">{{ 'View PDF' | translate }}</a>
+								<a class="btn btn-primary btn-block">{{ 'View comments' | translate }}</a>
+							</div>
+							<div ng-show="tabs[2].active">
+								<a class="btn btn-primary btn-block margin-top-0">{{ 'View PDF' | translate }}</a>
+								<a class="btn btn-primary btn-block">{{ 'View comments' | translate }}</a>
+							</div>
+							<div ng-show="tabs[3].active">
+								<a class="btn btn-primary btn-block margin-top-0">{{ 'View PDF' | translate }}</a>
+								<a class="btn btn-primary btn-block">{{ 'Send reminders' | translate }}</a>
+							</div>
 						</div>
 						<div class="col-md-9 margin-bottom-20">
 							<div class="ui-tab-container">
 								<tabset class="ui-tab">
-									<tab heading="{{ 'Agenda' | translate }}">
-									Tab content 1
-									</tab>
-									<tab heading="{{ 'Notes' | translate }}">
-									Tab content 2
-									</tab>
-									<tab heading="{{ 'Decisions' | translate }}">
-									Tab content 3
-									</tab>
-									<tab heading="{{ 'Tasks' | translate }}">
-									Tab content 4
-									</tab>
+								<tab ng-repeat="tab in tabs" heading="{{ tab.title | translate }}" active="tab.active" disabled="tab.disabled">
+								<div ng-bind-html="tab.content"></div>
+								<div ng-include="tab.include"></div>
+								</tab>
 								</tabset>
 							</div>
 						</div>
