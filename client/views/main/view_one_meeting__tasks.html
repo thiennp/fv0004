@@ -1,1 +1,50 @@
-<div>Tasks</div>
+<section  data-ng-cloak>
+	<h1>{{ 'Open Tasks' | translate }}</h1>
+	<ul class="task-list list-unstyled">
+		<li data-ng-repeat="task in meeting.tasks | orderBy:'dueDate':reverse | filter:{isCompleted:false} track by $index">
+			<div class="view">
+				<div class="row">
+					<div class="col-md-2">
+						<label>
+							{{ task.owner.firstname }}
+						</label>
+					</div>
+					<div class="col-md-7">
+						<label>
+							{{ task.description }}
+						</label>
+					</div>
+					<div class="col-md-3" data-ng-class="{'text-danger':task.overdue, 'text-success':(!task.overdue)}">
+						<label>
+							<small>({{ ago(task.dueDate) }})</small>
+						</label>
+					</div>
+				</div>
+			</div>
+		</li>
+	</ul>
+	<h1>{{ 'Closed Tasks' | translate }}</h1>
+	<ul class="task-list list-unstyled">
+		<li data-ng-repeat="task in meeting.tasks | orderBy:'dueDate':reverse | filter:{isCompleted:true} track by $index">
+			<div class="view">
+				<div class="row">
+					<div class="col-md-2">
+						<label class="task-completed">
+							{{ task.owner.firstname }}
+						</label>
+					</div>
+					<div class="col-md-7">
+						<label class="task-completed">
+							{{ task.description }}
+						</label>
+					</div>
+					<div class="col-md-3" data-ng-class="{'text-danger':task.overdue, 'text-success':(!task.overdue)}">
+						<label class="task-completed">
+							<small>({{ ago(task.dueDate) }})</small>
+						</label>
+					</div>
+				</div>
+			</div>
+		</li>
+	</ul>
+</section>

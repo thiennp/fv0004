@@ -44,7 +44,7 @@ kuvenoApp
 				if (localStorage.getItem('myTasks_sortType')) {
 					$scope.sortType = localStorage.getItem('myTasks_sortType');
 				} else {
-					$scope.sortType = 'dueTime';
+					$scope.sortType = 'dueDate';
 				}
 				if (localStorage.getItem('myTasks_sortReverse')) {
 					$scope.reverse = localStorage.getItem('myTasks_sortReverse');

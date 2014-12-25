@@ -65,10 +65,30 @@ kuvenoApp
 						});
 
 						var decisions = $scope.meeting.decisions;
-						decisions.$fetch();
+						decisions.$fetch().then(function () {
+							console.log(decisions);
+						});
 
 						var tasks = $scope.meeting.tasks;
-						tasks.$fetch();
+						tasks.$fetch().then(function () {
+							var i = 0;
+							while ($scope.meeting.tasks[i]) {
+								var task = $scope.meeting.tasks[i];
+								task.owner.$fetch();
+								task.dueDate = new Date(task.dueDate);
+								if (moment().diff(task.dueDate) > 0) {
+									if (task.isCompleted) {
+										task.overdue = false;
+									} else {
+										task.overdue = true;
+									}
+								} else {
+									task.overdue = false;
+								}
+								i++;
+							}
+							console.log($scope.meeting.tasks);
+						});
 					}
 				});
 			});

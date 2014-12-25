@@ -1,1 +1,8 @@
-<div>Decisions</div>
+<section data-ng-cloak>
+	<h1>{{ 'Meeting decisions' | translate }}</h1>
+	<ul class="list-unstyled">
+		<li data-ng-repeat="decision in meeting.decisions">
+			{{ decision.description }}
+		</li>
+	</ul>
+</section
