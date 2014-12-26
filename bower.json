@@ -26,7 +26,6 @@
     "jquery-steps": "~1.1.0",
     "angular-wizard": "~0.4.0",
     "weather-icons": "~1.2.1",
-    "textAngular": "1.2.1",
     "flot.tooltip": "~0.8.0",
     "angular-loading-bar": "~0.6.0",
     "angular-ui-router": "~0.2.13",
@@ -34,7 +33,10 @@
     "angular-facebook": "~0.2.3",
     "angular-translate-loader-static-files": "~2.5.2",
     "moment-timezone": "~0.2.5",
-    "angular-moment": "~0.8.3"
+    "angular-moment": "~0.8.3",
+    "jspdf": "~1.0.272",
+    "html2canvas": "~0.4.1",
+    "textAngular": "~1.2.2"
   },
   "resolutions": {
     "jquery": "~2.1.0"

@@ -28,6 +28,7 @@
     "signinForm": false,
     "_": false,
     "toastr": false,
-    "moment": false
+    "moment": false,
+    "jsPDF": false
   }
 }
