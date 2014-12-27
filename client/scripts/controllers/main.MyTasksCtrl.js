@@ -216,9 +216,7 @@ kuvenoApp
 				};
 
 				$scope.completed = function (task) {
-					console.log(task.isCompleted);
 					task.isCompleted = !task.isCompleted;
-					console.log(task.isCompleted);
 					$scope.openTasks += task.isCompleted ? -1 : 1;
 					$scope.closedTasks += task.isCompleted ? 1 : -1;
 					if (task.isCompleted) {

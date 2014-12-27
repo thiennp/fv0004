@@ -28,6 +28,7 @@ kuvenoApp
 				}
 				// Inject all user entities to $scope.users
 				var loadAllUsers = function () {
+					$scope.users = [];
 					var userCollection = $wakanda.$ds.User.$find();
 					userCollection.$promise.then(function (data) {
 						var i = 0;
@@ -38,6 +39,15 @@ kuvenoApp
 					});
 				};
 				loadAllUsers();
+
+				// Inject owner firstname and owner id to task
+				var getUser = function (task) {
+					var owner = task.owner.$fetch();
+					owner.then(function (data) {
+						task.ownerUser = data.firstname;
+						task.ownerUserValue = data.ID;
+					});
+				};
 
 				// Get an user entity which is indicated by userId
 				var getUserById = function (userId) {
@@ -63,7 +73,6 @@ kuvenoApp
 						$scope.remove(task);
 						task.$remove();
 					} else {
-						console.log(task);
 						task.$save();
 						LoggerSrv.log('Task updated');
 					}
@@ -71,29 +80,25 @@ kuvenoApp
 
 				$scope.remove = function (task) {
 					var index;
-					$scope.openTasks -= task.isCompleted ? 0 : 1;
-					$scope.closedTasks -= task.isCompleted ? 1 : 0;
-					index = $scope.tasks.indexOf(task);
-					$scope.tasks.splice(index, 1);
+					index = $scope.meeting.tasks.indexOf(task);
+					$scope.meeting.tasks.splice(index, 1);
 					task.$remove();
 					LoggerSrv.logError('Task removed');
 				};
 
 				$scope.completed = function (task) {
-					$scope.openTasks += task.isCompleted ? -1 : 1;
-					$scope.closedTasks += task.isCompleted ? 1 : -1;
-					if (task.isCompleted) {
-						if ($scope.openTasks > 0) {
-							if ($scope.openTasks === 1) {
-								LoggerSrv.log('Almost there! Only ' + $scope.openTasks + ' task left');
-							} else {
-								LoggerSrv.log('Good job! Only ' + $scope.openTasks + ' tasks left');
-							}
+					task.isCompleted = !task.isCompleted;
+					if (moment().diff(task.dueDate) > 0) {
+						if (task.isCompleted) {
+							task.overdue = false;
 						} else {
-							LoggerSrv.logSuccess('Congrats! All done :)');
+							task.overdue = true;
 						}
+					} else {
+						task.overdue = false;
 					}
 					task.$save();
+					LoggerSrv.log('Task updated');
 				};
 
 				$scope.editAgenda = function () {
@@ -198,7 +203,6 @@ kuvenoApp
 							var i = 0;
 							while ($scope.meeting.tasks[i]) {
 								var task = $scope.meeting.tasks[i];
-								task.owner.$fetch();
 								task.dueDate = new Date(task.dueDate);
 								if (moment().diff(task.dueDate) > 0) {
 									if (task.isCompleted) {
@@ -209,9 +213,9 @@ kuvenoApp
 								} else {
 									task.overdue = false;
 								}
+								getUser(task);
 								i++;
 							}
-							console.log($scope.meeting.tasks);
 						});
 					}
 				});
