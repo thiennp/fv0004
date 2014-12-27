@@ -11,7 +11,8 @@ kuvenoApp
 		'$wakanda',
 		'AssistSrv',
 		'AuthSrv',
-		function ($location, $modal, $rootScope, $scope, $state, $stateParams, $timeout, $wakanda, AssistSrv, AuthSrv) {
+		'LoggerSrv',
+		function ($location, $modal, $rootScope, $scope, $state, $stateParams, $timeout, $wakanda, AssistSrv, AuthSrv, LoggerSrv) {
 			return AuthSrv.verify().then(function (data) {
 				$scope.pdf = null;
 				$scope.editorOptions = {
@@ -25,29 +26,99 @@ kuvenoApp
 						$rootScope.$stateHistory.push('main.ViewOneMeeting');
 					}
 				}
+				// Inject all user entities to $scope.users
+				var loadAllUsers = function () {
+					var userCollection = $wakanda.$ds.User.$find();
+					userCollection.$promise.then(function (data) {
+						var i = 0;
+						while (data.result[i]) {
+							$scope.users.push(data.result[i]);
+							i++;
+						}
+					});
+				};
+				loadAllUsers();
+
+				// Get an user entity which is indicated by userId
+				var getUserById = function (userId) {
+					for (var id in $scope.users) {
+						if ($scope.users[id].ID === userId) {
+							return $scope.users[id];
+						}
+					}
+				};
+
+				$scope.edit = function (task) {
+					$scope.editedTask = task;
+				};
+
+				$scope.doneEditing = function (task) {
+					$scope.editedTask = null;
+					task.description = task.description.trim();
+					task.owner = getUserById(task.ownerUserValue);
+					task.ownerUser = task.owner.firstname;
+					task.ownerUserValue = task.owner.ID;
+					task.assignedBy = $rootScope.currentUser;
+					if (!task.description) {
+						$scope.remove(task);
+						task.$remove();
+					} else {
+						console.log(task);
+						task.$save();
+						LoggerSrv.log('Task updated');
+					}
+				};
+
+				$scope.remove = function (task) {
+					var index;
+					$scope.openTasks -= task.isCompleted ? 0 : 1;
+					$scope.closedTasks -= task.isCompleted ? 1 : 0;
+					index = $scope.tasks.indexOf(task);
+					$scope.tasks.splice(index, 1);
+					task.$remove();
+					LoggerSrv.logError('Task removed');
+				};
+
+				$scope.completed = function (task) {
+					$scope.openTasks += task.isCompleted ? -1 : 1;
+					$scope.closedTasks += task.isCompleted ? 1 : -1;
+					if (task.isCompleted) {
+						if ($scope.openTasks > 0) {
+							if ($scope.openTasks === 1) {
+								LoggerSrv.log('Almost there! Only ' + $scope.openTasks + ' task left');
+							} else {
+								LoggerSrv.log('Good job! Only ' + $scope.openTasks + ' tasks left');
+							}
+						} else {
+							LoggerSrv.logSuccess('Congrats! All done :)');
+						}
+					}
+					task.$save();
+				};
+
 				$scope.editAgenda = function () {
 					$scope.agendaEditedContent = $scope.meeting.agenda.content;
-					$scope.calendarEdit = true;
+					$scope.agendaEdit = true;
 				};
 				$scope.cancelAgenda = function () {
 					$scope.meeting.agenda.content = $scope.agendaEditedContent;
-					$scope.calendarEdit = false;
+					$scope.agendaEdit = false;
 				};
 				$scope.applyAgenda = function () {
 					$scope.meeting.$save();
-					$scope.calendarEdit = false;
+					$scope.agendaEdit = false;
 				};
 				$scope.editNotes = function () {
 					$scope.notesEditedContent = $scope.meeting.notes.content;
-					$scope.calendarEdit = true;
+					$scope.notesEdit = true;
 				};
 				$scope.cancelNotes = function () {
 					$scope.meeting.notes.content = $scope.notesEditedContent;
-					$scope.calendarEdit = false;
+					$scope.notesEdit = false;
 				};
 				$scope.applyNotes = function () {
 					$scope.meeting.$save();
-					$scope.calendarEdit = false;
+					$scope.notesEdit = false;
 				};
 				$scope.viewPDF = function (id) {
 					var doc = new jsPDF();

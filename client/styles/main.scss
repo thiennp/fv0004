@@ -211,3 +211,18 @@ a {
 .text-angular .btn-group {
 	margin-bottom: 5px;
 }
+
+.page-tasks {
+	.task-list {
+		.callout {
+			padding: 5px 0 0 0;
+			.view {
+				margin-bottom: 0;
+				background-color: inherit;
+			}
+			.edit {
+				margin-top: 5px;
+			}
+		}
+	}
+}

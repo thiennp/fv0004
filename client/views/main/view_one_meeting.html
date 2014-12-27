@@ -97,11 +97,9 @@
 						<div class="col-md-9 margin-bottom-20">
 							<div class="ui-tab-container">
 								<tabset class="ui-tab">
-								<tab ng-repeat="(key, tab) in tabs" heading="{{ tab.title | translate }}" active="tab.active" disabled="tab.disabled">
-									<div id="meeting-tab-{{ key }}">
+									<tab ng-repeat="(key, tab) in tabs" heading="{{ tab.title | translate }}" active="tab.active" disabled="tab.disabled">
 										<div ng-include="tab.include"></div>
-									</div>
-								</tab>
+									</tab>
 								</tabset>
 							</div>
 						</div>

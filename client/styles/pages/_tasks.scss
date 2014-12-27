@@ -62,8 +62,7 @@
             border-radius: 4px;
             background-color: $reverse;
             &:hover {
-                .glyphicon-pencil,
-                .glyphicon-remove {
+                .glyphicon {
                     display: block;
                 }
             }
@@ -81,8 +80,7 @@
                 padding: 12px 0 12px;
             }
 
-            .glyphicon-pencil,
-            .glyphicon-remove {
+            .glyphicon {
                 display: none;
                 position: absolute;
                 top: 14px;

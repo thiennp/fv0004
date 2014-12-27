@@ -1,6 +1,6 @@
 <section data-ng-cloak>
-	<div ng-hide="calendarEdit" ng-bind-html="meeting.notes.content"></div>
-	<div ng-show="calendarEdit">
+	<div ng-hide="notesEdit" id="meeting-tab-1" ng-bind-html="meeting.notes.content"></div>
+	<div ng-show="notesEdit">
 		<form ng-submit="applyNotes()">
 			<div text-angular ng-model="meeting.notes.content" class="text-angular"></div>
 			<button class="btn btn-danger margin-top-10" type="button" ng-click="cancelNotes()">{{ 'Cancel' | translate }}</button>
