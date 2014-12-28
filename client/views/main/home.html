@@ -1,106 +1,104 @@
 <section id="content" class="animate-fade-up" data-ng-controller="HomeCtrl">
 	<div class="view-container">
 		<div class="page page-profile">
-			<div class="row">
-				<div class="col-sm-12">
-					<section class="panel panel-default">
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-md-3 home-button-group" style="opacity: 0" ng-style="buttonGroupStyle()">
-									<a class="btn btn-primary btn-block">{{ 'Agree on dates' | translate }}</a>
-									<a class="btn btn-primary btn-block">{{ 'Create agenda' | translate }}</a>
-									<a class="btn btn-primary btn-block">{{ 'Create e-meeting' | translate }}</a>
-									<a class="btn btn-primary btn-block">{{ 'Write notes' | translate }}</a>
-									<a class="btn btn-primary btn-block">{{ 'List all meetings' | translate }}</a>
-									<div class="clearfix"></div>
-									<span>&nbsp;</span>
-								</div>
-								<div class="col-md-6">
-									<div class="form-container">
-										<accordion close-others="true" class="ui-accordion" id="meeting-groups">
-											<accordion-group heading="{{group.name}}" ng-repeat="group in groups" is-open="group.isopen">
-												<h5>{{ 'Upcoming meetings' | translate }}</h5>
-												<div data-ng-show="group.futureMeeting.length == 0" class="alert alert-warning">{{ 'No upcoming meetings' | translate }}</div>
-												<div class="alert alert-info widget-meeting" ng-repeat="meeting in group.futureMeeting" ng-click="gotoMeeting(meeting.ID)">
-													<strong>{{meeting.name}}</strong><br>
-													<small>
-													<em>{</em>
-													{{meeting.meetingTime | amDateFormat:'MMMM Do YYYY, h:mm a'}}
-													<em>}</em>
-													</small>
-													<p><strong>Tasks: </strong>{{meeting.tasks.length}}</p>
-													<p><strong>Decisions: </strong>{{meeting.decisions.length}}</p>
-												</div>
-												<h5>{{ 'Past meetings' | translate }}</h5>
-												<div data-ng-show="group.pastMeeting.length == 0" class="alert alert-warning">{{ 'No past meetings' | translate }}</div>
-												<div class="alert alert-info widget-meeting" ng-repeat="meeting in group.pastMeeting" ng-click="gotoMeeting(meeting.ID)">
-													<strong>{{meeting.name}}</strong><br>
-													<small>{</small>
-													<small>
-													{{meeting.meetingTime | amDateFormat:'dddd, MMMM Do YYYY, h:mm a'}}
-													</small>
-													<small>}</small>
-													<p><strong>Tasks: </strong>{{meeting.tasks.length}}</p>
-													<p><strong>Decisions: </strong>{{meeting.decisions.length}}</p>
-												</div>
-												<hr>
-												<a class="btn btn-primary btn-block" ui-sref="main.MyTasks">{{ 'Click to view more meetings...' | translate}}</a>
-											</accordion-group>
-										</accordion>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="panel mini-box">
-										<span class="box-icon bg-danger">
-										<i class="fa fa-warning"></i>
-										</span>
-										<div class="box-info">
-											<p class="size-h2">{{ overdueTasks }}</p>
-											<p class="text-muted">{{ 'Tasks overdue' | translate }}</p>
+			<section class="panel panel-default">
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-3 home-button-group" style="opacity: 0" ng-style="buttonGroupStyle()">
+							<a class="btn btn-primary btn-block">{{ 'Agree on dates' | translate }}</a>
+							<a class="btn btn-primary btn-block" ui-sref="main.CreateAgenda({ groupId: currentGroupId })">
+								{{ 'Create agenda' | translate }}
+							</a>
+							<a class="btn btn-primary btn-block">{{ 'Create e-meeting' | translate }}</a>
+							<a class="btn btn-primary btn-block">{{ 'Write notes' | translate }}</a>
+							<a class="btn btn-primary btn-block">{{ 'List all meetings' | translate }}</a>
+							<div class="clearfix"></div>
+							<span>&nbsp;</span>
+						</div>
+						<div class="col-md-6">
+							<div class="form-container">
+								<accordion close-others="true" class="ui-accordion" id="meeting-groups">
+									<accordion-group heading="{{group.name}}" ng-repeat="group in groups" is-open="group.isopen">
+										<h5>{{ 'Upcoming meetings' | translate }}</h5>
+										<div data-ng-show="group.futureMeeting.length == 0" class="alert alert-warning">{{ 'No upcoming meetings' | translate }}</div>
+										<div class="alert alert-info widget-meeting" ng-repeat="meeting in group.futureMeeting" ng-click="gotoMeeting(meeting.ID)">
+											<strong>{{meeting.name}}</strong><br>
+											<small>
+											<em>{</em>
+											{{meeting.meetingTime | amDateFormat:'MMMM Do YYYY, h:mm a'}}
+											<em>}</em>
+											</small>
+											<p><strong>Tasks: </strong>{{meeting.tasks.length}}</p>
+											<p><strong>Decisions: </strong>{{meeting.decisions.length}}</p>
 										</div>
-									</div>
-									<div class="panel mini-box">
-										<span class="box-icon bg-warning">
-										<i class="fa fa-edit"></i>
-										</span>
-										<div class="box-info">
-											<p class="size-h2">{{ openTasks }}</p>
-											<p class="text-muted">{{ 'Tasks open' | translate }}</p>
+										<h5>{{ 'Past meetings' | translate }}</h5>
+										<div data-ng-show="group.pastMeeting.length == 0" class="alert alert-warning">{{ 'No past meetings' | translate }}</div>
+										<div class="alert alert-info widget-meeting" ng-repeat="meeting in group.pastMeeting" ng-click="gotoMeeting(meeting.ID)">
+											<strong>{{meeting.name}}</strong><br>
+											<small>{</small>
+											<small>
+											{{meeting.meetingTime | amDateFormat:'dddd, MMMM Do YYYY, h:mm a'}}
+											</small>
+											<small>}</small>
+											<p><strong>Tasks: </strong>{{meeting.tasks.length}}</p>
+											<p><strong>Decisions: </strong>{{meeting.decisions.length}}</p>
 										</div>
-									</div>
-									<div class="panel mini-box">
-										<span class="box-icon bg-success">
-										<i class="fa fa-check"></i>
-										</span>
-										<div class="box-info">
-											<p class="size-h2">{{ closedTasks }}</p>
-											<p class="text-muted">{{ 'Tasks closed' | translate }}</p>
-										</div>
-									</div>
-									<div class="panel mini-box">
-										<span class="box-icon bg-info">
-										<i class="fa fa-calendar"></i>
-										</span>
-										<div class="box-info">
-											<p class="size-h3">{{ 'Upcoming' | translate }}</p>
-											<p class="size-h3">{{ 'meetings' | translate }}</p>
-										</div>
-									</div>
-									<div class="panel">
-										<ul class="list-group" ng-repeat="meeting in futureMeeting | limitTo:3">
-											<li class="list-group-item">
-												<i class="fa fa-calendar"></i>
-												&nbsp;{{meeting.name}} <small>{{meeting.time}}</small>
-											</li>
-										</ul>
-									</div>
-									<p><a class="btn btn-info btn-block">{{ 'View more...' | translate }}</a></p>
-								</div>
+										<hr>
+										<a class="btn btn-primary btn-block" ui-sref="main.MyTasks">{{ 'Click to view more meetings...' | translate}}</a>
+									</accordion-group>
+								</accordion>
 							</div>
 						</div>
-					</section>
+						<div class="col-md-3">
+							<div class="panel mini-box">
+								<span class="box-icon bg-danger">
+								<i class="fa fa-warning"></i>
+								</span>
+								<div class="box-info">
+									<p class="size-h2">{{ overdueTasks }}</p>
+									<p class="text-muted">{{ 'Tasks overdue' | translate }}</p>
+								</div>
+							</div>
+							<div class="panel mini-box">
+								<span class="box-icon bg-warning">
+								<i class="fa fa-edit"></i>
+								</span>
+								<div class="box-info">
+									<p class="size-h2">{{ openTasks }}</p>
+									<p class="text-muted">{{ 'Tasks open' | translate }}</p>
+								</div>
+							</div>
+							<div class="panel mini-box">
+								<span class="box-icon bg-success">
+								<i class="fa fa-check"></i>
+								</span>
+								<div class="box-info">
+									<p class="size-h2">{{ closedTasks }}</p>
+									<p class="text-muted">{{ 'Tasks closed' | translate }}</p>
+								</div>
+							</div>
+							<div class="panel mini-box">
+								<span class="box-icon bg-info">
+								<i class="fa fa-calendar"></i>
+								</span>
+								<div class="box-info">
+									<p class="size-h3">{{ 'Upcoming' | translate }}</p>
+									<p class="size-h3">{{ 'meetings' | translate }}</p>
+								</div>
+							</div>
+							<div class="panel">
+								<ul class="list-group" ng-repeat="meeting in futureMeeting | limitTo:3">
+									<li class="list-group-item">
+										<i class="fa fa-calendar"></i>
+										&nbsp;{{meeting.name}} <small>{{meeting.time}}</small>
+									</li>
+								</ul>
+							</div>
+							<p><a class="btn btn-info btn-block">{{ 'View more...' | translate }}</a></p>
+						</div>
+					</div>
 				</div>
-			</div>
+			</section>
 		</div>
 	</div>
 </section>

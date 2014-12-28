@@ -1,277 +1,272 @@
 <section id="content" class="animate-fade-up" data-ng-controller="ViewOneMeetingCtrl">
 	<div class="view-container">
 		<div class="page page-profile">
-			<div class="row">
+			<section class="panel panel-profile">
 				<div class="col-md-12">
-					<section class="panel panel-profile">
-						<div class="col-md-12">
-							<h3>{{ meeting.name | translate }}</h3>
-							<hr>
-						</div>
-						<div class="clearfix"></div>
-						<div class="list-justified-container">
-							<ul class="list-justified">
-								<li>
-									<ul class="list-unstyled list-info">
-										<li>
-											<i class="fa fa-clock-o"></i>
-											<label>{{ 'Time' | translate}}</label><br>
-											{{ meeting.meetingTime | amDateFormat:'MMMM Do YYYY, h:mm a' }}
-										</li>
-										<li>
-											<i class="fa fa-globe"></i>
-											<label>{{ 'Location' | translate }}</label><br>
-											{{ meeting.location | translate }}
-										</li>
-										<li>
-											<i class="fa fa-users"></i>
-											<label>{{ 'Group' | translate }}</label><br>
-											As Oy Kotikatu 5
-										</li>
-										<li>
-											<i class="fa fa-wifi"></i>
-											<label>{{ 'Type' }}</label><br>
-											<span ng-show="meeting.isOnline">{{ 'Online' | translate }}</span>
-											<span ng-hide="meeting.isOnline">{{ 'Offline' | translate }}</span>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<p class="size-h4">Participant</p>
-									<div class="clearfix margin-bottom-10"></div>
-									<ul class="list-unstyled list-info">
-										<li ng-repeat="participant in meeting.participantList">
-											{{ participant.name}}
-										</li>
-									</ul>
-								</li>
-								<li>
-									<ul class="list-unstyled list-info">
-										<li>
-											<label>Model</label><br>
-											Board of Directors Meeting
-										</li>
-										<li>
-											<label>Status:</label>
-											<ul>
-												<li>Agenda locked</li>
-												<li>The Protocol was not sent</li>
-											</ul>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</div>
-						<div class="col-md-3 margin-bottom-20">
-							<div ng-show="tabs[0].active">
-								<a class="btn btn-primary btn-block margin-top-0" data-ng-click="editAgenda()">
-								{{ 'Edit agenda' | translate }}</a>
-								<a class="btn btn-primary btn-block" data-ng-click="sendAgenda()">
-								{{ 'Send agenda' | translate }}</a>
-								<a class="btn btn-primary btn-block" data-ng-click="viewPDF(0)">
-								{{ 'View PDF' | translate }}</a>
-								<a class="btn btn-primary btn-block">
-								{{ 'View comments' | translate }}</a>
-							</div>
-							<div ng-show="tabs[1].active">
-								<a class="btn btn-primary btn-block margin-top-0" data-ng-click="editNotes()">
-								{{ 'Edit notes' | translate }}</a>
-								<a class="btn btn-primary btn-block" data-ng-click="sendNotes()">
-								{{ 'Send notes' | translate }}</a>
-								<a class="btn btn-primary btn-block" data-ng-click="viewPDF(1)">
-								{{ 'View PDF' | translate }}</a>
-								<a class="btn btn-primary btn-block">
-								{{ 'View comments' | translate }}</a>
-							</div>
-							<div ng-show="tabs[2].active">
-								<a class="btn btn-primary btn-block margin-top-0" data-ng-click="viewPDF(2)">
-								{{ 'View PDF' | translate }}</a>
-							</div>
-							<div ng-show="tabs[3].active">
-								<a class="btn btn-primary btn-block margin-top-0" data-ng-click="viewPDF(3)">
-								{{ 'View PDF' | translate }}</a>
-								<a class="btn btn-primary btn-block" data-ng-click="sendReminders()">
-								{{ 'Send reminders' | translate }}</a>
-							</div>
-						</div>
-						<div class="col-md-9 margin-bottom-20">
-							<div class="ui-tab-container">
-								<tabset class="ui-tab">
-								<tab ng-repeat="(key, tab) in tabs" heading="{{ tab.title | translate }}" active="tab.active" disabled="tab.disabled">
-								<div ng-include="tab.include"></div>
-								</tab>
-								</tabset>
-							</div>
-						</div>
-						<div class="clearfix margin-top-20"></div>
-					</section>
+					<h3>{{ meeting.name | translate }}</h3>
+					<hr>
 				</div>
-			</div>
+				<div class="clearfix"></div>
+				<div class="margin-bottom-10">
+					<div class="col-md-4" same-height="meetingInfo">
+						<ul class="list-unstyled list-info">
+							<li>
+								<i class="fa fa-clock-o"></i>
+								<label>{{ 'Time' | translate}}</label><br>
+								{{ meeting.meetingTime | amDateFormat:'MMMM Do YYYY, h:mm a' }}
+							</li>
+							<li>
+								<i class="fa fa-globe"></i>
+								<label>{{ 'Location' | translate }}</label><br>
+								{{ meeting.location | translate }}
+							</li>
+							<li>
+								<i class="fa fa-users"></i>
+								<label>{{ 'Group' | translate }}</label><br>
+								As Oy Kotikatu 5
+							</li>
+							<li>
+								<i class="fa fa-wifi"></i>
+								<label>{{ 'Type' }}</label><br>
+								<span ng-show="meeting.isOnline">{{ 'Online' | translate }}</span>
+								<span ng-hide="meeting.isOnline">{{ 'Offline' | translate }}</span>
+							</li>
+						</ul>
+					</div>
+					<div class="col-md-4" same-height="meetingInfo">
+						<p class="size-h4">Participant</p>
+						<div class="clearfix margin-bottom-10"></div>
+						<ul class="list-unstyled list-info">
+							<li ng-repeat="participant in meeting.participantList">
+								{{ participant.name}}
+							</li>
+						</ul>
+					</div>
+					<div class="col-md-4" same-height="meetingInfo">
+						<ul class="list-unstyled list-info">
+							<li>
+								<label>Model</label><br>
+								Board of Directors Meeting
+							</li>
+							<li>
+								<label>Status:</label>
+								<ul>
+									<li>Agenda locked</li>
+									<li>The Protocol was not sent</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="col-md-3 margin-bottom-20">
+					<div ng-show="tabs[0].active">
+						<a class="btn btn-primary btn-block margin-top-0" data-ng-click="editAgenda()">
+						{{ 'Edit agenda' | translate }}</a>
+						<a class="btn btn-primary btn-block" data-ng-click="sendAgenda()">
+						{{ 'Send agenda' | translate }}</a>
+						<a class="btn btn-primary btn-block" data-ng-click="viewPDF(0)">
+						{{ 'View PDF' | translate }}</a>
+						<a class="btn btn-primary btn-block">
+						{{ 'View comments' | translate }}</a>
+					</div>
+					<div ng-show="tabs[1].active">
+						<a class="btn btn-primary btn-block margin-top-0" data-ng-click="editNotes()">
+						{{ 'Edit notes' | translate }}</a>
+						<a class="btn btn-primary btn-block" data-ng-click="sendNotes()">
+						{{ 'Send notes' | translate }}</a>
+						<a class="btn btn-primary btn-block" data-ng-click="viewPDF(1)">
+						{{ 'View PDF' | translate }}</a>
+						<a class="btn btn-primary btn-block">
+						{{ 'View comments' | translate }}</a>
+					</div>
+					<div ng-show="tabs[2].active">
+						<a class="btn btn-primary btn-block margin-top-0" data-ng-click="viewPDF(2)">
+						{{ 'View PDF' | translate }}</a>
+					</div>
+					<div ng-show="tabs[3].active">
+						<a class="btn btn-primary btn-block margin-top-0" data-ng-click="viewPDF(3)">
+						{{ 'View PDF' | translate }}</a>
+						<a class="btn btn-primary btn-block" data-ng-click="sendReminders()">
+						{{ 'Send reminders' | translate }}</a>
+					</div>
+				</div>
+				<div class="col-md-9 margin-bottom-20">
+					<div class="ui-tab-container">
+						<tabset class="ui-tab">
+						<tab ng-repeat="(key, tab) in tabs" heading="{{ tab.title | translate }}" active="tab.active" disabled="tab.disabled">
+						<div ng-include="tab.include"></div>
+						</tab>
+						</tabset>
+					</div>
+				</div>
+				<div class="clearfix margin-top-20"></div>
+			</section>
 		</div>
 	</div>
 	<!-- Modal -->
 	<script type="text/ng-template" id="viewPDF">
 		<div class="modal-body">
-				<iframe id="viewer" style="width: 100%; height: 100%; border: none"></iframe>
+					<iframe id="viewer" style="width: 100%; height: 100%; border: none"></iframe>
 		</div>
 		<div class="modal-footer">
-				<a
-						id="pdf-download"
-					class="btn btn-success">{{ 'Download PDF' | translate }}</a>
-				<button
-					class="btn btn-warning"
-					ng-click="close()">{{ 'Close' | translate }}</button>
+					<a
+								id="pdf-download"
+						class="btn btn-success">{{ 'Download PDF' | translate }}</a>
+					<button
+						class="btn btn-warning"
+						ng-click="close()">{{ 'Close' | translate }}</button>
 		</div>
 	</script>
 	<script type="text/ng-template" id="sendAgenda">
 		<div class="modal-header">
-				<h3>{{ 'Send Agenda' | translate }}</h3>
+					<h3>{{ 'Send Agenda' | translate }}</h3>
 		</div>
 		<div class="modal-body">
-			<div class="form-group">
-				<div class="input-group">
-					<span class="input-group-addon">{{ 'To' | translate }}</span>
-					<input class="form-control" type="text" ng-model="sendAgendaTo" />
-					<span class="input-group-addon" style="padding: 5px 12px" ng-hide="CCshown">
-						<button class="btn btn-success btn-xs" ng-click="CCshown=true">{{ 'CC' | translate }}</button>
-					</span>
+				<div class="form-group">
+						<div class="input-group">
+								<span class="input-group-addon">{{ 'To' | translate }}</span>
+								<input class="form-control" type="text" ng-model="sendAgendaTo" />
+								<span class="input-group-addon" style="padding: 5px 12px" ng-hide="CCshown">
+									<button class="btn btn-success btn-xs" ng-click="CCshown=true">{{ 'CC' | translate }}</button>
+								</span>
+						</div>
 				</div>
-			</div>
-			<div class="form-group" ng-show="CCshown">
-				<div class="input-group">
-					<span class="input-group-addon">{{ 'CC' | translate }}</span>
-					<input class="form-control" type="text" ng-model="sendAgendaCC" />
-					<span class="input-group-addon" style="padding: 5px 12px">
-						<button class="btn btn-danger btn-xs" ng-click="CCshown=false">{{ 'Hide' | translate }}</button>
-						<button class="btn btn-success btn-xs" ng-hide="BCCshown" ng-click="BCCshown=true">{{ 'BCC' | translate }}</button>
-					</span>
+				<div class="form-group" ng-show="CCshown">
+						<div class="input-group">
+								<span class="input-group-addon">{{ 'CC' | translate }}</span>
+								<input class="form-control" type="text" ng-model="sendAgendaCC" />
+								<span class="input-group-addon" style="padding: 5px 12px">
+									<button class="btn btn-danger btn-xs" ng-click="CCshown=false">{{ 'Hide' | translate }}</button>
+									<button class="btn btn-success btn-xs" ng-hide="BCCshown" ng-click="BCCshown=true">{{ 'BCC' | translate }}</button>
+								</span>
+						</div>
 				</div>
-			</div>
-			<div class="form-group" ng-show="BCCshown">
-				<div class="input-group">
-					<span class="input-group-addon">{{ 'BCC' | translate }}</span>
-					<input class="form-control" type="text" ng-model="sendAgendaBCC" />
-					<span class="input-group-addon" style="padding: 5px 12px">
-						<button class="btn btn-danger btn-xs" ng-click="BCCshown=false">{{ 'Hide' | translate }}</button>
-					</span>
+				<div class="form-group" ng-show="BCCshown">
+						<div class="input-group">
+								<span class="input-group-addon">{{ 'BCC' | translate }}</span>
+								<input class="form-control" type="text" ng-model="sendAgendaBCC" />
+								<span class="input-group-addon" style="padding: 5px 12px">
+									<button class="btn btn-danger btn-xs" ng-click="BCCshown=false">{{ 'Hide' | translate }}</button>
+								</span>
+						</div>
 				</div>
-			</div>
-			<div class="form-group">
-				<input class="form-control" type="text" ng-model="sendAgendaSubject" placeholder="{{ 'Subject' | translate }}" />
-			</div>
-			<div class="form-group">
-				<textarea class="form-control" ng-model="sendAgendaContent" placeholder="{{ 'Content' | translate }}" rows="6">
-				</textarea>
-			</div>
+				<div class="form-group">
+						<input class="form-control" type="text" ng-model="sendAgendaSubject" placeholder="{{ 'Subject' | translate }}" />
+				</div>
+				<div class="form-group">
+						<textarea class="form-control" ng-model="sendAgendaContent" placeholder="{{ 'Content' | translate }}" rows="6">
+						</textarea>
+				</div>
 		</div>
 		<div class="modal-footer">
-				<button
-					class="btn btn-success"
+					<button
+						class="btn btn-success"
 				ng-click="send('agenda')">{{ 'Send Agenda' | translate }}</a>
 			<button
 				class="btn btn-warning"
 				ng-click="close()">{{ 'Cancel' | translate }}</button>
-		</div>
-	</script>
-	<script type="text/ng-template" id="sendNotes">
-		<div class="modal-header">
+	</div>
+</script>
+<script type="text/ng-template" id="sendNotes">
+	<div class="modal-header">
 				<h3>{{ 'Send Notes' | translate }}</h3>
-		</div>
-		<div class="modal-body">
+	</div>
+	<div class="modal-body">
 			<div class="form-group">
-				<div class="input-group">
-					<span class="input-group-addon">{{ 'To' | translate }}</span>
-					<input class="form-control" type="text" ng-model="sendNotesTo" />
-					<span class="input-group-addon" style="padding: 5px 12px" ng-hide="CCshown">
-						<button class="btn btn-success btn-xs" ng-click="CCshown=true">{{ 'CC' | translate }}</button>
-					</span>
-				</div>
+					<div class="input-group">
+							<span class="input-group-addon">{{ 'To' | translate }}</span>
+							<input class="form-control" type="text" ng-model="sendNotesTo" />
+							<span class="input-group-addon" style="padding: 5px 12px" ng-hide="CCshown">
+								<button class="btn btn-success btn-xs" ng-click="CCshown=true">{{ 'CC' | translate }}</button>
+							</span>
+					</div>
 			</div>
 			<div class="form-group" ng-show="CCshown">
-				<div class="input-group">
-					<span class="input-group-addon">{{ 'CC' | translate }}</span>
-					<input class="form-control" type="text" ng-model="sendNotesCC" />
-					<span class="input-group-addon" style="padding: 5px 12px">
-						<button class="btn btn-danger btn-xs" ng-click="CCshown=false">{{ 'Hide' | translate }}</button>
-						<button class="btn btn-success btn-xs" ng-hide="BCCshown" ng-click="BCCshown=true">{{ 'BCC' | translate }}</button>
-					</span>
-				</div>
+					<div class="input-group">
+							<span class="input-group-addon">{{ 'CC' | translate }}</span>
+							<input class="form-control" type="text" ng-model="sendNotesCC" />
+							<span class="input-group-addon" style="padding: 5px 12px">
+								<button class="btn btn-danger btn-xs" ng-click="CCshown=false">{{ 'Hide' | translate }}</button>
+								<button class="btn btn-success btn-xs" ng-hide="BCCshown" ng-click="BCCshown=true">{{ 'BCC' | translate }}</button>
+							</span>
+					</div>
 			</div>
 			<div class="form-group" ng-show="BCCshown">
-				<div class="input-group">
-					<span class="input-group-addon">{{ 'BCC' | translate }}</span>
-					<input class="form-control" type="text" ng-model="sendNotesBCC" />
-					<span class="input-group-addon" style="padding: 5px 12px">
-						<button class="btn btn-danger btn-xs" ng-click="BCCshown=false">{{ 'Hide' | translate }}</button>
-					</span>
-				</div>
+					<div class="input-group">
+							<span class="input-group-addon">{{ 'BCC' | translate }}</span>
+							<input class="form-control" type="text" ng-model="sendNotesBCC" />
+							<span class="input-group-addon" style="padding: 5px 12px">
+								<button class="btn btn-danger btn-xs" ng-click="BCCshown=false">{{ 'Hide' | translate }}</button>
+							</span>
+					</div>
 			</div>
 			<div class="form-group">
-				<input class="form-control" type="text" ng-model="sendNotesSubject" placeholder="{{ 'Subject' | translate }}" />
+					<input class="form-control" type="text" ng-model="sendNotesSubject" placeholder="{{ 'Subject' | translate }}" />
 			</div>
 			<div class="form-group">
-				<textarea class="form-control" ng-model="sendNotesContent" placeholder="{{ 'Content' | translate }}" rows="6">
-				</textarea>
+					<textarea class="form-control" ng-model="sendNotesContent" placeholder="{{ 'Content' | translate }}" rows="6">
+					</textarea>
 			</div>
-		</div>
-		<div class="modal-footer">
+	</div>
+	<div class="modal-footer">
 				<button
 					class="btn btn-success"
-				ng-click="send('notes')">{{ 'Send Notes' | translate }}</a>
-			<button
-				class="btn btn-warning"
-				ng-click="close()">{{ 'Cancel' | translate }}</button>
+			ng-click="send('notes')">{{ 'Send Notes' | translate }}</a>
+		<button
+			class="btn btn-warning"
+			ng-click="close()">{{ 'Cancel' | translate }}</button>
+	</div>
+</script>
+<script type="text/ng-template" id="sendReminders">
+	<div class="modal-header">
+			<h3>{{ 'Send Reminders' | translate }}</h3>
+	</div>
+	<div class="modal-body">
+		<div class="form-group">
+				<div class="input-group">
+						<span class="input-group-addon">{{ 'To' | translate }}</span>
+						<input class="form-control" type="text" ng-model="sendRemindersTo" />
+						<span class="input-group-addon" style="padding: 5px 12px" ng-hide="CCshown">
+							<button class="btn btn-success btn-xs" ng-click="CCshown=true">{{ 'CC' | translate }}</button>
+						</span>
+				</div>
 		</div>
-	</script>
-	<script type="text/ng-template" id="sendReminders">
-		<div class="modal-header">
-				<h3>{{ 'Send Reminders' | translate }}</h3>
+		<div class="form-group" ng-show="CCshown">
+				<div class="input-group">
+						<span class="input-group-addon">{{ 'CC' | translate }}</span>
+						<input class="form-control" type="text" ng-model="sendRemindersCC" />
+						<span class="input-group-addon" style="padding: 5px 12px">
+							<button class="btn btn-danger btn-xs" ng-click="CCshown=false">{{ 'Hide' | translate }}</button>
+							<button class="btn btn-success btn-xs" ng-hide="BCCshown" ng-click="BCCshown=true">{{ 'BCC' | translate }}</button>
+						</span>
+				</div>
 		</div>
-		<div class="modal-body">
-			<div class="form-group">
+		<div class="form-group" ng-show="BCCshown">
 				<div class="input-group">
-					<span class="input-group-addon">{{ 'To' | translate }}</span>
-					<input class="form-control" type="text" ng-model="sendRemindersTo" />
-					<span class="input-group-addon" style="padding: 5px 12px" ng-hide="CCshown">
-						<button class="btn btn-success btn-xs" ng-click="CCshown=true">{{ 'CC' | translate }}</button>
-					</span>
+						<span class="input-group-addon">{{ 'BCC' | translate }}</span>
+						<input class="form-control" type="text" ng-model="sendRemindersBCC" />
+						<span class="input-group-addon" style="padding: 5px 12px">
+							<button class="btn btn-danger btn-xs" ng-click="BCCshown=false">{{ 'Hide' | translate }}</button>
+						</span>
 				</div>
-			</div>
-			<div class="form-group" ng-show="CCshown">
-				<div class="input-group">
-					<span class="input-group-addon">{{ 'CC' | translate }}</span>
-					<input class="form-control" type="text" ng-model="sendRemindersCC" />
-					<span class="input-group-addon" style="padding: 5px 12px">
-						<button class="btn btn-danger btn-xs" ng-click="CCshown=false">{{ 'Hide' | translate }}</button>
-						<button class="btn btn-success btn-xs" ng-hide="BCCshown" ng-click="BCCshown=true">{{ 'BCC' | translate }}</button>
-					</span>
-				</div>
-			</div>
-			<div class="form-group" ng-show="BCCshown">
-				<div class="input-group">
-					<span class="input-group-addon">{{ 'BCC' | translate }}</span>
-					<input class="form-control" type="text" ng-model="sendRemindersBCC" />
-					<span class="input-group-addon" style="padding: 5px 12px">
-						<button class="btn btn-danger btn-xs" ng-click="BCCshown=false">{{ 'Hide' | translate }}</button>
-					</span>
-				</div>
-			</div>
-			<div class="form-group">
+		</div>
+		<div class="form-group">
 				<input class="form-control" type="text" ng-model="sendRemindersSubject" placeholder="{{ 'Subject' | translate }}" />
-			</div>
-			<div class="form-group">
+		</div>
+		<div class="form-group">
 				<textarea class="form-control" ng-model="sendRemindersContent" placeholder="{{ 'Content' | translate }}" rows="6">
 				</textarea>
-			</div>
 		</div>
-		<div class="modal-footer">
-				<button
-					class="btn btn-success"
-				ng-click="send('reminders')">{{ 'Send Reminders' | translate }}</a>
+	</div>
+	<div class="modal-footer">
 			<button
-				class="btn btn-warning"
-				ng-click="close()">{{ 'Cancel' | translate }}</button>
-		</div>
-	</script>
+				class="btn btn-success"
+			ng-click="send('reminders')">{{ 'Send Reminders' | translate }}</a>
+		<button
+			class="btn btn-warning"
+			ng-click="close()">{{ 'Cancel' | translate }}</button>
+	</div>
+</script>
 <!-- end Modal -->
 </section>

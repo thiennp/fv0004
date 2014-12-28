@@ -174,6 +174,10 @@ window.kuvenoApp = angular
 				.state('main.ViewOneMeeting', {
 					url: '/view_one_meeting/:meetingid',
 					templateUrl: 'views/main/view_one_meeting.html'
+				})
+				.state('main.CreateAgenda', {
+					url: '/create_agenda/:groupId',
+					templateUrl: 'views/main/create_agenda.html'
 				});
 		}
 	])

@@ -104,6 +104,7 @@ kuvenoApp
 						if ($scope.groups) {
 							if ($scope.groups[groupId]) {
 								if ($scope.groups[groupId].isopen) {
+									$scope.currentGroupId = $scope.groups[groupId].ID;
 									return {
 										'padding-top': totalHeight + 'px',
 										'opacity': 1
