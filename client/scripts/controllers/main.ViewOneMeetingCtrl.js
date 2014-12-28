@@ -101,6 +101,30 @@ kuvenoApp
 					LoggerSrv.log('Task updated');
 				};
 
+				$scope.sendAgenda = function () {
+					$scope.CCshown = false;
+					$scope.BCCshown = false;
+					$modal.open({
+						templateUrl: 'sendAgenda',
+						controller: 'ModalCtrl'
+					});
+				};
+				$scope.sendNotes = function () {
+					$scope.CCshown = false;
+					$scope.BCCshown = false;
+					$modal.open({
+						templateUrl: 'sendNotes',
+						controller: 'ModalCtrl'
+					});
+				};
+				$scope.sendReminders = function () {
+					$scope.CCshown = false;
+					$scope.BCCshown = false;
+					$modal.open({
+						templateUrl: 'sendReminders',
+						controller: 'ModalCtrl'
+					});
+				};
 				$scope.editAgenda = function () {
 					$scope.agendaEditedContent = $scope.meeting.agenda.content;
 					$scope.agendaEdit = true;
@@ -127,12 +151,13 @@ kuvenoApp
 				};
 				$scope.viewPDF = function (id) {
 					var doc = new jsPDF();
+					console.log('meeting-tab-' + id);
 					doc.fromHTML(document.getElementById('meeting-tab-' + id), 15, 15, {
 						'width': 170
 					}, function () {
 						$modal.open({
 							templateUrl: 'viewPDF',
-							controller: 'ViewOneMeetingPDFCtrl'
+							controller: 'ModalCtrl'
 						});
 						$timeout(function () {
 							var pdfString = doc.output('datauristring');
@@ -220,13 +245,5 @@ kuvenoApp
 					}
 				});
 			});
-		}
-	])
-	.controller('ViewOneMeetingPDFCtrl', [
-		'$scope', '$modalInstance',
-		function ($scope, $modalInstance) {
-			$scope.close = function () {
-				$modalInstance.dismiss('cancel');
-			};
 		}
 	]);

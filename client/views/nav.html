@@ -4,7 +4,7 @@
 		data-collapse-nav
 		data-slim-scroll
 		data-highlight-active>
-		<li data-ng-show="$stateHistory.length > 1"><a data-ng-click="back()"><i class="fa fa-arrow-left"><span class="icon-bg bg-success"></span></i><span>{{ 'Back' | translate }}</span> </a></li>
+		<li data-ng-show="$stateHistory.length > 1"><a data-ng-click="back()"><i class="fa fa-arrow-left"><span class="icon-bg bg-danger"></span></i><span>{{ 'Back' | translate }}</span> </a></li>
 		<li>
 			<a ui-sref="user.Profile"><i class="fa fa-user"><span class="icon-bg bg-orange"></span></i><span>{{ 'User' | translate }}</span></a>
 			<ul>
@@ -15,7 +15,7 @@
 			</ul>
 		</li>
 		<li>
-			<a ui-sref="main.Home"><i class="fa fa-tasks"><span class="icon-bg bg-orange"></span></i><span>{{ 'Main' | translate }}</span></a>
+			<a ui-sref="main.Home"><i class="fa fa-tasks"><span class="icon-bg bg-warning"></span></i><span>{{ 'Main' | translate }}</span></a>
 			<ul>
 				<li><a ui-sref="main.Home"><i class="fa fa-caret-right"></i><span>{{ 'Main' | translate }}</span></a></li>
 				<li><a ui-sref="main.MyTasks"><i class="fa fa-caret-right"></i><span>{{ 'My Tasks' | translate }}</span></a></li>
