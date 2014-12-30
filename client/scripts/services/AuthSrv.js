@@ -18,16 +18,6 @@ kuvenoApp
 						$state.go('auth.SignIn');
 					} else {
 						$rootScope.user = this.getUserData();
-						$rootScope.assignedTasks = 0;
-						$rootScope.ownedTasks = 0;
-						$rootScope.completedTasks = 0;
-						$rootScope.overdueTasks = 0;
-						$rootScope.meetingInvolved = 0;
-						$rootScope.meetingComing = 0;
-						$rootScope.groupInvolved = 0;
-						$rootScope.organizationInvolved = 0;
-						$rootScope.overdueTaskList = [];
-						$rootScope.comingMeetingList = [];
 						var itv = setInterval(function () {
 							if ($rootScope.wakandaInit) {
 								$rootScope.userCollection = $wakanda.$ds.User.$find({
@@ -116,37 +106,51 @@ kuvenoApp
 									groupCollection = $wakanda.$ds.UserWorkgroupMember.$find(),
 									organizationCollection = $wakanda.$ds.UserOrganization.$find();
 
-								taskCollection.$promise.then(function () {
-									var i = 0;
-									while (taskCollection[i]) {
-										getUser(taskCollection[i]);
-										i++;
-									}
-								});
+								if (!$rootScope.notificationLoaded) {
+									$rootScope.assignedTasks = 0;
+									$rootScope.ownedTasks = 0;
+									$rootScope.completedTasks = 0;
+									$rootScope.overdueTasks = 0;
+									$rootScope.meetingInvolved = 0;
+									$rootScope.meetingComing = 0;
+									$rootScope.groupInvolved = 0;
+									$rootScope.organizationInvolved = 0;
+									$rootScope.overdueTaskList = [];
+									$rootScope.comingMeetingList = [];
+									taskCollection.$promise.then(function () {
+										var i = 0;
+										while (taskCollection[i]) {
+											getUser(taskCollection[i]);
+											i++;
+										}
+									});
 
-								meetingCollection.$promise.then(function () {
-									var i = 0;
-									while (meetingCollection[i]) {
-										checkPaticipants(meetingCollection[i]);
-										i++;
-									}
-								});
+									meetingCollection.$promise.then(function () {
+										var i = 0;
+										while (meetingCollection[i]) {
+											checkPaticipants(meetingCollection[i]);
+											i++;
+										}
+									});
 
-								groupCollection.$promise.then(function () {
-									var i = 0;
-									while (groupCollection[i]) {
-										checkUserInvolved(groupCollection[i], 'group');
-										i++;
-									}
-								});
+									groupCollection.$promise.then(function () {
+										var i = 0;
+										while (groupCollection[i]) {
+											checkUserInvolved(groupCollection[i], 'group');
+											i++;
+										}
+									});
 
-								organizationCollection.$promise.then(function () {
-									var i = 0;
-									while (organizationCollection[i]) {
-										checkUserInvolved(organizationCollection[i], 'organization');
-										i++;
-									}
-								});
+									organizationCollection.$promise.then(function () {
+										var i = 0;
+										while (organizationCollection[i]) {
+											checkUserInvolved(organizationCollection[i], 'organization');
+											i++;
+										}
+									});
+
+									$rootScope.notificationLoaded = true;
+								}
 								clearInterval(itv);
 							}
 						}, 100);
