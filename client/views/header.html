@@ -15,6 +15,62 @@
 		<span class="icon-bar"></span>
 	</div>
 	<div class="top-nav">
+		<ul class="nav-left list-unstyled">
+			<li class="dropdown" ng-show="overdueTasks">
+				<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+					<i class="fa fa-clock-o"></i>
+					<span class="badge badge-danger">{{ overdueTasks }}</span>
+				</a>
+				<div class="dropdown-menu with-arrow panel panel-default">
+					<div class="panel-heading">
+						{{'Overdue tasks:' | translate }} {{ overdueTasks }}
+					</div>
+					<ul class="list-group">
+						<li class="list-group-item" ng-repeat="task in overdueTaskList">
+							<a href="javascript:;" class="media">
+								<span class="media-left media-icon">
+								<span class="round-icon sm bg-danger"><i class="fa fa-clock-o"></i></span>
+								</span>
+								<div class="media-body">
+									<span class="block">{{task.description}}</span>
+									<span class="text-muted">{{ ago(task.dueDate) }}</span>
+								</div>
+							</a>
+						</li>
+					</ul>
+					<div class="panel-footer">
+						<a ui-sref="main.MyTasks">Show all tasks.</a>
+					</div>
+				</div>
+			</li>
+			<li class="dropdown" ng-show="meetingComing">
+				<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+					<i class="fa fa-calendar"></i>
+					<span class="badge badge-info">{{meetingComing}}</span>
+				</a>
+				<div class="dropdown-menu with-arrow panel panel-default">
+					<div class="panel-heading">
+						{{'Comming meetings:'}} {{meetingComing}}
+					</div>
+					<ul class="list-group">
+						<li class="list-group-item" ng-repeat="meeting in comingMeetingList">
+							<a href="javascript:;" class="media">
+								<span class="media-left media-icon">
+								<span class="round-icon sm bg-info"><i class="fa fa-calendar"></i></span>
+								</span>
+								<div class="media-body">
+									<span class="block">{{meeting.name}}</span>
+									<span class="text-muted">{{ ago(meeting.meetingTime) }}</span>
+								</div>
+							</a>
+						</li>
+					</ul>
+					<div class="panel-footer">
+						<a ui-sref="main.Home">Show all meetings.</a>
+					</div>
+				</div>
+			</li>
+		</ul>
 		<ul class="nav-right pull-right list-unstyled">
 			<li class="dropdown langs text-normal" data-ng-controller="LangCtrl">
 				<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">

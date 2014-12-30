@@ -18,6 +18,16 @@ kuvenoApp
 						$state.go('auth.SignIn');
 					} else {
 						$rootScope.user = this.getUserData();
+						$rootScope.assignedTasks = 0;
+						$rootScope.ownedTasks = 0;
+						$rootScope.completedTasks = 0;
+						$rootScope.overdueTasks = 0;
+						$rootScope.meetingInvolved = 0;
+						$rootScope.meetingComing = 0;
+						$rootScope.groupInvolved = 0;
+						$rootScope.organizationInvolved = 0;
+						$rootScope.overdueTaskList = [];
+						$rootScope.comingMeetingList = [];
 						var itv = setInterval(function () {
 							if ($rootScope.wakandaInit) {
 								$rootScope.userCollection = $wakanda.$ds.User.$find({
@@ -39,6 +49,102 @@ kuvenoApp
 									} else {
 										defer.resolve(false);
 										$state.go('auth.SignIn');
+									}
+								});
+								// Inject owner firstname and owner id to task
+								var getUser = function (task) {
+										var owner = task.owner.$fetch();
+										owner.then(function (data) {
+											if (data.ID === $rootScope.user.id) {
+												$rootScope.ownedTasks++;
+												var status = taskStatus(task);
+												$rootScope.overdueTasks += status.overdue;
+												$rootScope.completedTasks += status.completed;
+											}
+										});
+										var assignedBy = task.assignedBy.$fetch();
+										assignedBy.then(function (data) {
+											if (data.ID === $rootScope.user.id) {
+												$rootScope.assignedTasks++;
+											}
+										});
+									},
+									taskStatus = function (task) {
+										var completed = 0;
+										var overdue = 0;
+										if (task.isCompleted) {
+											completed = 1;
+										} else {
+											if (moment().diff(task.dueDate) > 0) {
+												overdue = 1;
+												$rootScope.overdueTaskList.push(task);
+											}
+										}
+										return {
+											'completed': completed,
+											'overdue': overdue
+										};
+									},
+									checkPaticipants = function (meeting) {
+										var participants = meeting.participants.$fetch();
+										participants.then(function (data) {
+											var i = 0;
+											while (data[i]) {
+												if (data[i].ID === $rootScope.user.id) {
+													if (moment().diff(meeting.meetingTime) > 0) {
+														$rootScope.meetingInvolved++;
+													} else {
+														$rootScope.meetingComing++;
+														$rootScope.comingMeetingList.push(meeting);
+													}
+													break;
+												}
+												i++;
+											}
+										});
+									},
+									checkUserInvolved = function (collection, type) {
+										var user = collection.user.$fetch();
+										user.then(function (data) {
+											if (data.ID === $rootScope.user.id) {
+												$rootScope[type + 'Involved']++;
+											}
+										});
+									},
+									taskCollection = $wakanda.$ds.Task.$find(),
+									meetingCollection = $wakanda.$ds.Meeting.$find(),
+									groupCollection = $wakanda.$ds.UserWorkgroupMember.$find(),
+									organizationCollection = $wakanda.$ds.UserOrganization.$find();
+
+								taskCollection.$promise.then(function () {
+									var i = 0;
+									while (taskCollection[i]) {
+										getUser(taskCollection[i]);
+										i++;
+									}
+								});
+
+								meetingCollection.$promise.then(function () {
+									var i = 0;
+									while (meetingCollection[i]) {
+										checkPaticipants(meetingCollection[i]);
+										i++;
+									}
+								});
+
+								groupCollection.$promise.then(function () {
+									var i = 0;
+									while (groupCollection[i]) {
+										checkUserInvolved(groupCollection[i], 'group');
+										i++;
+									}
+								});
+
+								organizationCollection.$promise.then(function () {
+									var i = 0;
+									while (organizationCollection[i]) {
+										checkUserInvolved(organizationCollection[i], 'organization');
+										i++;
 									}
 								});
 								clearInterval(itv);

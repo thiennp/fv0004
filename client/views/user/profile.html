@@ -101,23 +101,71 @@
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="panel mini-box">
-								<span class="box-icon bg-danger">
-								<i class="fa fa-film"></i>
+								<span class="box-icon bg-info">
+								<i class="fa fa-arrow-circle-right"></i>
 								</span>
 								<div class="box-info">
-									<p class="size-h2">39</p>
-									<p class="text-muted">Amazing Films</p>
+									<p class="text-muted">{{'Assigned' | translate}}</p>
+									<p class="size-h3">{{ assignedTasks }}</p>
+									<p class="text-muted">{{'tasks' | translate}}</p>
 								</div>
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="panel mini-box">
 								<span class="box-icon bg-warning">
-								<i class="fa fa-camera"></i>
+								<i class="fa fa-arrow-circle-left"></i>
 								</span>
 								<div class="box-info">
-									<p class="size-h2">63</p>
-									<p class="text-muted">Wonderful Photos</p>
+									<p class="text-muted">{{'Own' | translate}}</p>
+									<p class="size-h3">{{ ownedTasks }}</p>
+									<p class="text-muted">{{'tasks' | translate}}</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="panel mini-box">
+								<span class="box-icon bg-success">
+								<i class="fa fa-check"></i>
+								</span>
+								<div class="box-info">
+									<p class="size-h2">{{ completedTasks }}</p>
+									<p class="text-muted">{{'Completed tasks' | translate}}</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="panel mini-box">
+								<span class="box-icon bg-danger">
+								<i class="fa fa-ambulance"></i>
+								</span>
+								<div class="box-info">
+									<p class="size-h2">{{ overdueTasks }}</p>
+									<p class="text-muted">{{'Overdue tasks' | translate}}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="panel mini-box">
+								<span class="box-icon bg-primary">
+								<i class="fa fa-calendar"></i>
+								</span>
+								<div class="box-info">
+									<p class="size-h2">{{ meetingInvolved }}</p>
+									<p class="text-muted">{{'Meeting get involved' | translate}}</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="panel mini-box">
+								<span class="box-icon bg-warning">
+								<i class="fa fa-clock-o"></i>
+								</span>
+								<div class="box-info">
+									<p class="size-h2">{{ meetingComing }}</p>
+									<p class="text-muted">{{'Meeting is coming' | translate}}</p>
 								</div>
 							</div>
 						</div>
@@ -126,11 +174,11 @@
 						<div class="col-sm-6">
 							<div class="panel mini-box">
 								<span class="box-icon bg-success">
-								<i class="fa fa-bookmark-o"></i>
+								<i class="fa fa-users"></i>
 								</span>
 								<div class="box-info">
-									<p class="size-h2">55</p>
-									<p class="text-muted">New Collections</p>
+									<p class="size-h2">{{ groupInvolved }}</p>
+									<p class="text-muted">{{'Group get involved' | translate}}</p>
 								</div>
 							</div>
 						</div>
@@ -140,8 +188,8 @@
 								<i class="fa fa-check"></i>
 								</span>
 								<div class="box-info">
-									<p class="size-h2">34</p>
-									<p class="text-muted">Tasks Finised</p>
+									<p class="size-h2">{{organizationInvolved}}</p>
+									<p class="text-muted">{{'Organization get involved' | translate}}</p>
 								</div>
 							</div>
 						</div>
