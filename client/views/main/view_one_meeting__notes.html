@@ -2,7 +2,7 @@
 	<div ng-hide="notesEdit" id="meeting-tab-1" ng-bind-html="meeting.notes.content"></div>
 	<div ng-show="notesEdit">
 		<form ng-submit="applyNotes()">
-			<div text-angular ng-model="meeting.notes.content" class="text-angular"></div>
+			<textarea class="tinymce" id="notes-content" ui-tinymce ng-model="meeting.notes.content"></textarea>
 			<button class="btn btn-danger margin-top-10" type="button" ng-click="cancelNotes()">{{ 'Cancel' | translate }}</button>
 			<button class="btn btn-primary margin-top-10" type="submit">{{ 'Submit' | translate }}</button>
 		</form>

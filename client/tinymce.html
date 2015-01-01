@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kuveno editor</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="vendors/tinymce/css/pikaday.css">
+  <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="vendors/tinymce/js/tinymce/tinymce.min.js"></script>
+  <script type="text/javascript" src="vendors/tinymce/js/lodash.min.js"></script>
+  <script type="text/javascript" src="vendors/tinymce/js/moment-with-locales.min.js"></script>
+  <script type="text/javascript" src="vendors/tinymce/js/pikaday.js"></script>
+  <script type="text/javascript" src="vendors/tinymce/js/main.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      main()
+    })
+  </script>
+  <style>
+    /** Ugly hack to beat the ugly z-index: 65000+ hack in TinyMCE Dialog **/
+    .pika-single { z-index: 70000; }
+  </style>
+</head>
+<body>
+  <div class="container">
+      <div name="meeting-doc">
+        <h1>Meeting notes</h1>
+        <h2>1. Opening</h2>
+        <p>Tim opened the meeting at 18:01</p>
+        <h2>2. Investments</h2>
+        <p class="task"><span class="assignee mceNonEditable" data-id="1235">John</span> will further research the market in Venezuela.</p>
+        <p>Discussion about our future investments in China. This should be done by 12.12.2014</p>
+        <p class="decision">
+          ﻿Decided to concentrate the next board meeting on the South-American market.
+        </p>
+        <h2>3. Human resources</h2>
+        <p>No real news.</p>
+        <h2>4. Closing</h2>
+        <p>The meeting was closed at 18:53</p>
+      </div>
+      <br/>
+      <button name="save" class="btn btn-primary">Save</button>
+  </div>
+</body>
+</html>

@@ -29,6 +29,11 @@
     "_": false,
     "toastr": false,
     "moment": false,
-    "jsPDF": false
+    "jsPDF": false,
+    "tinymce": false,
+    "tinyMCE": false,
+    "Pikaday": false,
+    "consolelog": false,
+    "main": false
   }
 }

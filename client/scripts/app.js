@@ -6,7 +6,6 @@ window.kuvenoApp = angular
 		'ngAnimate',
 		'ngRoute',
 		'ngSanitize',
-		'textAngular',
 		'pascalprecht.translate',
 		'ui.bootstrap',
 		'ui.router',
