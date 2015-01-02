@@ -8,7 +8,7 @@ kuvenoApp
 			$scope.lang = localStorage.getItem('lang');
 			$scope.changeLang = function (key, locale) {
 				$scope.lang = key;
-				// $translate.uses(key);
+				$translate.use(key);
 				localStorage.setItem('lang', key);
 				localStorage.setItem('locale', locale);
 				moment.locale(locale);

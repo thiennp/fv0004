@@ -15,9 +15,10 @@ window.kuvenoApp = angular
 		'$rootScope',
 		'$state',
 		'$stateParams',
+		'$translate',
 		'$wakanda',
 		'amMoment',
-		function ($rootScope, $state, $stateParams, $wakanda, amMoment) {
+		function ($rootScope, $state, $stateParams, $translate, $wakanda, amMoment) {
 			var oninit;
 			$rootScope.wakandaInit = false;
 			$rootScope.$stateHistory = [];
@@ -36,6 +37,15 @@ window.kuvenoApp = angular
 					date = new Date(date);
 				}
 				return moment(date).fromNow();
+			};
+			$rootScope.lang = localStorage.getItem('lang');
+			$rootScope.changeLang = function (key, locale) {
+				$rootScope.lang = key;
+				$translate.use(key);
+				localStorage.setItem('lang', key);
+				localStorage.setItem('locale', locale);
+				moment.locale(locale);
+				// console.log(moment.localeData());
 			};
 			if (localStorage.getItem('locale') === null) {
 				var locale = 'en';

@@ -72,25 +72,25 @@
 			</li>
 		</ul>
 		<ul class="nav-right pull-right list-unstyled">
-			<li class="dropdown langs text-normal" data-ng-controller="LangCtrl">
+			<li class="dropdown langs text-normal">
 				<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
 					{{lang}}
 				</a>
 				<ul class="dropdown-menu with-arrow pull-right list-langs" role="menu">
-					<li data-ng-show="lang !== 'English' ">
-						<a href="javascript:;" data-ng-click="changeLang('English', 'en')"><div class="flag flags-american"></div> English</a>
+					<li ng-show="lang !== 'English' ">
+						<a href="javascript:;" ng-click="changeLang('English', 'en')"><div class="flag flags-american"></div> English</a>
 					</li>
-					<li data-ng-show="lang !== 'Suomi' ">
-						<a href="javascript:;" data-ng-click="changeLang('Suomi', 'fi')"><div class="flag flags-finland"></div> Suomi</a>
+					<li ng-show="lang !== 'Suomi' ">
+						<a href="javascript:;" ng-click="changeLang('Suomi', 'fi')"><div class="flag flags-finland"></div> Suomi</a>
 					</li>
-					<li data-ng-show="lang !== 'Svenska' ">
-						<a href="javascript:;" data-ng-click="changeLang('Svenska', 'sv')"><div class="flag flags-sweden"></div> Svenska</a>
+					<li ng-show="lang !== 'Svenska' ">
+						<a href="javascript:;" ng-click="changeLang('Svenska', 'sv')"><div class="flag flags-sweden"></div> Svenska</a>
 					</li>
 				</ul>
 			</li>
 			<li class="dropdown text-normal nav-profile">
 				<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-					<img data-ng-cloak data-ng-src="{{user.avatar}}" alt="" class="img-circle img30_30">
+					<img ng-cloak ng-src="{{user.avatar}}" alt="" class="img-circle img30_30">
 					<span class="hidden-xs">
 					<span>{{user.firstname}}</span></span>
 				</a>

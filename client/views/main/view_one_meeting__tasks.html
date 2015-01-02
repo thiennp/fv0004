@@ -1,7 +1,7 @@
-<section data-ng-cloak id="meeting-tab-3" class="page-tasks">
+<section ng-cloak id="meeting-tab-3" class="page-tasks">
 	<h4>{{ 'Open Tasks' | translate }}</h4>
 	<ul class="task-list list-unstyled">
-		<li data-ng-repeat="task in meeting.tasks | orderBy:'dueDate':reverse | filter:{isCompleted:false} track by $index" data-ng-class="{editing: task == editedTask}">
+		<li ng-repeat="task in meeting.tasks | orderBy:'dueDate':reverse | filter:{isCompleted:false} track by $index" ng-class="{editing: task == editedTask}">
 			<div class="callout callout-danger">
 				<div class="view">
 					<div class="row">
@@ -15,26 +15,26 @@
 								{{ task.description }}
 							</label>
 						</div>
-						<div class="col-md-3" data-ng-class="{'text-danger':task.overdue, 'text-success':(!task.overdue)}">
+						<div class="col-md-3" ng-class="{'text-danger':task.overdue, 'text-success':(!task.overdue)}">
 							<label>
 								<small>({{ ago(task.dueDate) }})</small>
 							</label>
 						</div>
 						<div class="col-md-2">
-							<span class="glyphicon glyphicon-ok" data-ng-click="completed(task)"></span>
-							<span class="glyphicon glyphicon-pencil" data-ng-click="edit(task)"></span>
-							<span class="glyphicon glyphicon-remove" data-ng-click="remove(task, $index)"></span>
+							<span class="glyphicon glyphicon-ok" ng-click="completed(task)"></span>
+							<span class="glyphicon glyphicon-pencil" ng-click="edit(task)"></span>
+							<span class="glyphicon glyphicon-remove" ng-click="remove(task, $index)"></span>
 						</div>
 					</div>
 				</div>
 				<div class="edit">
 					<div class="col-md-3">
-						<select class="form-control" data-ng-model="task.ownerUserValue">
-							<option data-ng-repeat="user in users" value="{{user.ID}}">{{user.firstname}}</option>
+						<select class="form-control" ng-model="task.ownerUserValue">
+							<option ng-repeat="user in users" value="{{user.ID}}">{{user.firstname}}</option>
 						</select>
 					</div>
 					<div class="col-md-5">
-						<input type="text" class="form-control" data-ng-trim="false" data-ng-model="task.description" data-task-focus="task == editedTask">
+						<input type="text" class="form-control" ng-trim="false" ng-model="task.description" data-task-focus="task == editedTask">
 					</div>
 					<div class="col-md-3">
 						<div class="input-group ui-datepicker">
@@ -50,7 +50,7 @@
 						</div>
 					</div>
 					<div class="col-md-1">
-						<span class="glyphicon glyphicon-ok" data-ng-click="doneEditing(task, $index)"></span>
+						<span class="glyphicon glyphicon-ok" ng-click="doneEditing(task, $index)"></span>
 					</div>
 					<div class="clearfix"></div>
 				</div>
@@ -59,7 +59,7 @@
 	</ul>
 	<h4>{{ 'Closed Tasks' | translate }}</h4>
 	<ul class="task-list list-unstyled">
-		<li data-ng-repeat="task in meeting.tasks | orderBy:'dueDate':reverse | filter:{isCompleted:true} track by $index" data-ng-class="{editing: task == editedTask}">
+		<li ng-repeat="task in meeting.tasks | orderBy:'dueDate':reverse | filter:{isCompleted:true} track by $index" ng-class="{editing: task == editedTask}">
 			<div class="callout callout-success">
 				<div class="view">
 					<div class="row">
@@ -73,26 +73,26 @@
 								{{ task.description }}
 							</label>
 						</div>
-						<div class="col-md-3" data-ng-class="{'text-danger':task.overdue, 'text-success':(!task.overdue)}">
+						<div class="col-md-3" ng-class="{'text-danger':task.overdue, 'text-success':(!task.overdue)}">
 							<label class="task-completed">
 								<small>({{ ago(task.dueDate) }})</small>
 							</label>
 						</div>
 						<div class="col-md-2">
-							<span class="glyphicon glyphicon-unchecked" data-ng-click="incompleted(task)"></span>
-							<span class="glyphicon glyphicon-pencil" data-ng-click="edit(task)"></span>
-							<span class="glyphicon glyphicon-remove" data-ng-click="remove(task, $index)"></span>
+							<span class="glyphicon glyphicon-unchecked" ng-click="incompleted(task)"></span>
+							<span class="glyphicon glyphicon-pencil" ng-click="edit(task)"></span>
+							<span class="glyphicon glyphicon-remove" ng-click="remove(task, $index)"></span>
 						</div>
 					</div>
 				</div>
 				<div class="edit">
 					<div class="col-md-3">
-						<select class="form-control" data-ng-model="task.ownerUserValue">
-							<option data-ng-repeat="user in users" value="{{user.ID}}">{{user.firstname}}</option>
+						<select class="form-control" ng-model="task.ownerUserValue">
+							<option ng-repeat="user in users" value="{{user.ID}}">{{user.firstname}}</option>
 						</select>
 					</div>
 					<div class="col-md-5">
-						<input type="text" class="form-control" data-ng-trim="false" data-ng-model="task.description" data-task-focus="task == editedTask">
+						<input type="text" class="form-control" ng-trim="false" ng-model="task.description" data-task-focus="task == editedTask">
 					</div>
 					<div class="col-md-3">
 						<div class="input-group ui-datepicker">
@@ -108,7 +108,7 @@
 						</div>
 					</div>
 					<div class="col-md-1">
-						<span class="glyphicon glyphicon-ok" data-ng-click="doneEditing(task, $index)"></span>
+						<span class="glyphicon glyphicon-ok" ng-click="doneEditing(task, $index)"></span>
 					</div>
 					<div class="clearfix"></div>
 				</div>

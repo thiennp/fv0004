@@ -1,11 +1,11 @@
-<section id="content" class="animate-fade-up" data-ng-controller="MyTasksCtrl">
+<section id="content" class="animate-fade-up" ng-controller="MyTasksCtrl">
 	<div class="view-container">
 		<div class="page page-tasks">
 			<div class="row">
 				<div class="col-sm-9">
 					<div class="clearfix"></div>
 					<section class="task-container">
-						<form data-ng-submit="add()" class="add-task">
+						<form ng-submit="add()" class="add-task">
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									{{ 'Create new task' | translate }}
@@ -15,16 +15,16 @@
 									{{ 'Description' | translate }}
 								</div>
 								<div class="col-md-10">
-									<input type="text" placeholder="{{ 'Description' | translate }}" class="form-control" data-ng-model="newTask.description" autofocus>
+									<input type="text" placeholder="{{ 'Description' | translate }}" class="form-control" ng-model="newTask.description" autofocus>
 								</div>
 								<div class="margin-bottom-10 clearfix"></div>
 								<div class="col-md-2 text-right padding-top-5">
 									{{ 'Assigned to' | translate }}
 								</div>
 								<div class="col-md-3">
-									<select class="form-control" data-ng-model="newTask.ownerUserValue">
+									<select class="form-control" ng-model="newTask.ownerUserValue">
 										<option value="" disabled="disabled">{{ 'Select user' | translate }}</option>
-										<option data-ng-repeat="user in users" value="{{user.ID}}">
+										<option ng-repeat="user in users" value="{{user.ID}}">
 											{{user.firstname}}
 										</option>
 									</select>
@@ -53,36 +53,36 @@
 						<div class="panel panel-default">
 							<section>
 								<ul class="filters list-inline nav nav-tabs">
-									<li data-ng-class="{active: statusFilter == ''}">
-										<a href="" data-toggle="tab" data-ng-click="filter('all')">
+									<li ng-class="{active: statusFilter == ''}">
+										<a href="" data-toggle="tab" ng-click="filter('all')">
 											{{ 'All' | translate }}
 										</a>
 									</li>
-									<li data-ng-class="{active: statusFilter.isCompleted == false }">
-										<a href="" data-toggle="tab" data-ng-click="filter('active')">
+									<li ng-class="{active: statusFilter.isCompleted == false }">
+										<a href="" data-toggle="tab" ng-click="filter('active')">
 											{{ 'Open' | translate }}
 										</a>
 									</li>
-									<li data-ng-class="{active: statusFilter.isCompleted == true }">
-										<a href="" data-toggle="tab" data-ng-click="filter('isCompleted')">
+									<li ng-class="{active: statusFilter.isCompleted == true }">
+										<a href="" data-toggle="tab" ng-click="filter('isCompleted')">
 											{{ 'Completed' | translate }}
 										</a>
 									</li>
 									<li class="pull-right form-group col-md-6">
 										<div class="row">
 											<div class="col-md-6 padding-left-15 padding-right-5">
-												<button class="btn btn-default btn-block" data-ng-click="sort('group')">
+												<button class="btn btn-default btn-block" ng-click="sort('group')">
 												{{ 'Sort by group' | translate }}
-												<span data-ng-show="sortType=='group'" >
-												<i class="fa" data-ng-class="{'fa-angle-up':reverse,'fa-angle-down':!reverse}"></i>
+												<span ng-show="sortType=='group'" >
+												<i class="fa" ng-class="{'fa-angle-up':reverse,'fa-angle-down':!reverse}"></i>
 												</span>
 												</button>
 											</div>
 											<div class="col-md-6 padding-right-20 padding-left-0">
-												<button class="btn btn-default btn-block" data-ng-click="sort('dueDate')">
+												<button class="btn btn-default btn-block" ng-click="sort('dueDate')">
 												{{ 'Sort by date' | translate }}
-												<span data-ng-show="sortType=='dueDate'">
-												<i class="fa" data-ng-class="{'fa-angle-up':reverse,'fa-angle-down':!reverse}"></i>
+												<span ng-show="sortType=='dueDate'">
+												<i class="fa" ng-class="{'fa-angle-up':reverse,'fa-angle-down':!reverse}"></i>
 												</span>
 												</button>
 											</div>
@@ -90,44 +90,44 @@
 									</li>
 								</ul>
 							</section>
-							<section data-ng-cloak>
+							<section ng-cloak>
 								<ul class="task-list list-unstyled col-md-12">
-									<li data-ng-repeat="task in tasks | orderBy:sortType:reverse | filter:statusFilter track by $index" data-ng-class="{completed: task.isCompleted, editing: task == editedTask}">
-										<div class="callout" data-ng-class="{'callout-danger': task.isCompleted, 'callout-success': !task.isCompleted}">
+									<li ng-repeat="task in tasks | orderBy:sortType:reverse | filter:statusFilter track by $index" ng-class="{completed: task.isCompleted, editing: task == editedTask}">
+										<div class="callout" ng-class="{'callout-danger': task.isCompleted, 'callout-success': !task.isCompleted}">
 											<div class="view">
 												<div class="row">
 													<div class="col-md-2">
-														<label data-ng-click="edit(task)">
+														<label ng-click="edit(task)">
 															{{ task.ownerUser }}
 														</label>
 													</div>
 													<div class="col-md-5">
-														<label data-ng-click="edit(task)">
+														<label ng-click="edit(task)">
 															{{ task.description }}
 														</label>
 													</div>
-													<div class="col-md-3" data-ng-class="{'text-danger':task.overdue, 'text-success':(!task.overdue)}">
-														<label data-ng-click="edit(task)">
+													<div class="col-md-3" ng-class="{'text-danger':task.overdue, 'text-success':(!task.overdue)}">
+														<label ng-click="edit(task)">
 															<small>({{ ago(task.dueDate) }})</small>
 														</label>
 													</div>
 													<div class="col-md-2">
 														<span class="glyphicon"
 															ng-class="{'glyphicon-ok':!task.isCompleted, 'glyphicon-unchecked':task.isCompleted}"
-															data-ng-click="completed(task)"></span>
-														<span class="glyphicon glyphicon-pencil" data-ng-click="edit(task)"></span>
-														<span class="glyphicon glyphicon-remove" data-ng-click="remove(task, $index)"></span>
+															ng-click="completed(task)"></span>
+														<span class="glyphicon glyphicon-pencil" ng-click="edit(task)"></span>
+														<span class="glyphicon glyphicon-remove" ng-click="remove(task, $index)"></span>
 													</div>
 												</div>
 											</div>
 											<div class="edit">
 												<div class="col-md-3">
-													<select class="form-control" data-ng-model="task.ownerUserValue">
-														<option data-ng-repeat="user in users" value="{{user.ID}}">{{user.firstname}}</option>
+													<select class="form-control" ng-model="task.ownerUserValue">
+														<option ng-repeat="user in users" value="{{user.ID}}">{{user.firstname}}</option>
 													</select>
 												</div>
 												<div class="col-md-5">
-													<input type="text" class="form-control" data-ng-trim="false" data-ng-model="task.description" data-task-focus="task == editedTask">
+													<input type="text" class="form-control" ng-trim="false" ng-model="task.description" data-task-focus="task == editedTask">
 												</div>
 												<div class="col-md-3">
 													<div class="input-group ui-datepicker">
@@ -143,7 +143,7 @@
 													</div>
 												</div>
 												<div class="col-md-1">
-													<span class="glyphicon glyphicon-ok" data-ng-click="doneEditing(task, $index)"></span>
+													<span class="glyphicon glyphicon-ok" ng-click="doneEditing(task, $index)"></span>
 												</div>
 												<div class="clearfix"></div>
 											</div>
@@ -154,17 +154,17 @@
 							<footer class="task-footer">
 								<ul class="list-inline clearfix">
 									<li class="first-item">
-										<input type="checkbox" id="toggle-all" data-ng-model="allChecked" data-ng-change="markAll(allChecked)">
+										<input type="checkbox" id="toggle-all" ng-model="allChecked" ng-change="markAll(allChecked)">
 										<label for="toggle-all">Mark all as done</label>
 									</li>
 									<li class="text-center">
 										<span>
 										<strong>{{openTasks}}</strong>
-										<span class="text-muted" data-ng-pluralize count="openTasks" when="{one: 'item left', other: 'items left'}"></span>
+										<span class="text-muted" ng-pluralize count="openTasks" when="{one: 'item left', other: 'items left'}"></span>
 										</span>
 									</li>
 									<li class="text-right">
-										<span class="clear-completed" data-ng-show="openTasks < tasks.length">Completed ({{tasks.length - openTasks}})</span>
+										<span class="clear-completed" ng-show="openTasks < tasks.length">Completed ({{tasks.length - openTasks}})</span>
 									</li>
 								</ul>
 							</footer>

@@ -11,8 +11,9 @@
 		<!-- needs images, font... therefore can not be part of ui.css -->
 		<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
 		<link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons.min.css">
-		<link rel="stylesheet" href="vendors/tinymce/css/pikaday.css">
-		<link rel="stylesheet" href="vendors/tinymce/css/autocomplete.css">
+		<link rel="stylesheet" href="bower_components/tinymce/css/pikaday.css">
+		<link rel="stylesheet" href="bower_components/tinymce/css/autocomplete.css">
+		<link rel="stylesheet" href="bower_components/tinymce/css/styles.css">
 		<!-- end needs images -->
 		<link rel="stylesheet" href="styles/main.css">
 	</head>
@@ -28,7 +29,7 @@
 			<div ui-view></div>
 		</div>
 		<!-- build:js scripts/vendor.js -->
-		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="bower_components/jquery/jquery.min.js"></script>
 		<script src="bower_components/angular/angular.min.js"></script>
 		<script src="bower_components/angular-route/angular-route.min.js"></script>
 		<script src="bower_components/angular-animate/angular-animate.min.js"></script>
@@ -38,11 +39,11 @@
 		<script src="bower_components/html2canvas/build/html2canvas.min.js"></script>
 		<script src="bower_components/jspdf/dist/jspdf.min.js"></script>
 		<script src="bower_components/underscore/underscore-min.js"></script>
-		<script src="vendors/tinymce/js/tinymce/tinymce.min.js"></script>
-		<script src="vendors/tinymce/js/lodash.min.js"></script>
-		<script src="vendors/tinymce/js/moment-with-locales.min.js"></script>
-		<script src="vendors/tinymce/js/pikaday.js"></script>
-		<script src="vendors/tinymce/js/main.js"></script>
+		<script src="bower_components/tinymce/js/tinymce/tinymce.min.js"></script>
+		<script src="bower_components/tinymce/js/lodash.min.js"></script>
+		<script src="bower_components/tinymce/js/moment-with-locales.min.js"></script>
+		<script src="bower_components/tinymce/js/pikaday.js"></script>
+		<script src="bower_components/tinymce/js/main.js"></script>
 		<script src="vendors/consolelog.js"></script>
 		<!-- endbuild -->
 		<!-- build:js scripts/ui.js -->
@@ -74,12 +75,12 @@
 		<script src="bower_components/angular-wakanda/angular-wakanda.min.js"></script>
 		<script src="bower_components/textAngular/dist/textAngular.min.js"></script>
 		<script src="bower_components/textAngular/dist/textAngular-sanitize.min.js"></script>
+		<script src="bower_components/tinymce-mention/mention/plugin.min.js"></script>
 		<!-- endbuild -->
 		<!-- build:js({.tmp,client}) scripts/app.js -->
 		<script src="scripts/app.js"></script>
 		<script src="scripts/controllers/app.js"></script>
 		<script src="scripts/controllers/assist.ModalCtrl.js"></script>
-		<script src="scripts/controllers/localize.LangCtrl.js"></script>
 		<script src="scripts/controllers/auth.SignInCtrl.js"></script>
 		<script src="scripts/controllers/auth.SignUpCtrl.js"></script>
 		<script src="scripts/controllers/user.ProfileCtrl.js"></script>

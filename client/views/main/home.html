@@ -1,4 +1,4 @@
-<section id="content" class="animate-fade-up" data-ng-controller="HomeCtrl">
+<section id="content" class="animate-fade-up" ng-controller="HomeCtrl">
 	<div class="view-container">
 		<div class="page page-profile">
 			<section class="panel panel-default">
@@ -20,7 +20,7 @@
 								<accordion close-others="true" class="ui-accordion" id="meeting-groups">
 									<accordion-group heading="{{group.name}}" ng-repeat="group in groups" is-open="group.isopen">
 										<h5>{{ 'Upcoming meetings' | translate }}</h5>
-										<div data-ng-show="group.futureMeeting.length == 0" class="alert alert-warning">{{ 'No upcoming meetings' | translate }}</div>
+										<div ng-show="group.futureMeeting.length == 0" class="alert alert-warning">{{ 'No upcoming meetings' | translate }}</div>
 										<div class="alert alert-info widget-meeting" ng-repeat="meeting in group.futureMeeting" ng-click="gotoMeeting(meeting.ID)">
 											<strong>{{meeting.name}}</strong><br>
 											<small>
@@ -32,7 +32,7 @@
 											<p><strong>Decisions: </strong>{{meeting.decisions.length}}</p>
 										</div>
 										<h5>{{ 'Past meetings' | translate }}</h5>
-										<div data-ng-show="group.pastMeeting.length == 0" class="alert alert-warning">{{ 'No past meetings' | translate }}</div>
+										<div ng-show="group.pastMeeting.length == 0" class="alert alert-warning">{{ 'No past meetings' | translate }}</div>
 										<div class="alert alert-info widget-meeting" ng-repeat="meeting in group.pastMeeting" ng-click="gotoMeeting(meeting.ID)">
 											<strong>{{meeting.name}}</strong><br>
 											<small>{</small>

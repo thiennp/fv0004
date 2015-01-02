@@ -34,6 +34,7 @@
     "tinyMCE": false,
     "Pikaday": false,
     "consolelog": false,
-    "main": false
+    "main": false,
+    "jQuery": false
   }
 }

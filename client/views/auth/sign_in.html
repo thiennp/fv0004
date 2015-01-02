@@ -1,17 +1,17 @@
-<div class="page-signin" data-ng-controller="SignInCtrl">
-	<div class="signin-header" data-ng-include=" 'views/auth/auth_header.html' "></div>
+<div class="page-signin" ng-controller="SignInCtrl">
+	<div class="signin-header" ng-include=" 'views/auth/auth_header.html' "></div>
 	<div class="signin-body">
 		<div class="container">
 			<div class="form-container">
 				<section class="row signin-social text-center">
-					<a class="btn-facebook-round" data-ng-click="linkedinLogin()"><i class="fa fa-linkedin"></i></a>
+					<a class="btn-facebook-round" ng-click="linkedinLogin()"><i class="fa fa-linkedin"></i></a>
 					<div class="space"></div>
-					<a class="btn-facebook-round" data-ng-click="facebookLogin()"><i class="fa fa-facebook"></i></a>
+					<a class="btn-facebook-round" ng-click="facebookLogin()"><i class="fa fa-facebook"></i></a>
 				</section>
 				<span class="line-thru">{{ 'OR' | translate }}</span>
-				<form class="form-horizontal" name="signinForm" data-ng-submit="emailLogin()" novalidate>
+				<form class="form-horizontal" name="signinForm" ng-submit="emailLogin()" novalidate>
 					<fieldset>
-						<div class="row alert alert-danger" data-ng-show="error">
+						<div class="row alert alert-danger" ng-show="error">
 							{{ errorMessage | translate }}
 						</div>
 						<div class="form-group">
@@ -25,8 +25,8 @@
 									name="email"
 									class="form-control"
 									placeholder="{{ 'Email' | translate }}"
-									data-ng-model="email"
-									data-ng-class="{ 'input-danger': (signinForm.email.$error.required || signinForm.email.$error.email) && signinForm.email.$dirty }"
+									ng-model="email"
+									ng-class="{ 'input-danger': (signinForm.email.$error.required || signinForm.email.$error.email) && signinForm.email.$dirty }"
 									required>
 							</div>
 						</div>
@@ -47,8 +47,8 @@
 									name="password"
 									class="form-control"
 									placeholder="{{ 'Password' | translate }}"
-									data-ng-model="password"
-									data-ng-class="{ 'input-danger': (signinForm.password.$error.required || signinForm.password.$error.minlength) && signinForm.password.$dirty }"
+									ng-model="password"
+									ng-class="{ 'input-danger': (signinForm.password.$error.required || signinForm.password.$error.minlength) && signinForm.password.$dirty }"
 									required>
 							</div>
 						</div>
@@ -56,8 +56,8 @@
 							{{ 'Password is required' | translate }}
 						</div>
 						<div class="form-group">
-							<input class="btn btn-primary btn-lg btn-block" data-ng-hide="loading" type="submit" data-ng-click="emailLogin()" value="{{ 'Log in' | translate }}" ng-disabled="signinForm.$invalid"/>
-							<input class="btn btn-warning btn-lg btn-block" data-ng-show="loading" type="button" value="{{ 'Loading' | translate }}" ng-disabled="true"/>
+							<input class="btn btn-primary btn-lg btn-block" ng-hide="loading" type="submit" ng-click="emailLogin()" value="{{ 'Log in' | translate }}" ng-disabled="signinForm.$invalid"/>
+							<input class="btn btn-warning btn-lg btn-block" ng-show="loading" type="button" value="{{ 'Loading' | translate }}" ng-disabled="true"/>
 						</div>
 					</fieldset>
 				</form>

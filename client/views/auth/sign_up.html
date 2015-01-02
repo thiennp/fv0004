@@ -1,18 +1,18 @@
-<div class="page-signup" data-ng-controller="SignUpCtrl">
-	<div class="signin-header" data-ng-include=" 'views/auth/auth_header.html' "></div>
+<div class="page-signup" ng-controller="SignUpCtrl">
+	<div class="signin-header" ng-include=" 'views/auth/auth_header.html' "></div>
 	<div class="signup-body">
 		<div class="container">
 			<div class="form-container">
 				<section class="row signin-social text-center">
-					<a href="javscript:" class="btn-facebook-round" data-ng-click="linkedinRegister()"><i class="fa fa-linkedin"></i></a>
+					<a href="javscript:" class="btn-facebook-round" ng-click="linkedinRegister()"><i class="fa fa-linkedin"></i></a>
 					<div class="space"></div>
-					<a href="javscript:" class="btn-facebook-round" data-ng-click="facebookRegister()"><i class="fa fa-facebook"></i></a>
+					<a href="javscript:" class="btn-facebook-round" ng-click="facebookRegister()"><i class="fa fa-facebook"></i></a>
 					<div class="space"></div>
 				</section>
 				<span class="line-thru">{{ 'OR' | translate }}</span>
 				<section ng-init>
-					<form class="form-horizontal" name="signupForm" data-ng-submit="emailRegister()" novalidate>
-						<div class="row alert alert-danger" data-ng-show="error">
+					<form class="form-horizontal" name="signupForm" ng-submit="emailRegister()" novalidate>
+						<div class="row alert alert-danger" ng-show="error">
 							{{ errorMessage | translate }}
 						</div>
 						<div class="form-group">
@@ -26,8 +26,8 @@
 									name="email"
 									class="form-control"
 									placeholder="{{ 'Email' | translate }}"
-									data-ng-model="email"
-									data-ng-class="{ 'input-danger': (signupForm.email.$error.required || signupForm.email.$error.email) && signupForm.email.$dirty }"
+									ng-model="email"
+									ng-class="{ 'input-danger': (signupForm.email.$error.required || signupForm.email.$error.email) && signupForm.email.$dirty }"
 									required>
 							</div>
 						</div>
@@ -48,9 +48,9 @@
 									name="password"
 									class="form-control"
 									placeholder="{{ 'Password' | translate }}"
-									data-ng-model="password"
-									data-ng-class="{ 'input-danger': (signupForm.password.$error.required || signupForm.password.$error.minlength) && signupForm.password.$dirty }"
-									data-ng-minlength=8
+									ng-model="password"
+									ng-class="{ 'input-danger': (signupForm.password.$error.required || signupForm.password.$error.minlength) && signupForm.password.$dirty }"
+									ng-minlength=8
 									required>
 							</div>
 						</div>
@@ -71,8 +71,8 @@
 									name="retypePassword"
 									class="form-control"
 									placeholder="{{ 'Retype Password' | translate }}"
-									data-ng-model="retypePassword"
-									data-ng-class="{ 'input-danger': (signupForm.retypePassword.$error.required || unmatchedPassword()) && signupForm.retypePassword.$dirty }"
+									ng-model="retypePassword"
+									ng-class="{ 'input-danger': (signupForm.retypePassword.$error.required || unmatchedPassword()) && signupForm.retypePassword.$dirty }"
 									required>
 							</div>
 						</div>
@@ -85,8 +85,8 @@
 						<div class="form-group">
 							<p class="text-muted text-small">{{ 'By clicking on Sign up, you agree to' | translate }} <a href="javascript:;">{{ 'terms & conditions' | translate }}</a> {{ 'and' | translate }} <a href="javascript:;">{{ 'privacy policy' | translate }}</a></p>
 							<div class="divider"></div>
-							<input class="btn btn-primary btn-lg btn-block" data-ng-hide="loading" type="submit" value="{{ 'Sign up' | translate }}" ng-disabled="signupForm.$invalid || unmatchedPassword()"/>
-							<input class="btn btn-warning btn-lg btn-block" data-ng-show="loading" type="button" value="{{ 'Loading' | translate }}" ng-disabled="true"/>
+							<input class="btn btn-primary btn-lg btn-block" ng-hide="loading" type="submit" value="{{ 'Sign up' | translate }}" ng-disabled="signupForm.$invalid || unmatchedPassword()"/>
+							<input class="btn btn-warning btn-lg btn-block" ng-show="loading" type="button" value="{{ 'Loading' | translate }}" ng-disabled="true"/>
 						</div>
 					</form>
 				</section>
