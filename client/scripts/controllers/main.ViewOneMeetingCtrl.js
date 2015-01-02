@@ -19,6 +19,10 @@ kuvenoApp
 					language: 'en',
 					uiColor: '#000000'
 				};
+				$rootScope.textAreaList = [
+					'<textarea class="tinymce" ui-tinymce ng-model="meeting.agenda.content" style="height: 500px"></textarea>',
+					'<textarea class="tinymce" ui-tinymce ng-model="meeting.notes.content" style="height: 500px"></textarea>'
+				];
 				if (data) {
 					if ($rootScope.onBack) {
 						$rootScope.onBack = false;
@@ -26,6 +30,7 @@ kuvenoApp
 						$rootScope.$stateHistory.push('main.ViewOneMeeting');
 					}
 				}
+
 				// Inject all user entities to $scope.users
 				var loadAllUsers = function () {
 					$scope.users = [];

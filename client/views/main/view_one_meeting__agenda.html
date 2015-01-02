@@ -2,7 +2,7 @@
 	<div ng-hide="agendaEdit" id="meeting-tab-0" ng-bind-html="meeting.agenda.content"></div>
 	<div ng-show="agendaEdit">
 		<form ng-submit="applyAgenda()">
-			<textarea class="tinymce" ui-tinymce ng-model="meeting.agenda.content" style="height: 500px"></textarea>
+			<div compile="textAreaList[0]"></div>
 			<button class="btn btn-danger margin-top-10" type="button" ng-click="cancelAgenda()">{{ 'Cancel' | translate }}</button>
 			<button class="btn btn-primary margin-top-10" type="submit">{{ 'Submit' | translate }}</button>
 		</form>

@@ -45,7 +45,7 @@ window.kuvenoApp = angular
 				localStorage.setItem('lang', key);
 				localStorage.setItem('locale', locale);
 				moment.locale(locale);
-				// console.log(moment.localeData());
+				$rootScope.$broadcast('changeLang');
 			};
 			if (localStorage.getItem('locale') === null) {
 				var locale = 'en';
