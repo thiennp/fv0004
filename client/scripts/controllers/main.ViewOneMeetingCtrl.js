@@ -1,18 +1,15 @@
 'use strict';
 kuvenoApp
 	.controller('ViewOneMeetingCtrl', [
-		'$location',
 		'$modal',
 		'$rootScope',
 		'$scope',
-		'$state',
 		'$stateParams',
 		'$timeout',
-		'$wakanda',
-		'AssistSrv',
 		'AuthSrv',
+		'DataSrv',
 		'LoggerSrv',
-		function ($location, $modal, $rootScope, $scope, $state, $stateParams, $timeout, $wakanda, AssistSrv, AuthSrv, LoggerSrv) {
+		function ($modal, $rootScope, $scope, $stateParams, $timeout, AuthSrv, DataSrv, LoggerSrv) {
 			return AuthSrv.verify().then(function (data) {
 				$scope.pdf = null;
 				$scope.editorOptions = {
@@ -31,26 +28,15 @@ kuvenoApp
 					}
 				}
 
-				// Inject all user entities to $scope.users
-				var loadAllUsers = function () {
-					$scope.users = [];
-					var userCollection = $wakanda.$ds.User.$find();
-					userCollection.$promise.then(function (data) {
-						var i = 0;
-						while (data.result[i]) {
-							$scope.users.push(data.result[i]);
-							i++;
-						}
-					});
-				};
-				loadAllUsers();
+				DataSrv.getData('User').then(function (result) {
+					$scope.users = result;
+				});
 
 				// Inject owner firstname and owner id to task
 				var getUser = function (task) {
-					var owner = task.owner.$fetch();
-					owner.then(function (data) {
-						task.ownerUser = data.firstname;
-						task.ownerUserValue = data.ID;
+					DataSrv.fetchData(task.owner).then(function (result) {
+						task.ownerUser = result.firstname;
+						task.ownerUserValue = result.ID;
 					});
 				};
 
@@ -201,35 +187,16 @@ kuvenoApp
 				}];
 				$scope.meetingid = $stateParams.meetingid;
 				$scope.tabActive = [false, true, false, false];
-				var meetingCollection = $wakanda.$ds.Meeting.$find({
-					filter: 'ID == :1',
-					params: [$scope.meetingid]
-				});
-				meetingCollection.$promise.then(function (meeting) {
-					$scope.meeting = meeting.result[0];
+
+				DataSrv.getData('Meeting', 'ID == :1', [$scope.meetingid]).then(function (result) {
+					$scope.meeting = result[0];
 					console.log($scope.meeting);
 					if ($scope.meeting) {
-						$scope.meeting.participantList = [];
-						var participants = $scope.meeting.participants.$fetch();
-						participants.then(function (data) {
-							var i = 0;
-							while (data[i]) {
-								$scope.meeting.participantList.push(data[i]);
-								i++;
-							}
-						});
-
-						var agenda = $scope.meeting.agenda;
-						agenda.$fetch();
-
-						var notes = $scope.meeting.notes;
-						notes.$fetch();
-
-						var decisions = $scope.meeting.decisions;
-						decisions.$fetch();
-
-						var tasks = $scope.meeting.tasks;
-						tasks.$fetch().then(function () {
+						DataSrv.fetchData($scope.meeting.participants);
+						DataSrv.fetchData($scope.meeting.agenda);
+						DataSrv.fetchData($scope.meeting.notes);
+						DataSrv.fetchData($scope.meeting.decisions);
+						DataSrv.fetchData($scope.meeting.tasks).then(function () {
 							var i = 0;
 							while ($scope.meeting.tasks[i]) {
 								var task = $scope.meeting.tasks[i];

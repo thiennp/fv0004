@@ -72,7 +72,7 @@
 									ng-model="addedParticipant"
 									ng-options="user as user.name for user in users track by user.ID">
 								</select>
-								<button class="btn btn-success btn-block" ng-click="addParticipant()" ng-show="addedParticipant">{{ 'Add' | translate }}</button>
+								<button type="button" class="btn btn-success btn-block" ng-click="addParticipant()" ng-show="addedParticipant">{{ 'Add' | translate }}</button>
 							</div>
 						</div>
 						<div class="col-sm-4">

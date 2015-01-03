@@ -1,11 +1,10 @@
 'use strict';
 kuvenoApp
 	.controller('ChangePasswordCtrl', [
-		'$q',
 		'$rootScope',
 		'$scope',
 		'AuthSrv',
-		function ($q, $rootScope, $scope, AuthSrv) {
+		function ($rootScope, $scope, AuthSrv) {
 			AuthSrv.verify().then(function (data) {
 				if (data) {
 					if ($rootScope.onBack) {

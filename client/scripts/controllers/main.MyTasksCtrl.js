@@ -1,16 +1,12 @@
 'use strict';
 kuvenoApp
 	.controller('MyTasksCtrl', [
-		'$location',
 		'$rootScope',
 		'$scope',
-		'$state',
-		'$wakanda',
-		'AssistSrv',
 		'AuthSrv',
-		'MainSrv',
+		'DataSrv',
 		'LoggerSrv',
-		function ($location, $rootScope, $scope, $state, $wakanda, AssistSrv, AuthSrv, MainSrv, LoggerSrv) {
+		function ($rootScope, $scope, AuthSrv, DataSrv, LoggerSrv) {
 			return AuthSrv.verify().then(function (data) {
 				if (data) {
 					if ($rootScope.onBack) {
@@ -52,24 +48,9 @@ kuvenoApp
 					$scope.reverse = false;
 				}
 
-				// Inject all user entities to $scope.users
-				loadAllUsers = function () {
-					var userCollection = $wakanda.$ds.User.$find();
-					userCollection.$promise.then(function (data) {
-						var i = 0;
-						while (data.result[i]) {
-							$scope.users.push(data.result[i]);
-							i++;
-						}
-						loadTasks();
-						console.log($scope.newTask.owner);
-					});
-				};
-
 				loadTasks = function () {
-					var taskCollection = $wakanda.$ds.Task.$find();
-					taskCollection.$promise.then(function (data) {
-						totalCalculate(data.result, true);
+					DataSrv.getData('Task').then(function (result) {
+						totalCalculate(result, true);
 					});
 				};
 
@@ -110,7 +91,10 @@ kuvenoApp
 					}
 				};
 
-				loadAllUsers();
+				DataSrv.getData('User').then(function (result) {
+					$scope.users = result;
+					loadTasks();
+				});
 
 				$scope.sort = function (sortType) {
 					if ($scope.sortType !== sortType) {
@@ -162,25 +146,24 @@ kuvenoApp
 						isCompleted: false
 					};
 
-					console.log(task);
-					var wakTask = $wakanda.$ds.Task.$create(task);
-					var taskPromise = wakTask.$save();
-					taskPromise.then(function () {
-						task.ownerUser = owner.firstname;
-						task.ownerUserValue = $scope.newTask.ownerUserValue;
-						tasks.push(task);
-						totalCalculate($scope.tasks);
-						LoggerSrv.logSuccess('New task: "' + newTask.description + '" added');
-						$scope.newTask = {
-							description: '',
-							assignedBy: $rootScope.currentUser,
-							owner: $rootScope.currentUser,
-							dueDate: new Date()
-						};
-						$scope.openTasks++;
-					}, function () {
-						LoggerSrv.logError('Saving task: "' + newTask.description + '" failed.');
-					});
+					DataSrv
+						.createData('Task', task)
+						.then(function () {
+							task.ownerUser = owner.firstname;
+							task.ownerUserValue = $scope.newTask.ownerUserValue;
+							tasks.push(task);
+							totalCalculate($scope.tasks);
+							LoggerSrv.logSuccess('New task: "' + newTask.description + '" added');
+							$scope.newTask = {
+								description: '',
+								assignedBy: $rootScope.currentUser,
+								owner: $rootScope.currentUser,
+								dueDate: new Date()
+							};
+							$scope.openTasks++;
+						}, function () {
+							LoggerSrv.logError('Saving task: "' + newTask.description + '" failed.');
+						});
 				};
 
 				$scope.edit = function (task) {
@@ -198,7 +181,6 @@ kuvenoApp
 						$scope.remove(task);
 						task.$remove();
 					} else {
-						console.log(task);
 						task.$save();
 						totalCalculate($scope.tasks);
 						LoggerSrv.log('Task updated');

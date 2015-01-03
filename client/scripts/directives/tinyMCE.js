@@ -59,7 +59,7 @@ kuvenoApp
 						expression = {};
 					}
 
-					DataSrv.getAllUsers().then(function (data) {
+					DataSrv.getData('User').then(function (data) {
 						var users = [];
 						for (var i in data) {
 							users.push({

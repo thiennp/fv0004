@@ -1,7 +1,6 @@
 'use strict';
 kuvenoApp
-	.directive('highlightActive', [
-
+	.directive('highlightActive',
 		function () {
 			return {
 				restrict: 'A',
@@ -39,4 +38,4 @@ kuvenoApp
 				]
 			};
 		}
-	]);
+);

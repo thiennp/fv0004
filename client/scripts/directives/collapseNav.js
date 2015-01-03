@@ -1,7 +1,6 @@
 'use strict';
 kuvenoApp
-	.directive('collapseNav', [
-
+	.directive('collapseNav',
 		function () {
 			return {
 				restrict: 'A',
@@ -33,4 +32,4 @@ kuvenoApp
 				}
 			};
 		}
-	]);
+);

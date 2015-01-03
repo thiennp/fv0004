@@ -1,7 +1,6 @@
 'use strict';
 kuvenoApp
-	.directive('slimScroll', [
-
+	.directive('slimScroll',
 		function () {
 			return {
 				restrict: 'A',
@@ -12,4 +11,4 @@ kuvenoApp
 				}
 			};
 		}
-	]);
+);

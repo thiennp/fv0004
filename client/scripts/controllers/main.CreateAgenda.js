@@ -1,18 +1,15 @@
 'use strict';
 kuvenoApp
 	.controller('CreateAgendaCtrl', [
-		'$location',
 		'$modal',
 		'$rootScope',
 		'$scope',
 		'$state',
 		'$stateParams',
 		'$timeout',
-		'$wakanda',
-		'AssistSrv',
 		'AuthSrv',
-		'LoggerSrv',
-		function ($location, $modal, $rootScope, $scope, $state, $stateParams, $timeout, $wakanda, AssistSrv, AuthSrv, LoggerSrv) {
+		'DataSrv',
+		function ($modal, $rootScope, $scope, $state, $stateParams, $timeout, AuthSrv, DataSrv) {
 			return AuthSrv.verify().then(function (data) {
 				if (data) {
 					if ($rootScope.onBack) {
@@ -42,31 +39,27 @@ kuvenoApp
 					uiColor: '#000000'
 				};
 				$scope.meetingGroupID = $stateParams.groupId;
-				$scope.meetingGroup = $wakanda.$ds.Workgroup.$find({
-					filter: 'ID == :1',
-					params: [$stateParams.groupId]
-				});
-				$scope.meetingGroup.$promise.then(function (data) {
-					$scope.meeting.group = $scope.meetingGroup[0];
-				});
-				$scope.groups = $wakanda.$ds.Workgroup.$find();
 
-				// Inject all user entities to $scope.users
-				var loadAllUsers = function () {
-					$scope.users = [];
-					var userCollection = $wakanda.$ds.User.$find();
-					userCollection.$promise.then(function (data) {
-						var i = 0;
-						while (data.result[i]) {
-							$scope.users.push(data.result[i]);
-							i++;
-						}
-						if ($scope.users.length > 0) {
-							$scope.addedParticipant = $scope.users[0];
+				DataSrv
+					.getData('Workgroup')
+					.then(function (result) {
+						$scope.groups = result;
+					});
+
+				DataSrv
+					.getData('Workgroup', 'ID == :1', [$stateParams.groupId])
+					.then(function (result) {
+						$scope.meeting.group = result[0];
+					});
+
+				DataSrv
+					.getData('User')
+					.then(function (result) {
+						$scope.users = result;
+						if (result.length > 0) {
+							$scope.addedParticipant = result[0];
 						}
 					});
-				};
-				loadAllUsers();
 
 				$scope.addParticipant = function () {
 					$scope.meeting.participantList.push($scope.addedParticipant);
@@ -82,16 +75,17 @@ kuvenoApp
 						$scope.addedParticipant = null;
 					}
 				};
+
 				$scope.submit = function () {
-					var newMeeting = $wakanda.$ds.Meeting.$create($scope.meeting);
-					console.log(newMeeting);
-					newMeeting.$save().then(function () {
-						var newAgenda = $wakanda.$ds.Agenda.$create($scope.meeting.agenda);
-						console.log(newAgenda);
-						newAgenda.$save().then(function () {
-							$state.go('main.Home');
+					DataSrv
+						.createData('Meeting', $scope.meeting)
+						.then(function () {
+							DataSrv
+								.createData('Agenda', $scope.meeting.agenda)
+								.then(function () {
+									$state.go('main.Home');
+								});
 						});
-					});
 				};
 				$scope.sendAgenda = function () {
 					$scope.CCshown = false;

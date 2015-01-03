@@ -1,13 +1,12 @@
 'use strict';
 kuvenoApp
 	.controller('SignInCtrl', [
-		'$q',
 		'$rootScope',
 		'$scope',
 		'$state',
 		'$wakanda',
 		'AuthSrv',
-		function ($q, $rootScope, $scope, $state, $wakanda, AuthSrv) {
+		function ($rootScope, $scope, $state, $wakanda, AuthSrv) {
 			$scope.facebookLogin = function () {
 				return AuthSrv.facebookLogin();
 			};

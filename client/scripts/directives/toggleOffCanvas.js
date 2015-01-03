@@ -1,7 +1,6 @@
 'use strict';
 kuvenoApp
-	.directive('toggleOffCanvas', [
-
+	.directive('toggleOffCanvas',
 		function () {
 			return {
 				restrict: 'A',
@@ -12,4 +11,4 @@ kuvenoApp
 				}
 			};
 		}
-	]);
+);

@@ -3,10 +3,8 @@ kuvenoApp
 	.controller('UpdateProfileCtrl', [
 		'$rootScope',
 		'$scope',
-		'$state',
-		'$wakanda',
 		'AuthSrv',
-		function ($scope, $rootScope, $state, $wakanda, AuthSrv) {
+		function ($scope, $rootScope, AuthSrv) {
 			AuthSrv.verify().then(function (data) {
 				if (data) {
 					if ($rootScope.onBack) {
