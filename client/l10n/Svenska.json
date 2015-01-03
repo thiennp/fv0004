@@ -50,5 +50,11 @@
 	"Feedback can not be sent": "Återkoppling kan inte skickas",
 	"Title must not be empty": "Titeln måste inte vara tom",
 	"Content must not be empty": "Innehåll får inte vara tom",
-	"Your profile has been updated successfully": "Din profil har uppdaterats"
+	"Your profile has been updated successfully": "Din profil har uppdaterats",
+	"Tasks": "Uppgifter",
+	"Decisions": "Beslut",
+	"Task": "Uppgift",
+	"Decision": "Beslut",
+	"New task": "Ny uppgift",
+	"New decision": "Nytt beslut"
 }

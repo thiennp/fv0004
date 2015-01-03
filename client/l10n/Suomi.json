@@ -50,5 +50,11 @@
 	"Feedback can not be sent": "Palaute ei voi lähettää",
 	"Title must not be empty": "Otsikko saa olla tyhjä",
 	"Content must not be empty": "Sisältö ei saa olla tyhjä",
-	"Your profile has been updated successfully": "Profiilisi on päivitetty onnistuneesti"
+	"Your profile has been updated successfully": "Profiilisi on päivitetty onnistuneesti",
+	"Tasks": "Tehtävät",
+	"Decisions": "Päätökset",
+	"Task": "Tehtävä",
+	"Decision": "Päätös",
+	"New task": "Uusi tehtävä",
+	"New decision": "Uusi päätös"
 }
