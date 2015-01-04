@@ -6,10 +6,10 @@
 
 @import "compass/css3";
 @import
-    // UI, uses Bootstrap's variables
-    "ui/ui"
+	// UI, uses Bootstrap's variables
+	"ui/ui"
 
-    // Plugins, overrides plugins' style
+	// Plugins, overrides plugins' style
 ,   "plugins/bootstrap-slider"
 ,   "plugins/responsive-tables"
 ,   "plugins/easypiecharts"
@@ -21,7 +21,7 @@
 
 // ,   "plugins/bootstrap-tagsinput" // bugs, can not add tag with 'Enter' using AngularJS, even the online demo not works
 
-    // Pages
+	// Pages
 ,   "global/var-pages"
 ,   "pages/dashboard"
 ,   "pages/pages"
@@ -33,7 +33,7 @@
 ,   "pages/ui"
 ,   "pages/demo"
 
-    // sections
+	// sections
 ,   "sections/nav"
 ,   "sections/nav-off-canvas"
 ,   "sections/nav-min"
@@ -250,4 +250,23 @@ a {
 .tinymce {
 	height: 500px;
 	width: 100%;
+}
+
+.mce-content-body {
+	background-color: white;
+	padding: 0 30px;
+}
+
+.decision {
+	background-image: url('../bower_components/tinymce/img/legal10.png');
+	background-repeat: no-repeat;
+	background-position: 98% 50%;
+	background-size: 16px;
+}
+
+.task {
+	background-image: url('../bower_components/tinymce/img/task.png');
+	background-repeat: no-repeat;
+	background-position: 98% 50%;
+	background-size: 16px;
 }

@@ -6,10 +6,10 @@ kuvenoApp
 		'$rootScope',
 		'$timeout',
 		'$translate',
-		'$wakanda',
+		'$modal',
 		'DataSrv',
 		'uiTinymceConfig',
-		function ($q, $rootScope, $timeout, $translate, $wakanda, DataSrv, uiTinymceConfig) {
+		function ($q, $rootScope, $timeout, $translate, $modal, DataSrv, uiTinymceConfig) {
 			uiTinymceConfig = uiTinymceConfig || {};
 			var generatedIds = 0;
 			return {
@@ -23,15 +23,6 @@ kuvenoApp
 								$scope.$apply();
 							}
 						},
-						createAssigneeElement = function (user) {
-							return $('<span>', {
-								// data-mce-contenteditable: false does not appear if element is created inside the dialog (wat)
-								'data-id': user.id,
-								class: 'assignee mceNonEditable',
-								'data-mce-contenteditable': false,
-								'title': 'Owner:' + user.name
-							}).text(user.name);
-						},
 						createUserElement = function (user) {
 							return $('<span>', {
 								'data-id': user.id,
@@ -39,14 +30,6 @@ kuvenoApp
 								'data-mce-contenteditable': false,
 								'title': 'User: ' + user.name
 							}).text(user.name);
-						},
-						createDeadlineElement = function (deadline) {
-							return $(' <span>', {
-								'data-date': deadline,
-								class: 'deadline mceNonEditable',
-								'data-mce-contenteditable': false,
-								'title': 'Due: ' + deadline
-							}).text(deadline);
 						};
 					// generate an ID if not present
 					if (!attrs.id) {
@@ -59,15 +42,14 @@ kuvenoApp
 						expression = {};
 					}
 
-					DataSrv.getData('User').then(function (data) {
+					DataSrv.getData('User').then(function (response) {
 						var users = [];
-						for (var i in data) {
+						for (var i in response) {
 							users.push({
-								'id': data[i].ID,
-								'name': data[i].name
+								'id': response[i].ID,
+								'name': response[i].name
 							});
 						}
-						console.log(users);
 						options = {
 							skin: 'kuveno',
 							menubar: false,
@@ -85,7 +67,7 @@ kuvenoApp
 							toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent link | task | decision',
 							statusbar: false,
 							plugins: 'noneditable link mention paste autolink',
-							content_css: 'bower_components/tinymce/css/styles.css',
+							content_css: 'styles/main.css',
 							mentions: {
 								source: users,
 								insert: function (item) {
@@ -93,20 +75,146 @@ kuvenoApp
 								}
 							},
 							setup: function (ed) {
-								var args;
+								var args,
+									isParagraph = function (element) {
+										return element.nodeName === 'P';
+									},
+									isTask = function (className) {
+										return className === 'task';
+									},
+									isChildOfParagraph = function (element) {
+										return isParagraph(element.parentNode);
+									},
+									isEmptyCustomElement = function ($element) {
+										return isCustomElement($element) && $element.text() === '';
+									},
+									isCustomElement = function ($element) {
+										return ($element.hasClass('task') || $element.hasClass('decision'));
+									},
+									isEnterKey = function (keyCode) {
+										return keyCode === 13;
+									},
+									isTaskItem = function (element) {
+										return $(element).hasClass('task-item');
+									},
+									userToListboxElement = function (user) {
+										return {
+											text: user.name,
+											value: user.id
+										};
+									},
+									cleanTask = function (element) {
+										$(element).removeClass();
+										var html = $(element).find('.task-description').html();
+										$(element).html(html);
+									},
+									cleanUpAndSetDecision = function (element) {
+										var $element = $(element);
+										if ($element.hasClass('decision')) {
+											$element.removeClass();
+										} else {
+											if ($element.hasClass('task')) {
+												cleanTask(element);
+											}
+											$element.removeClass();
+											$element.addClass('callout callout-danger decision');
+										}
+									},
+									cleanUpAndSetTask = function (element) {
+										var $element = $(element);
+										var $assignee = $element.find('.assignee');
+										var $user = $element.find('.user');
+										var $deadline = $element.find('.deadline');
+										var id = 'task-' + Math.floor(Math.random() * 1000000);
+										if ($element.hasClass('task')) {
+											cleanTask(element);
+											if (!_.isEmpty($assignee.html())) {
+												if ($assignee.hasClass('user')) {
+													$assignee.removeClass('assignee');
+												} else {
+													$assignee.remove();
+												}
+											}
+											$deadline.remove();
+										} else {
+											$rootScope.addedTaskDescription = $element.text();
+											$rootScope.addedTaskOwners = response;
+											$rootScope.addedTaskOwner = response[0];
+											$rootScope.addedTaskDuedate = moment().add(7, 'days').format('DD/MM/YYYY');
+											$rootScope.taskModalId = id;
+											$modal.open({
+												templateUrl: attrs.taskModal,
+												controller: attrs.taskController
+											});
+											$rootScope.$on('addTinyMCETask' + id, function () {
+												$element.removeClass();
+												$element.addClass('task callout callout-success');
+												$element.attr('data-id', id);
+												$element.html('<div class="col-xs-3 task-item">' + $rootScope.addedTaskOwner.name + '</div><div class="col-xs-6 task-item task-description">' + $rootScope.addedTaskDescription + '</div><div class="col-xs-3 task-item">' + $rootScope.addedTaskDuedate + '</div><div class="clearfix"></div>');
+												elm.val($element.closest('body').html());
+												updateView();
+											});
+											$rootScope.$on('removeTinyMCETask' + id, function () {
+												$element.remove();
+												elm.val($element.closest('body').html());
+												updateView();
+											});
+										}
+									},
+									getCurrentSelectionNode = function () {
+										return ed.selection.getNode();
+									},
+									createOnClickCallback = function (className) {
+										return function () {
+											var element = getCurrentSelectionNode();
+											if (!isParagraph(element)) {
+												if (!isChildOfParagraph(element)) {
+													return;
+												}
+												element = element.parentNode;
+											}
+											if (isTask(className)) {
+												cleanUpAndSetTask(element);
+											} else {
+												cleanUpAndSetDecision(element);
+											}
+										};
+									},
+									keydownEventHandler = function (e) {
+										if (isEnterKey(e.keyCode)) {
+											var currentElement = getCurrentSelectionNode();
+											if (isTaskItem(currentElement)) {
+												tinymce.dom.Event.cancel(e);
+												$(currentElement).parent().after('<p></p>');
+												var newTask = $(currentElement).parent().next();
+												cleanUpAndSetTask(newTask[0]);
+											}
+											if (isParagraph(currentElement)) {
+												var $element = $(currentElement);
+
+												// If caret is inside an empty task/decision block, we remove the block if enter is pressed.
+												if (isEmptyCustomElement($element)) {
+													$element.removeAttr('class');
+
+													// Keeps the caret on the spot
+													tinymce.dom.Event.cancel(e);
+												}
+											}
+										}
+									};
 								$translate.use($rootScope.lang);
 								ed.addButton('task', {
 									text: $translate.instant('Task'),
-									icon: 'clipboard',
 									tooltip: $translate.instant('New task'),
-									// onclick: createOnClickCallback('task')
+									icon: 'clipboard',
+									onclick: createOnClickCallback('task')
 								});
 
 								ed.addButton('decision', {
 									text: $translate.instant('Decision'),
 									tooltip: $translate.instant('New decision'),
 									icon: 'hammer',
-									// onclick: createOnClickCallback('decision')
+									onclick: createOnClickCallback('decision')
 								});
 
 								ed.on('init', function (args) {
@@ -130,6 +238,7 @@ kuvenoApp
 										updateView();
 									}
 								});
+								ed.on('keydown', keydownEventHandler);
 							},
 							mode: 'exact',
 							elements: attrs.id
