@@ -150,7 +150,7 @@ kuvenoApp
 												$element.removeClass();
 												$element.addClass('task callout callout-success');
 												$element.attr('data-id', id);
-												$element.html('<div class="col-xs-3 task-item">' + $rootScope.addedTaskOwner.name + '</div><div class="col-xs-6 task-item task-description">' + $rootScope.addedTaskDescription + '</div><div class="col-xs-3 task-item">' + $rootScope.addedTaskDuedate + '</div><div class="clearfix"></div>');
+												$element.html('<span class="col-xs-3 task-item task-owner" data-id="' + $rootScope.addedTaskOwner.ID + '">' + $rootScope.addedTaskOwner.name + '</span><span class="col-xs-6 task-item task-description">' + $rootScope.addedTaskDescription + '</span><span class="col-xs-3 task-item task-duedate">' + $rootScope.addedTaskDuedate + '</span><span class="clearfix"></span>');
 												elm.val($element.closest('body').html());
 												updateView();
 											});

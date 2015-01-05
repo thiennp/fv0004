@@ -34,25 +34,113 @@ kuvenoApp
 
 				// Inject owner firstname and owner id to task
 				var getUser = function (task) {
-					DataSrv.fetchData(task.owner).then(function (result) {
-						task.ownerUser = result.firstname;
-						task.ownerUserValue = result.ID;
-					});
-				};
-
-				// Get an user entity which is indicated by userId
-				var getUserById = function (userId) {
-					for (var id in $scope.users) {
-						if ($scope.users[id].ID === userId) {
-							return $scope.users[id];
+						DataSrv.fetchData(task.owner).then(function (result) {
+							task.ownerUser = result.firstname;
+							task.ownerUserValue = result.ID;
+						});
+					},
+					// Get an user entity which is indicated by userId
+					getUserById = function (userId) {
+						for (var id in $scope.users) {
+							if ($scope.users[id].ID === userId) {
+								return $scope.users[id];
+							}
 						}
-					}
-				};
-
+					},
+					// Return task id if task exist, else return undefined
+					checkExistTask = function (task) {
+						var returnTask = false;
+						for (var i in $scope.meeting.tasks) {
+							if (task.ID) {
+								if (task.ID === $scope.meeting.tasks[i].ID) {
+									returnTask = $scope.meeting.tasks[i];
+									break;
+								}
+							} else {
+								if (task.owner.ID === $scope.meeting.tasks[i].owner.ID && task.description === $scope.meeting.tasks[i].description && task.dueDate === $scope.meeting.tasks[i].dueDate) {
+									returnTask = $scope.meeting.tasks[i];
+									break;
+								}
+							}
+						}
+						return returnTask;
+					},
+					// Return decision id if decision exist, else return undefined
+					checkExistDecision = function (decision) {
+						var returnDescription = false;
+						for (var i in $scope.meeting.decisions) {
+							if (decision.ID) {
+								if (decision.ID === $scope.meeting.decisions[i].ID) {
+									returnDescription = $scope.meeting.decisions[i];
+									break;
+								}
+							} else {
+								if (decision.description === $scope.meeting.decisions[i].description) {
+									returnDescription = $scope.meeting.decisions[i];
+									break;
+								}
+							}
+						}
+						return returnDescription;
+					},
+					// Create a task object from a jquery element information
+					makeTask = function (element) {
+						var task = {
+							description: element.find('.task-description').html(),
+							dueDate: element.find('.task-duedate').html(),
+							assignedBy: $rootScope.currentUser,
+							isCompleted: false
+						};
+						var taskId = element.attr('task-id');
+						if (typeof taskId !== typeof undefined && taskId !== false) {
+							task.ID = taskId;
+						}
+						for (var i in $scope.users) {
+							if (element.find('.task-owner').attr('data-id') === $scope.users[i].ID) {
+								task.owner = $scope.users[i];
+								break;
+							}
+						}
+						return task;
+					},
+					// Create a decision object from a jquery element information
+					makeDecision = function (element) {
+						var decision = {
+							description: element.find('.decision-description').html()
+						};
+						var decisionId = element.attr('decision-id');
+						if (typeof decisionId !== typeof undefined && decisionId !== false) {
+							decision.ID = decisionId;
+						}
+						return decision;
+					},
+					// Add task-id for all element which match with a task
+					matchTask = function (object) {
+						$(object.content).each(function () {
+							if ($(this).find('.task-description').html()) {
+								var task = makeTask($(this));
+								var matched = checkExistTask(task);
+								if (matched) {
+									$(this).attr('task-id', matched.ID);
+								}
+							}
+						});
+					},
+					// Add decision-id for all element which match with a decision
+					matchDecision = function (object) {
+						$(object.content).each(function () {
+							if ($(this).find('.decision-description').html()) {
+								var decision = makeDecision($(this));
+								var matched = checkExistDecision(decision);
+								if (matched) {
+									$(this).attr('decision-id', matched.ID);
+								}
+							}
+						});
+					};
 				$scope.edit = function (task) {
 					$scope.editedTask = task;
 				};
-
 				$scope.doneEditing = function (task) {
 					$scope.editedTask = null;
 					task.description = task.description.trim();
@@ -68,7 +156,7 @@ kuvenoApp
 						LoggerSrv.log('Task updated');
 					}
 				};
-
+				// Remove a task
 				$scope.remove = function (task) {
 					var index;
 					index = $scope.meeting.tasks.indexOf(task);
@@ -76,7 +164,7 @@ kuvenoApp
 					task.$remove();
 					LoggerSrv.logError('Task removed');
 				};
-
+				// Mark a task as completed
 				$scope.completed = function (task) {
 					task.isCompleted = !task.isCompleted;
 					if (moment().diff(task.dueDate) > 0) {
@@ -91,7 +179,6 @@ kuvenoApp
 					task.$save();
 					LoggerSrv.log('Task updated');
 				};
-
 				$scope.sendAgenda = function () {
 					$scope.CCshown = false;
 					$scope.BCCshown = false;
@@ -124,7 +211,50 @@ kuvenoApp
 					$scope.meeting.agenda.content = $scope.agendaEditedContent;
 					$scope.agendaEdit = false;
 				};
+				// Submit agenda changes
 				$scope.applyAgenda = function () {
+					$($scope.meeting.agenda.content).each(function () {
+						if ($(this).find('.task-description').html()) {
+							var task = makeTask($(this));
+							var matchedTask = checkExistTask(task);
+							if (matchedTask) {
+								matchedTask.description = task.description;
+								matchedTask.dueDate = task.dueDate;
+								matchedTask.assignedBy = task.assignedBy;
+								matchedTask.isCompleted = task.isCompleted;
+								matchedTask.owner = task.owner;
+								matchedTask.$save();
+							} else {
+								DataSrv
+									.createData('Task', task)
+									.then(function () {
+										$scope.meeting.tasks.push(task);
+										LoggerSrv.logSuccess('New task: "' + task.description + '" added');
+									}, function () {
+										LoggerSrv.logError('Saving task: "' + task.description + '" failed.');
+									});
+
+							}
+						}
+						if ($(this).find('.decision-description').html()) {
+							var decision = makeDecision($(this));
+							var matchedDecision = checkExistDecision(decision);
+							if (matchedDecision) {
+								matchedDecision.description = decision.description;
+								matchedDecision.$save();
+							} else {
+								DataSrv
+									.createData('Decision', decision)
+									.then(function () {
+										$scope.meeting.decisions.push(decision);
+										LoggerSrv.logSuccess('New decision: "' + decision.description + '" added');
+									}, function () {
+										LoggerSrv.logError('Saving decision: "' + decision.description + '" failed.');
+									});
+
+							}
+						}
+					});
 					$scope.meeting.$save();
 					$scope.agendaEdit = false;
 				};
@@ -136,7 +266,50 @@ kuvenoApp
 					$scope.meeting.notes.content = $scope.notesEditedContent;
 					$scope.notesEdit = false;
 				};
+				// Submit notes changes
 				$scope.applyNotes = function () {
+					$($scope.meeting.notes.content).each(function () {
+						if ($(this).find('.task-description').html()) {
+							var task = makeTask($(this));
+							var matchedTask = checkExistTask(task);
+							if (matchedTask) {
+								matchedTask.description = task.description;
+								matchedTask.dueDate = task.dueDate;
+								matchedTask.assignedBy = task.assignedBy;
+								matchedTask.isCompleted = task.isCompleted;
+								matchedTask.owner = task.owner;
+								matchedTask.$save();
+							} else {
+								DataSrv
+									.createData('Task', task)
+									.then(function () {
+										$scope.meeting.tasks.push(task);
+										LoggerSrv.logSuccess('New task: "' + task.description + '" added');
+									}, function () {
+										LoggerSrv.logError('Saving task: "' + task.description + '" failed.');
+									});
+
+							}
+						}
+						if ($(this).find('.decision-description').html()) {
+							var decision = makeDecision($(this));
+							var matchedDecision = checkExistDecision(decision);
+							if (matchedDecision) {
+								matchedDecision.description = decision.description;
+								matchedDecision.$save();
+							} else {
+								DataSrv
+									.createData('Decision', decision)
+									.then(function () {
+										$scope.meeting.decisions.push(decision);
+										LoggerSrv.logSuccess('New decision: "' + decision.description + '" added');
+									}, function () {
+										LoggerSrv.logError('Saving decision: "' + decision.description + '" failed.');
+									});
+
+							}
+						}
+					});
 					$scope.meeting.$save();
 					$scope.notesEdit = false;
 				};
@@ -190,12 +363,8 @@ kuvenoApp
 
 				DataSrv.getData('Meeting', 'ID == :1', [$scope.meetingid]).then(function (result) {
 					$scope.meeting = result[0];
-					console.log($scope.meeting);
 					if ($scope.meeting) {
 						DataSrv.fetchData($scope.meeting.participants);
-						DataSrv.fetchData($scope.meeting.agenda);
-						DataSrv.fetchData($scope.meeting.notes);
-						DataSrv.fetchData($scope.meeting.decisions);
 						DataSrv.fetchData($scope.meeting.tasks).then(function () {
 							var i = 0;
 							while ($scope.meeting.tasks[i]) {
@@ -213,6 +382,16 @@ kuvenoApp
 								getUser(task);
 								i++;
 							}
+							DataSrv.fetchData($scope.meeting.decisions).then(function () {
+								DataSrv.fetchData($scope.meeting.agenda).then(function () {
+									matchTask($scope.meeting.agenda);
+									matchDecision($scope.meeting.agenda);
+								});
+								DataSrv.fetchData($scope.meeting.notes).then(function () {
+									matchTask($scope.meeting.notes);
+									matchDecision($scope.meeting.notes);
+								});
+							});
 						});
 					}
 				});
