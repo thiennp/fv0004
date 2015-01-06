@@ -9,6 +9,7 @@ window.kuvenoApp = angular
 		'pascalprecht.translate',
 		'ui.bootstrap',
 		'ui.router',
+		'ui.select',
 		'wakanda'
 	])
 	.run([

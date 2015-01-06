@@ -27,11 +27,9 @@ kuvenoApp
 						$rootScope.$stateHistory.push('main.ViewOneMeeting');
 					}
 				}
-
 				DataSrv.getData('User').then(function (result) {
 					$scope.users = result;
 				});
-
 				// Inject owner firstname and owner id to task
 				var getUser = function (task) {
 						DataSrv.fetchData(task.owner).then(function (result) {
@@ -364,7 +362,19 @@ kuvenoApp
 				DataSrv.getData('Meeting', 'ID == :1', [$scope.meetingid]).then(function (result) {
 					$scope.meeting = result[0];
 					if ($scope.meeting) {
-						DataSrv.fetchData($scope.meeting.participants);
+						DataSrv.fetchData($scope.meeting.participants).then(function () {
+							var participantEmails = [];
+							for (var i in $scope.meeting.participants) {
+								if ($scope.meeting.participants[i].email) {
+									participantEmails.push($scope.meeting.participants[i]);
+								}
+							}
+							$rootScope.sendAgendaTo = participantEmails;
+							$rootScope.participantWithEmail = participantEmails;
+							$rootScope.sendAgendaCC = [];
+							$rootScope.sendAgendaBCC = [];
+							console.log($rootScope.sendAgendaTo);
+						});
 						DataSrv.fetchData($scope.meeting.tasks).then(function () {
 							var i = 0;
 							while ($scope.meeting.tasks[i]) {
@@ -397,4 +407,34 @@ kuvenoApp
 				});
 			});
 		}
-	]);
+	])
+	.filter('propsFilter', function () {
+		return function (items, props) {
+			var out = [];
+
+			if (angular.isArray(items)) {
+				items.forEach(function (item) {
+					var itemMatches = false;
+
+					var keys = Object.keys(props);
+					for (var i = 0; i < keys.length; i++) {
+						var prop = keys[i];
+						var text = props[prop].toLowerCase();
+						if (item[prop].toString().toLowerCase().indexOf(text) !== -1) {
+							itemMatches = true;
+							break;
+						}
+					}
+
+					if (itemMatches) {
+						out.push(item);
+					}
+				});
+			} else {
+				// Let the output be the input untouched
+				out = items;
+			}
+
+			return out;
+		};
+	});

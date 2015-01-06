@@ -270,3 +270,17 @@ a {
 	background-position: 98% 50%;
 	background-size: 16px;
 }
+
+.ui-select-multiple.ui-select-bootstrap input.ui-select-search {
+	height: 34px;
+}
+
+.ui-select-multiple.ui-select-bootstrap .ui-select-match-item {
+	margin-bottom: 5px;
+	height: 30px;
+	line-height: 26px;
+}
+
+.ui-select-multiple.ui-select-bootstrap .ui-select-match .close {
+	line-height: 26px;
+}
