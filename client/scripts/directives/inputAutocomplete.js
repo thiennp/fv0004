@@ -3,10 +3,13 @@ kuvenoApp
 	.directive('inputAutocomplete', function () {
 		return {
 			restrict: 'C',
-			template: '<div class="label-autocomplete" ng-repeat="item in sendAgendaTo">{{item.name}}, </div><input class="autocomplete-text" type="text" />',
+			scope: {
+				listItem: '=ngDataRepeat'
+			},
+			template: '<div class="label-autocomplete" ng-repeat="item in listItem">{{item.name}}, </div><input class="autocomplete-text" type="text" />',
 			controller: [
-				'$scope', '$element', '$attrs', '$location',
-				function ($scope, $element, $attrs, $location) {
+				'$attrs', '$element', '$rootScope',
+				function ($attrs, $element, $rootScope) {
 					var el = $element[0];
 					var input = el.getElementsByClassName('autocomplete-text')[0];
 					$element.on('mousedown', function (event) {
@@ -17,9 +20,10 @@ kuvenoApp
 							var addedItem = {};
 							addedItem.name = $(input).val().split(',')[0];
 							addedItem[$attrs.ngDataShow] = $(input).val().split(',')[0];
-							$scope[$attrs.ngDataRepeat].push(addedItem);
-							$scope.$apply();
-							console.log($scope[$attrs.ngDataRepeat]);
+							console.log($attrs.ngDataRepeat);
+							$rootScope[$attrs.ngDataRepeat].push(addedItem);
+							$rootScope.$apply();
+							console.log($rootScope[$attrs.ngDataRepeat]);
 							$(input).val('');
 						}
 					});
