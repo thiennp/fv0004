@@ -373,7 +373,6 @@ kuvenoApp
 							$rootScope.participantWithEmail = participantEmails;
 							$rootScope.sendAgendaCC = [];
 							$rootScope.sendAgendaBCC = [];
-							console.log($rootScope.sendAgendaTo);
 						});
 						DataSrv.fetchData($scope.meeting.tasks).then(function () {
 							var i = 0;

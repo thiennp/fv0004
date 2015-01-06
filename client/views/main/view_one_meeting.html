@@ -128,18 +128,10 @@
 		</div>
 		<div class="modal-body">
 			<div class="form-group">
-				<div class="input-group">
-					<span class="input-group-addon">{{ 'To' | translate }}</span>
-					<ui-select multiple ng-model="sendAgendaTo">
-						<ui-select-match placeholder="Select person...">
-							{{$item.name}}
-						</ui-select-match>
-						<ui-select-choices repeat="person in participantWithEmail | propsFilter: {name: $select.search}">
-							<div ng-bind-html="person.name | highlight: $select.search"></div>
-							<small>email: {{person.email}}</small>
-						</ui-select-choices>
-					</ui-select>
-					<span class="input-group-addon" style="padding: 5px 12px" ng-hide="CCshown">
+				<div class="input-group table-row">
+					<span class="input-group-addon table-cell">{{ 'To' | translate }}</span>
+					<span class="table-cell input-autocomplete" ng-data-repeat="sendAgendaTo" ng-data-show="item.email"></span>
+					<span class="input-group-addon table-cell" style="padding: 5px 12px" ng-hide="CCshown">
 						<button class="btn btn-success btn-xs" ng-click="CCshown=true">{{ 'CC' | translate }}</button>
 					</span>
 				</div>
@@ -147,15 +139,7 @@
 			<div class="form-group" ng-show="CCshown">
 				<div class="input-group">
 					<span class="input-group-addon">{{ 'CC' | translate }}</span>
-					<ui-select multiple ng-model="sendAgendaCC">
-						<ui-select-match placeholder="Select CC...">
-							{{$item.name}}
-						</ui-select-match>
-						<ui-select-choices repeat="person in participantWithEmail | propsFilter: {name: $select.search}">
-							<div ng-bind-html="person.name | highlight: $select.search"></div>
-							<small>email: {{person.email}}</small>
-						</ui-select-choices>
-					</ui-select>
+					<input class="form-control" type="text" ng-model="sendAgendaCC" />
 					<span class="input-group-addon" style="padding: 5px 12px">
 						<button class="btn btn-danger btn-xs" ng-click="CCshown=false">{{ 'Hide' | translate }}</button>
 						<button class="btn btn-success btn-xs" ng-hide="BCCshown" ng-click="BCCshown=true">{{ 'BCC' | translate }}</button>
@@ -165,15 +149,7 @@
 			<div class="form-group" ng-show="BCCshown">
 				<div class="input-group">
 					<span class="input-group-addon">{{ 'BCC' | translate }}</span>
-					<ui-select multiple ng-model="sendAgendaBCC">
-						<ui-select-match placeholder="Select BCC...">
-							{{$item.name}}
-						</ui-select-match>
-						<ui-select-choices repeat="person in participantWithEmail | propsFilter: {name: $select.search}">
-							<div ng-bind-html="person.name | highlight: $select.search"></div>
-							<small>email: {{person.email}}</small>
-						</ui-select-choices>
-					</ui-select>
+					<input class="form-control" type="text" ng-model="sendAgendaBCC" />
 					<span class="input-group-addon" style="padding: 5px 12px">
 						<button class="btn btn-danger btn-xs" ng-click="BCCshown=false">{{ 'Hide' | translate }}</button>
 					</span>
