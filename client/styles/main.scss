@@ -289,6 +289,15 @@ a {
 	float: left;
 	margin: 5px 0 0 5px;
 	padding: 5px;
+	border-radius: 3px;
+	-o-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	white-space: nowrap;
+	&.active {
+		color: white;
+		background-color: #1c7ebb
+	}
 }
 
 .autocomplete-text {
@@ -303,4 +312,28 @@ a {
 
 .autocomplete-text:focus {
 	outline: none;
+}
+
+.input-suggestion {
+	position: absolute;
+	top: 54px;
+	border: #ddd 1px solid;
+	background-color: #fff;
+	list-style-type: none;
+	padding: 0;
+	max-height: 400px;
+	li {
+		padding: 10px;
+		border-bottom: #ddd 1px dashed;
+		cursor: pointer;
+		&:hover,
+		&.active {
+			background-color: #1c7ebb;
+			color: white;
+			border-bottom: none;
+		}
+		&:last-child {
+			border-bottom: none;
+		}
+	}
 }

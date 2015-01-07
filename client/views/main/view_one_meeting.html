@@ -130,7 +130,11 @@
 			<div class="form-group">
 				<div class="input-group table-row">
 					<span class="input-group-addon table-cell">{{ 'To' | translate }}</span>
-					<span class="table-cell input-autocomplete" ng-data-repeat="sendAgendaTo"></span>
+					<span class="table-cell input-autocomplete"
+						ng-data-repeat="sendAgendaTo"
+						ng-data-show="name"
+						ng-data-suggest="participantWithEmail"
+						ng-data-suggest-show="email"></span>
 					<span class="input-group-addon table-cell" style="padding: 5px 12px" ng-hide="CCshown">
 						<button class="btn btn-success btn-xs" ng-click="CCshown=true">{{ 'CC' | translate }}</button>
 					</span>
@@ -139,7 +143,11 @@
 			<div class="form-group" ng-show="CCshown">
 				<div class="input-group">
 					<span class="input-group-addon">{{ 'CC' | translate }}</span>
-					<span class="table-cell input-autocomplete" ng-data-repeat="sendAgendaCC"></span>
+					<span class="table-cell input-autocomplete"
+						ng-data-repeat="sendAgendaCC"
+						ng-data-show="name"
+						ng-data-suggest="participantWithEmail"
+						ng-data-suggest-show="email"></span>
 					<span class="input-group-addon" style="padding: 5px 12px">
 						<button class="btn btn-danger btn-xs" ng-click="CCshown=false">{{ 'Hide' | translate }}</button>
 						<button class="btn btn-success btn-xs" ng-hide="BCCshown" ng-click="BCCshown=true">{{ 'BCC' | translate }}</button>
@@ -149,7 +157,11 @@
 			<div class="form-group" ng-show="BCCshown">
 				<div class="input-group">
 					<span class="input-group-addon">{{ 'BCC' | translate }}</span>
-					<span class="table-cell input-autocomplete" ng-data-repeat="sendAgendaBCC"></span>
+					<span class="table-cell input-autocomplete"
+						ng-data-repeat="sendAgendaBCC"
+						ng-data-show="name"
+						ng-data-suggest="participantWithEmail"
+						ng-data-suggest-show="email"></span>
 					<span class="input-group-addon" style="padding: 5px 12px">
 						<button class="btn btn-danger btn-xs" ng-click="BCCshown=false">{{ 'Hide' | translate }}</button>
 					</span>
