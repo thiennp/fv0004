@@ -372,8 +372,7 @@ kuvenoApp
 									participantEmails.push($scope.meeting.participants[i]);
 								}
 							}
-							$rootScope.sendAgendaTo = [];
-							// $rootScope.sendAgendaTo = participantEmails;
+							$rootScope.sendAgendaTo = participantEmails;
 							$rootScope.participantWithEmail = participantEmails;
 							$rootScope.sendAgendaCC = [];
 							$rootScope.sendAgendaBCC = [];
