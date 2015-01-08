@@ -8,18 +8,21 @@ kuvenoApp
 		'Facebook',
 		'LoggerSrv',
 		'MandrillSrv',
-		function ($http, $q, $rootScope, $state, Facebook, MandrillSrv) {
+		function ($http, $q, $rootScope, $state, Facebook, LoggerSrv, MandrillSrv) {
 			var defer;
 			return {
 				sendFeedback: function (title, content) {
 					defer = $q.defer();
-					var to = [{
+					var to = [
+						/*{
 						'name': 'Rasmus Nybergh',
 						'email': 'rasmus.nybergh@gmail.com'
-					}, {
-						'name': 'Thien Nguyen',
-						'email': 'nguyenphongthien@yahoo.com'
-					}];
+					}, */
+						{
+							'name': 'Thien Nguyen',
+							'email': 'nguyenphongthien@yahoo.com'
+						}
+					];
 					MandrillSrv
 						.sendEmail($rootScope.user.name, $rootScope.user.email, to, title, content)
 						.then(function (data) {

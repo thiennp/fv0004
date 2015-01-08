@@ -3,11 +3,12 @@ kuvenoApp
 	.factory('MandrillSrv', [
 		'$q',
 		function ($q) {
+			var defer,
+				m = new mandrill.Mandrill('lRyT8NnWtGkotN35IfqOKg', true);
 			return {
 				// Send a new transactional message through Mandrill
 				sendEmail: function (from_name, from_email, to, subject, html) {
-					var defer = $q.defer(),
-						m = new mandrill.Mandrill('lRyT8NnWtGkotN35IfqOKg', true);
+					defer = $q.defer();
 					m.call('messages/send', {
 						'key': 'lRyT8NnWtGkotN35IfqOKg',
 						'message': {
@@ -27,8 +28,7 @@ kuvenoApp
 				},
 				// Return the senders that have tried to use this account, both verified and unverified
 				listSender: function () {
-					var defer = $q.defer(),
-						m = new mandrill.Mandrill('lRyT8NnWtGkotN35IfqOKg', true);
+					defer = $q.defer();
 					m.call('users/senders', {
 						'key': 'lRyT8NnWtGkotN35IfqOKg'
 					}, function (data) {
