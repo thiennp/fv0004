@@ -112,7 +112,15 @@
 							<div ng-show="stopEditing && !meeting.agenda.content">
 							{{ '[Agenda content]' | translate }}</div>
 							<div ng-bind-html="meeting.agenda.content" ng-show="stopEditing"></div>
-							<textarea class="tinymce" ui-tinymce ng-model="meeting.agenda.content" ng-hide="stopEditing" style="height: 500px"></textarea>
+							<textarea
+								class="tinymce"
+								ui-tinymce
+								show-task="true"
+								show-decision="true"
+								show-mention="true"
+								ng-model="meeting.agenda.content"
+								ng-hide="stopEditing"
+								style="height: 500px"></textarea>
 							<button class="btn btn-primary margin-top-10" type="submit" ng-hide="stopEditing">{{ 'Submit' | translate }}</button>
 						</div>
 						<div class="clearfix margin-top-20"></div>

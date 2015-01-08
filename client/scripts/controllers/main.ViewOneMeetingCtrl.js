@@ -17,8 +17,8 @@ kuvenoApp
 					uiColor: '#000000'
 				};
 				$rootScope.textAreaList = [
-					'<textarea class="tinymce" ui-tinymce ng-model="meeting.agenda.content" task-modal="tinyMCETask" task-controller="ModalCtrl" style="height: 500px"></textarea>',
-					'<textarea class="tinymce" ui-tinymce ng-model="meeting.notes.content" task-modal="tinyMCETask" task-controller="ModalCtrl"  style="height: 500px"></textarea>'
+					'<textarea class="tinymce" ui-tinymce show-task="true" show-decision="true" show-mention="true" ng-model="meeting.agenda.content" task-modal="tinyMCETask" task-controller="ModalCtrl" style="height: 300px"></textarea>',
+					'<textarea class="tinymce" ui-tinymce show-task="true" show-decision="true" show-mention="true" ng-model="meeting.notes.content" task-modal="tinyMCETask" task-controller="ModalCtrl"  style="height: 300px"></textarea>'
 				];
 				if (data) {
 					if ($rootScope.onBack) {

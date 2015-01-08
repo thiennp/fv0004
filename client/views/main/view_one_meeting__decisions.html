@@ -1,9 +1,5 @@
 <section ng-cloak id="meeting-tab-2">
 	<h1>{{ 'Meeting decisions' | translate }}</h1>
 	<hr>
-	<ul class="list-unstyled list-info">
-		<li ng-repeat="decision in meeting.decisions">
-			<i class="fa fa-gavel margin-right-10"></i> {{ decision.description }}
-		</li>
-	</ul>
+	<p class="callout callout-danger decision" ng-repeat="decision in meeting.decisions">{{ decision.description }}</p>
 </section

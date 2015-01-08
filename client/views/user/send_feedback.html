@@ -28,6 +28,13 @@
 									<div class="form-group">
 										<label for="exampleInputPassword1">{{ 'Content' | translate }}</label>
 										<textarea
+										class="tinymce"
+										ui-tinymce
+										ng-model="content"
+										task-modal="tinyMCETask"
+										task-controller="ModalCtrl"
+										style="height: 500px"></textarea>
+										<textarea
 										row="8"
 										name="content"
 										ng-model="content"
