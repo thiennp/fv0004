@@ -156,6 +156,10 @@ window.kuvenoApp = angular
 					url: '/send_feedback',
 					templateUrl: 'views/user/send_feedback.html'
 				})
+				.state('user.SendEmail', {
+					url: '/send_email',
+					templateUrl: 'views/user/send_email.html'
+				})
 				.state('user.Groups', {
 					url: '/groups',
 					templateUrl: 'views/user/groups.html'

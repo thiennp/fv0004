@@ -91,7 +91,11 @@ kuvenoApp
 						}
 					};
 					$scope.calculateTop = function () {
-						var style = 'top: ' + ($element.height() + 21) + 'px;';
+						var positionTop = 6;
+						if ($attrs.ngDataSuggestTop) {
+							positionTop += Number($attrs.ngDataSuggestTop);
+						}
+						var style = 'top: ' + ($element.height() + positionTop) + 'px;';
 						return style;
 					};
 					$scope.calculateSuggest = function () {

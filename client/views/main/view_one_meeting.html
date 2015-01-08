@@ -116,6 +116,7 @@
 				id="pdf-download"
 				class="btn btn-success">{{ 'Download PDF' | translate }}</a>
 				<button
+					type="button"
 					class="btn btn-warning"
 					ng-click="close()">{{ 'Close' | translate }}</button>
 		</div>
@@ -132,9 +133,14 @@
 						ng-data-repeat="sendAgendaTo"
 						ng-data-show="name"
 						ng-data-suggest="participantWithEmail"
-						ng-data-suggest-show="email"></span>
+						ng-data-suggest-show="email"
+						ng-data-suggest-top="15"></span>
 					<span class="input-group-addon table-cell" style="padding: 5px 12px" ng-hide="CCshown">
-						<button class="btn btn-success btn-xs" ng-click="CCshown=true">{{ 'CC' | translate }}</button>
+						<button
+							type="button"
+							class="btn btn-success btn-xs"
+							ng-click="CCshown=true">
+							{{ 'CC' | translate }}</button>
 					</span>
 				</div>
 			</div>
@@ -147,8 +153,16 @@
 						ng-data-suggest="participantWithEmail"
 						ng-data-suggest-show="email"></span>
 					<span class="input-group-addon" style="padding: 5px 12px">
-						<button class="btn btn-danger btn-xs" ng-click="CCshown=false">{{ 'Hide' | translate }}</button>
-						<button class="btn btn-success btn-xs" ng-hide="BCCshown" ng-click="BCCshown=true">{{ 'BCC' | translate }}</button>
+						<button
+							type="button"
+							class="btn btn-danger btn-xs"
+							ng-click="CCshown=false">
+							{{ 'Hide' | translate }}</button>
+						<button
+							type="button"
+							class="btn btn-success btn-xs"
+							ng-hide="BCCshown"
+							ng-click="BCCshown=true">{{ 'BCC' | translate }}</button>
 					</span>
 				</div>
 			</div>
@@ -161,23 +175,37 @@
 						ng-data-suggest="participantWithEmail"
 						ng-data-suggest-show="email"></span>
 					<span class="input-group-addon" style="padding: 5px 12px">
-						<button class="btn btn-danger btn-xs" ng-click="BCCshown=false">{{ 'Hide' | translate }}</button>
+						<button
+							type="button"
+							class="btn btn-danger btn-xs"
+							ng-click="BCCshown=false">
+							{{ 'Hide' | translate }}</button>
 					</span>
 				</div>
 			</div>
 			<div class="form-group">
-				<input class="form-control" type="text" ng-model="sendAgendaSubject" placeholder="{{ 'Subject' | translate }}" />
+				<input
+					class="form-control"
+					type="text"
+					ng-model="sendAgendaSubject"
+					placeholder="{{ 'Subject' | translate }}" />
 			</div>
 			<div class="form-group">
-				<textarea class="form-control" ng-model="sendAgendaContent" placeholder="{{ 'Content' | translate }}" rows="6">
+				<textarea
+					class="form-control"
+					ng-model="sendAgendaContent"
+					placeholder="{{'Content' | translate}}"
+					rows="6">
 				</textarea>
 			</div>
 		</div>
 		<div class="modal-footer">
 			<button
+				type="button"
 				class="btn btn-success"
 				ng-click="send('agenda')">{{ 'Send Agenda' | translate }}</a>
 			<button
+				type="button"
 				class="btn btn-warning"
 				ng-click="close()">{{ 'Cancel' | translate }}</button>
 		</div>
@@ -190,44 +218,84 @@
 			<div class="form-group">
 				<div class="input-group">
 					<span class="input-group-addon">{{ 'To' | translate }}</span>
-					<input class="form-control" type="text" ng-model="sendNotesTo" />
+					<span class="table-cell input-autocomplete"
+						ng-data-repeat="sendNotesTo"
+						ng-data-show="name"
+						ng-data-suggest="participantWithEmail"
+						ng-data-suggest-show="email"
+						ng-data-suggest-top="15"></span>
 					<span class="input-group-addon" style="padding: 5px 12px" ng-hide="CCshown">
-						<button class="btn btn-success btn-xs" ng-click="CCshown=true">{{ 'CC' | translate }}</button>
+						<button
+							type="button"
+							class="btn btn-success btn-xs"
+							ng-click="CCshown=true">
+							{{ 'CC' | translate }}</button>
 					</span>
 				</div>
 			</div>
 			<div class="form-group" ng-show="CCshown">
 				<div class="input-group">
 					<span class="input-group-addon">{{ 'CC' | translate }}</span>
-					<input class="form-control" type="text" ng-model="sendNotesCC" />
+					<span class="table-cell input-autocomplete"
+						ng-data-repeat="sendNotesCC"
+						ng-data-show="name"
+						ng-data-suggest="participantWithEmail"
+						ng-data-suggest-show="email"></span>
 					<span class="input-group-addon" style="padding: 5px 12px">
-						<button class="btn btn-danger btn-xs" ng-click="CCshown=false">{{ 'Hide' | translate }}</button>
-						<button class="btn btn-success btn-xs" ng-hide="BCCshown" ng-click="BCCshown=true">{{ 'BCC' | translate }}</button>
+						<button
+							type="button"
+							class="btn btn-danger btn-xs"
+							ng-click="CCshown=false">
+							{{ 'Hide' | translate }}</button>
+						<button
+							type="button"
+							class="btn btn-success btn-xs"
+							ng-hide="BCCshown"
+							ng-click="BCCshown=true">
+							{{ 'BCC' | translate }}</button>
 					</span>
 				</div>
 			</div>
 			<div class="form-group" ng-show="BCCshown">
 				<div class="input-group">
 					<span class="input-group-addon">{{ 'BCC' | translate }}</span>
-					<input class="form-control" type="text" ng-model="sendNotesBCC" />
+					<span class="table-cell input-autocomplete"
+						ng-data-repeat="sendNotesBCC"
+						ng-data-show="name"
+						ng-data-suggest="participantWithEmail"
+						ng-data-suggest-show="email"></span>
 					<span class="input-group-addon" style="padding: 5px 12px">
-						<button class="btn btn-danger btn-xs" ng-click="BCCshown=false">{{ 'Hide' | translate }}</button>
+						<button
+							type="button"
+							class="btn btn-danger btn-xs"
+							ng-click="BCCshown=false">
+							{{ 'Hide' | translate }}</button>
 					</span>
 				</div>
 			</div>
 			<div class="form-group">
-				<input class="form-control" type="text" ng-model="sendNotesSubject" placeholder="{{ 'Subject' | translate }}" />
+				<input
+				class="form-control"
+				type="text"
+				ng-model="sendNotesSubject"
+				placeholder="{{ 'Subject' | translate }}" />
 			</div>
 			<div class="form-group">
-				<textarea class="form-control" ng-model="sendNotesContent" placeholder="{{ 'Content' | translate }}" rows="6">
+				<textarea
+				class="form-control"
+				ng-model="sendNotesContent"
+				placeholder="{{ 'Content' | translate }}"
+				rows="6">
 				</textarea>
 			</div>
 		</div>
 		<div class="modal-footer">
 			<button
+				type="button"
 				class="btn btn-success"
 				ng-click="send('notes')">{{ 'Send Notes' | translate }}</a>
 			<button
+				type="button"
 				class="btn btn-warning"
 				ng-click="close()">{{ 'Cancel' | translate }}</button>
 		</div>
@@ -240,46 +308,88 @@
 			<div class="form-group">
 				<div class="input-group">
 					<span class="input-group-addon">{{ 'To' | translate }}</span>
-					<input class="form-control" type="text" ng-model="sendRemindersTo" />
+					<span class="table-cell input-autocomplete"
+						ng-data-repeat="sendRemindersTo"
+						ng-data-show="name"
+						ng-data-suggest="participantWithEmail"
+						ng-data-suggest-show="email"
+						ng-data-suggest-top="15"></span>
 					<span class="input-group-addon" style="padding: 5px 12px" ng-hide="CCshown">
-						<button class="btn btn-success btn-xs" ng-click="CCshown=true">{{ 'CC' | translate }}</button>
+						<button
+							type="button"
+							class="btn btn-success btn-xs"
+							ng-click="CCshown=true">
+							{{ 'CC' | translate }}</button>
 					</span>
 				</div>
 			</div>
 			<div class="form-group" ng-show="CCshown">
 				<div class="input-group">
 					<span class="input-group-addon">{{ 'CC' | translate }}</span>
-					<input class="form-control" type="text" ng-model="sendRemindersCC" />
+					<span class="table-cell input-autocomplete"
+						ng-data-repeat="sendRemindersCC"
+						ng-data-show="name"
+						ng-data-suggest="participantWithEmail"
+						ng-data-suggest-show="email"></span>
 					<span class="input-group-addon" style="padding: 5px 12px">
-						<button class="btn btn-danger btn-xs" ng-click="CCshown=false">{{ 'Hide' | translate }}</button>
-						<button class="btn btn-success btn-xs" ng-hide="BCCshown" ng-click="BCCshown=true">{{ 'BCC' | translate }}</button>
+						<button
+							type="button"
+							class="btn btn-danger btn-xs"
+							ng-click="CCshown=false">
+							{{ 'Hide' | translate }}</button>
+						<button
+							type="button"
+							class="btn btn-success btn-xs"
+							ng-hide="BCCshown"
+							ng-click="BCCshown=true">
+							{{ 'BCC' | translate }}</button>
 					</span>
 				</div>
 			</div>
 			<div class="form-group" ng-show="BCCshown">
 				<div class="input-group">
 					<span class="input-group-addon">{{ 'BCC' | translate }}</span>
-					<input class="form-control" type="text" ng-model="sendRemindersBCC" />
+					<span class="table-cell input-autocomplete"
+						ng-data-repeat="sendRemindersBCC"
+						ng-data-show="name"
+						ng-data-suggest="participantWithEmail"
+						ng-data-suggest-show="email"></span>
 					<span class="input-group-addon" style="padding: 5px 12px">
-						<button class="btn btn-danger btn-xs" ng-click="BCCshown=false">{{ 'Hide' | translate }}</button>
+						<button
+							type="button"
+							class="btn btn-danger btn-xs"
+							ng-click="BCCshown=false">
+							{{ 'Hide' | translate }}</button>
 					</span>
 				</div>
 			</div>
 			<div class="form-group">
-				<input class="form-control" type="text" ng-model="sendRemindersSubject" placeholder="{{ 'Subject' | translate }}" />
+				<input
+					class="form-control"
+					type="text"
+					ng-model="sendRemindersSubject"
+					placeholder="{{ 'Subject' | translate }}" />
 			</div>
 			<div class="form-group">
-				<textarea class="form-control" ng-model="sendRemindersContent" placeholder="{{ 'Content' | translate }}" rows="6">
+				<textarea
+					class="form-control"
+					ng-model="sendRemindersContent"
+					placeholder="{{ 'Content' | translate }}"
+					rows="6">
 				</textarea>
 			</div>
 		</div>
 		<div class="modal-footer">
 			<button
+				type="button"
 				class="btn btn-success"
-				ng-click="send('reminders')">{{ 'Send Reminders' | translate }}</a>
+				ng-click="send('reminders')">
+				{{ 'Send Reminders' | translate }}</a>
 			<button
+				type="button"
 				class="btn btn-warning"
-				ng-click="close()">{{ 'Cancel' | translate }}</button>
+				ng-click="close()">
+				{{ 'Cancel' | translate }}</button>
 		</div>
 	</script>
 	<script type="text/ng-template" id="tinyMCETask">
@@ -334,11 +444,15 @@
 		</div>
 		<div class="modal-footer">
 			<button
+				type="button"
 				class="btn btn-success"
-				ng-click="addTinyMCETask()">{{ 'Ok' | translate }}</a>
+				ng-click="addTinyMCETask()">
+				{{ 'Ok' | translate }}</a>
 			<button
+				type="button"
 				class="btn btn-warning"
-				ng-click="close()">{{ 'Cancel' | translate }}</button>
+				ng-click="close()">
+				{{ 'Cancel' | translate }}</button>
 		</div>
 	</script>
 	<!-- end Modal -->

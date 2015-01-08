@@ -34,14 +34,6 @@
 										task-modal="tinyMCETask"
 										task-controller="ModalCtrl"
 										style="height: 500px"></textarea>
-										<textarea
-										row="8"
-										name="content"
-										ng-model="content"
-										placeholder="{{ 'Content' | translate }} *"
-										class="form-control"
-										ng-class="{ 'input-danger': sendFeedbackForm.content.$error.required && sendFeedbackForm.content.$dirty }"
-										required></textarea>
 									</div>
 									<div class="row alert alert-danger" ng-show="sendFeedbackForm.content.$error.required && sendFeedbackForm.content.$dirty">
 										{{ 'Content must not be empty' | translate}}

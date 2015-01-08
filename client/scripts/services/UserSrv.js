@@ -9,11 +9,11 @@ kuvenoApp
 		'LoggerSrv',
 		'MandrillSrv',
 		function ($http, $q, $rootScope, $state, Facebook, LoggerSrv, MandrillSrv) {
-			var defer;
+			var defer, to;
 			return {
 				sendFeedback: function (title, content) {
 					defer = $q.defer();
-					var to = [
+					to = [
 						/*{
 						'name': 'Rasmus Nybergh',
 						'email': 'rasmus.nybergh@gmail.com'
@@ -22,6 +22,21 @@ kuvenoApp
 							'name': 'Thien Nguyen',
 							'email': 'nguyenphongthien@yahoo.com'
 						}
+					];
+					MandrillSrv
+						.sendEmail($rootScope.user.name, $rootScope.user.email, to, title, content)
+						.then(function (data) {
+							defer.resolve(data);
+						});
+					return defer.promise;
+				},
+				sendEmail: function (to, cc, bcc, title, content) {
+					defer = $q.defer();
+					to = [
+						// {
+						// 	'name': 'Thien Nguyen',
+						// 	'email': 'nguyenphongthien@yahoo.com'
+						// }
 					];
 					MandrillSrv
 						.sendEmail($rootScope.user.name, $rootScope.user.email, to, title, content)

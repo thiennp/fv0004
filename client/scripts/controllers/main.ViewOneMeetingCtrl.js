@@ -373,6 +373,8 @@ kuvenoApp
 								}
 							}
 							$rootScope.sendAgendaTo = participantEmails;
+							$rootScope.sendNotesTo = participantEmails;
+							$rootScope.sendRemindersTo = participantEmails;
 							$rootScope.participantWithEmail = participantEmails;
 							$rootScope.sendAgendaCC = [];
 							$rootScope.sendAgendaBCC = [];

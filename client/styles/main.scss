@@ -322,6 +322,7 @@ a {
 	list-style-type: none;
 	padding: 0;
 	max-height: 400px;
+	z-index: 9999;
 	li {
 		padding: 10px;
 		border-bottom: #ddd 1px dashed;
