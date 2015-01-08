@@ -35,6 +35,7 @@
     "Pikaday": false,
     "consolelog": false,
     "main": false,
-    "jQuery": false
+    "jQuery": false,
+    "mandrill": false
   }
 }

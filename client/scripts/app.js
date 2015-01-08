@@ -18,7 +18,8 @@ window.kuvenoApp = angular
 		'$translate',
 		'$wakanda',
 		'amMoment',
-		function ($rootScope, $state, $stateParams, $translate, $wakanda, amMoment) {
+		'MandrillSrv',
+		function ($rootScope, $state, $stateParams, $translate, $wakanda, amMoment, MandrillSrv) {
 			var oninit;
 			$rootScope.wakandaInit = false;
 			$rootScope.$stateHistory = [];

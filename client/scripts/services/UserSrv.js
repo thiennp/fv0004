@@ -6,17 +6,24 @@ kuvenoApp
 		'$rootScope',
 		'$state',
 		'Facebook',
-		function ($http, $q, $rootScope, $state, Facebook) {
+		'MandrillSrv',
+		function ($http, $q, $rootScope, $state, Facebook, MandrillSrv) {
 			var defer;
 			return {
 				sendFeedback: function (title, content) {
-					console.log(title, content);
-					defer = $q.defer();
-					defer.resolve(true);
-					return defer.promise;
+					// defer = $q.defer();
+					// var to = [{
+					// 	'name': 'Thien Nguyen',
+					// 	'email': 'nguyenphongthien@yahoo.com'
+					// }];
+					// MandrillSrv
+					// 	.sendEmail('Thien', 'nguyenphongthien@gmail.com', to, 'Test send Mandrill email', '<div style="color:red">Test content</div>');
+					// 	.then(function (data) {
+					// 		defer.resolve(data);
+					// 	});
+					// return defer.promise;
 				},
 				getFacebookFollower: function (uid) {
-					console.log(uid);
 					defer = $q.defer();
 					Facebook.api('/uid', function (response) {
 						defer.resolve(response);
