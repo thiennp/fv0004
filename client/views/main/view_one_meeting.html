@@ -9,6 +9,8 @@
 				<div class="clearfix"></div>
 				<div class="margin-bottom-10">
 					<div class="col-md-4" same-height="meetingInfo">
+						<p class="size-h4">{{'Time and location' | translate}}</p>
+						<div class="clearfix margin-bottom-10"></div>
 						<ul class="list-unstyled list-info">
 							<li>
 								<i class="fa fa-clock-o"></i>
@@ -21,11 +23,6 @@
 								{{ meeting.location | translate }}
 							</li>
 							<li>
-								<i class="fa fa-users"></i>
-								<label>{{ 'Group' | translate }}</label><br>
-								As Oy Kotikatu 5
-							</li>
-							<li>
 								<i class="fa fa-wifi"></i>
 								<label>{{ 'Type' }}</label><br>
 								<span ng-show="meeting.isOnline">{{ 'Online' | translate }}</span>
@@ -34,7 +31,7 @@
 						</ul>
 					</div>
 					<div class="col-md-4" same-height="meetingInfo">
-						<p class="size-h4">Participant</p>
+						<p class="size-h4">{{'Participant' | translate}}</p>
 						<div class="clearfix margin-bottom-10"></div>
 						<ul class="list-unstyled list-info">
 							<li ng-repeat="participant in meeting.participants">
@@ -43,17 +40,18 @@
 						</ul>
 					</div>
 					<div class="col-md-4" same-height="meetingInfo">
+						<p class="size-h4">{{'Admin data' | translate}}</p>
+						<div class="clearfix margin-bottom-10"></div>
 						<ul class="list-unstyled list-info">
 							<li>
-								<label>Model</label><br>
-								Board of Directors Meeting
+								<i class="fa fa-users"></i>
+								<label>{{'Workgroup' | translate}}</label><br>
+								{{meeting.workgroup.name}}
 							</li>
 							<li>
-								<label>Status:</label>
-								<ul>
-									<li>Agenda locked</li>
-									<li>The Protocol was not sent</li>
-								</ul>
+								<i class="fa fa-key"></i>
+								<label>{{'Secret key' | translate}}</label><br>
+								{{meeting.secretKey}}
 							</li>
 						</ul>
 					</div>

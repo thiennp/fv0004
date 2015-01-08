@@ -38,8 +38,7 @@
     "html2canvas": "~0.4.1",
     "textAngular": "~1.2.2",
     "tinymce-mention": "~4.0.0",
-    "tinymce": "git@github.com:thiennp/kuveno-tinymce.git",
-    "angular-ui-select": "~0.9.5"
+    "tinymce": "git@github.com:thiennp/kuveno-tinymce.git"
   },
   "resolutions": {
     "jquery": "~2.1.0"
