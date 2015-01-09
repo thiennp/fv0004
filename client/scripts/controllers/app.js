@@ -35,4 +35,65 @@ kuvenoApp
 	.controller('NavCtrl', [
 		'$scope',
 		function ($scope) {}
+	])
+	.controller('HeaderCtrl', [
+		'$scope',
+		'AuthSrv',
+		'DataSrv',
+		function ($scope, AuthSrv, DataSrv) {
+			return AuthSrv.verify().then(function (data) {
+				$scope.comingMeetingList = [];
+				$scope.taskList = [];
+				$scope.meetingComing = 0;
+				$scope.openTasks = 0;
+				$scope.overdueTasks = 0;
+				DataSrv
+					.getData('Meeting')
+					.then(function (result) {
+						for (var i in result) {
+							if (moment().diff(result[i].meetingTime) < 0) {
+								$scope.comingMeetingList.push(result[i]);
+								$scope.meetingComing++;
+							}
+						}
+						console.log($scope.meetingComing);
+					});
+				DataSrv
+					.getData('Task')
+					.then(function (result) {
+						var taskListOverDue = [],
+							taskListOpen = [];
+						for (var i in result) {
+							if (!result[i].isCompleted) {
+								$scope.openTasks++;
+								if (result[i].dueDate) {
+									if (moment().diff(result[i].dueDate) > 0) {
+										$scope.overdueTasks++;
+										taskListOverDue.push(result[i]);
+									} else {
+										taskListOpen.push(result[i]);
+									}
+								}
+							}
+						}
+						if (taskListOverDue.length) {
+							if (taskListOverDue.length > 3) {
+								$scope.taskList.push(taskListOverDue[0]);
+								$scope.taskList.push(taskListOverDue[1]);
+								$scope.taskList.push(taskListOverDue[2]);
+							} else {
+								$scope.taskList = taskListOverDue;
+							}
+						} else {
+							if (taskListOpen.length > 3) {
+								$scope.taskList.push(taskListOpen[0]);
+								$scope.taskList.push(taskListOpen[1]);
+								$scope.taskList.push(taskListOpen[2]);
+							} else {
+								$scope.taskList = taskListOpen;
+							}
+						}
+					});
+			});
+		}
 	]);
