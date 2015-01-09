@@ -366,18 +366,20 @@ kuvenoApp
 							console.log($scope.meeting);
 						});
 						DataSrv.fetchData($scope.meeting.participants).then(function () {
-							var participantEmails = [];
-							for (var i in $scope.meeting.participants) {
-								if ($scope.meeting.participants[i].email) {
-									participantEmails.push($scope.meeting.participants[i]);
-								}
-							}
-							$rootScope.sendAgendaTo = participantEmails;
-							$rootScope.sendNotesTo = participantEmails;
-							$rootScope.sendRemindersTo = participantEmails;
-							$rootScope.participantWithEmail = participantEmails;
+							$rootScope.participantWithEmail = [];
+							$rootScope.sendAgendaTo = [];
+							$rootScope.sendNotesTo = [];
+							$rootScope.sendRemindersTo = [];
 							$rootScope.sendAgendaCC = [];
 							$rootScope.sendAgendaBCC = [];
+							for (var i in $scope.meeting.participants) {
+								if ($scope.meeting.participants[i].email) {
+									$rootScope.participantWithEmail.push($scope.meeting.participants[i]);
+									$rootScope.sendAgendaTo.push($scope.meeting.participants[i]);
+									$rootScope.sendNotesTo.push($scope.meeting.participants[i]);
+									$rootScope.sendRemindersTo.push($scope.meeting.participants[i]);
+								}
+							}
 						});
 						DataSrv.fetchData($scope.meeting.tasks).then(function () {
 							var i = 0;

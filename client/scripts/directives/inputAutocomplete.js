@@ -15,7 +15,7 @@ kuvenoApp
 			template += '	<span ng-hide="item.active">, </span>';
 			template += '	<span';
 			template += '		ng-show="item.active"';
-			template += '		ng-click="removeItem(item)">&nbsp;&nbsp;<i class="fa fa-times"></i></span>';
+			template += '		ng-click="removeItem(item)">&nbsp;&nbsp;<i class="fa fa-times"></i>&nbsp;</span>';
 			template += '</div>';
 			template += '<input';
 			template += '	class="autocomplete-text"';
@@ -57,11 +57,11 @@ kuvenoApp
 							}
 						},
 						removeLastLabel = function () {
-							if ($scope.listItem.length > 0) {
-								if ($scope.listItem[$scope.listItem.length - 1].active) {
-									$scope.listItem.splice($scope.listItem.length - 1, 1);
+							if ($rootScope[dataRepeat].length > 0) {
+								if ($rootScope[dataRepeat][$rootScope[dataRepeat].length - 1].active) {
+									$rootScope[dataRepeat].splice($rootScope[dataRepeat].length - 1, 1);
 								} else {
-									$scope.listItem[$scope.listItem.length - 1].active = true;
+									$rootScope[dataRepeat][$rootScope[dataRepeat].length - 1].active = true;
 								}
 								$scope.$apply();
 							}
@@ -86,7 +86,9 @@ kuvenoApp
 					$scope.removeItem = function (item) {
 						for (var i in $rootScope[dataRepeat]) {
 							if ($rootScope[dataRepeat][i] === item) {
+								item.active = false;
 								$rootScope[dataRepeat].splice(i, 1);
+								break;
 							}
 						}
 					};
@@ -123,6 +125,7 @@ kuvenoApp
 								} else {
 									check = false;
 								}
+								console.log(check);
 								if (check) {
 									newList.push(itemSuggest);
 								}
