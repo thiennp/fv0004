@@ -13,16 +13,10 @@ kuvenoApp
 			return {
 				sendFeedback: function (title, content) {
 					defer = $q.defer();
-					to = [
-						/*{
-						'name': 'Rasmus Nybergh',
-						'email': 'rasmus.nybergh@gmail.com'
-					}, */
-						{
-							'name': 'Thien Nguyen',
-							'email': 'nguyenphongthien@yahoo.com'
-						}
-					];
+					to = [{
+						'name': 'Thien Nguyen',
+						'email': 'nguyenphongthien@yahoo.com'
+					}];
 					MandrillSrv
 						.sendEmail($rootScope.user.name, $rootScope.user.email, to, title, content)
 						.then(function (data) {
@@ -32,14 +26,8 @@ kuvenoApp
 				},
 				sendEmail: function (to, cc, bcc, title, content) {
 					defer = $q.defer();
-					to = [
-						// {
-						// 	'name': 'Thien Nguyen',
-						// 	'email': 'nguyenphongthien@yahoo.com'
-						// }
-					];
 					MandrillSrv
-						.sendEmail($rootScope.user.name, $rootScope.user.email, to, title, content)
+						.sendEmail($rootScope.user.name, $rootScope.user.email, to, cc, bcc, title, content)
 						.then(function (data) {
 							defer.resolve(data);
 						});

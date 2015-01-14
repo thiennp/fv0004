@@ -16,7 +16,7 @@ kuvenoApp
 				}
 			});
 			$scope.sendFeedback = function () {
-				UserSrv.sendFeedback($scope.title, $scope.content).then(function (data) {
+				UserSrv.sendFeedback($scope.subject, $scope.content).then(function (data) {
 					if (data) {
 						$scope.success = true;
 					} else {

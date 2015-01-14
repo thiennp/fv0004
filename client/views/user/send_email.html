@@ -18,7 +18,8 @@
 												ng-data-repeat="sendEmailTo"
 												ng-data-show="name"
 												ng-data-suggest="userWithEmail"
-												ng-data-suggest-show="email"></span>
+												ng-data-suggest-show="email"
+												ng-data-bind="emailTo"></span>
 											<span class="input-group-addon" style="padding: 5px 12px" ng-hide="CCshown">
 												<button type="button" class="btn btn-success btn-xs" ng-click="CCshown=true">{{ 'CC' | translate }}</button>
 											</span>
@@ -32,7 +33,8 @@
 												ng-data-repeat="sendEmailCC"
 												ng-data-show="name"
 												ng-data-suggest="userWithEmail"
-												ng-data-suggest-show="email"></span>
+												ng-data-suggest-show="email"
+												ng-data-bind="emailCC"></span>
 											<span class="input-group-addon" style="padding: 5px 12px">
 												<button type="button" class="btn btn-danger btn-xs" ng-click="CCshown=false">{{ 'Hide' | translate }}</button>
 												<button type="button" class="btn btn-success btn-xs" ng-hide="BCCshown" ng-click="BCCshown=true">{{ 'BCC' | translate }}</button>
@@ -47,7 +49,8 @@
 												ng-data-repeat="sendEmailBCC"
 												ng-data-show="name"
 												ng-data-suggest="userWithEmail"
-												ng-data-suggest-show="email"></span>
+												ng-data-suggest-show="email"
+												ng-data-bind="emailBCC"></span>
 											<span class="input-group-addon" style="padding: 5px 12px">
 												<button type="button" class="btn btn-danger btn-xs" ng-click="BCCshown=false">{{ 'Hide' | translate }}</button>
 											</span>

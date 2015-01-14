@@ -7,7 +7,7 @@ kuvenoApp
 				m = new mandrill.Mandrill('lRyT8NnWtGkotN35IfqOKg', true);
 			return {
 				// Send a new transactional message through Mandrill
-				sendEmail: function (from_name, from_email, to, subject, html) {
+				sendEmail: function (from_name, from_email, to, cc, bcc, subject, html) {
 					defer = $q.defer();
 					m.call('messages/send', {
 						'key': 'lRyT8NnWtGkotN35IfqOKg',
@@ -16,7 +16,9 @@ kuvenoApp
 							'subject': subject,
 							'from_email': from_email,
 							'from_name': from_name,
-							'to': to
+							'to': to,
+							'cc': cc,
+							'bcc': bcc
 						}
 					}, function (data) {
 						return defer.resolve(data);

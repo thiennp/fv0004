@@ -125,7 +125,6 @@ kuvenoApp
 								} else {
 									check = false;
 								}
-								console.log(check);
 								if (check) {
 									newList.push(itemSuggest);
 								}
@@ -147,13 +146,14 @@ kuvenoApp
 					$(input).on('keyup', function (event) {
 						switch (event.keyCode) {
 
-							// _, _;
+							// _comma, _semicolon
 						case 188:
 						case 186:
 							$scope.filterInput = $scope.filterInput.substring(0, $scope.filterInput.length - 1);
 							if ($scope.filterInput) {
 								var addedItem = {};
 								addedItem.name = $scope.filterInput;
+								addedItem.email = $scope.filterInput;
 								addedItem[$attrs.ngDataShow] = $scope.filterInput;
 								$rootScope[$attrs.ngDataRepeat].push(addedItem);
 								$rootScope.$apply();

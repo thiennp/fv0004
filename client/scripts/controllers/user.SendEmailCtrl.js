@@ -28,9 +28,40 @@ kuvenoApp
 				}
 			});
 			$scope.sendEmail = function () {
-				UserSrv.sendEmail($scope.title, $scope.content).then(function (data) {
+				var emailTo = [],
+					emailCC = [],
+					emailBCC = [],
+					i;
+				console.log($rootScope.sendEmailTo);
+				for (i in $rootScope.sendEmailTo) {
+					emailTo.push({
+						'name': $rootScope.sendEmailTo[i].name,
+						'email': $rootScope.sendEmailTo[i].email
+					});
+				}
+				for (i in $rootScope.sendEmailCC) {
+					emailCC.push({
+						'name': $rootScope.sendEmailCC[i].name,
+						'email': $rootScope.sendEmailCC[i].email
+					});
+				}
+				for (i in $rootScope.sendEmailBCC) {
+					emailBCC.push({
+						'name': $rootScope.sendEmailBCC[i].name,
+						'email': $rootScope.sendEmailBCC[i].email
+					});
+				}
+				UserSrv.sendEmail(emailTo, emailCC, emailBCC, $scope.subject, $scope.content).then(function (data) {
 					if (data) {
 						$scope.success = true;
+						$rootScope.sendEmailTo = [];
+						$rootScope.sendEmailCC = [];
+						$rootScope.sendEmailBCC = [];
+						$rootScope.EmailTo = [];
+						$rootScope.EmailCC = [];
+						$rootScope.EmailBCC = [];
+						$scope.subject = '';
+						$scope.content = '';
 					} else {
 						$scope.error = true;
 					}
