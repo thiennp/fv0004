@@ -4,12 +4,14 @@ window.kuvenoApp = angular
 		'angularMoment',
 		'facebook',
 		'ngAnimate',
+		'ngResource',
 		'ngRoute',
 		'ngSanitize',
 		'pascalprecht.translate',
 		'ui.bootstrap',
 		'ui.router',
-		'wakanda'
+		'wakanda',
+		'kuveno'
 	])
 	.run([
 		'$rootScope',
@@ -191,6 +193,10 @@ window.kuvenoApp = angular
 				.state('main.CreateAgenda', {
 					url: '/create_agenda/:groupId',
 					templateUrl: 'views/main/create_agenda.html'
+				})
+				.state('main.CreateEMeeting', {
+					url: '/create_e_meeting',
+					templateUrl: 'views/main/create_e_meeting.html'
 				});
 		}
 	])

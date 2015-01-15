@@ -1,0 +1,459 @@
+<section id="content" class="animate-fade-up" ng-controller="CreatEMeetingCtrl">
+	<div class="view-container">
+		<div class="page page-profile">
+			<section class="panel panel-profile">
+				<div class="col-md-12">
+					<h3>{{ meeting.name | translate }}</h3>
+					<hr>
+				</div>
+				<div class="clearfix"></div>
+				<div class="margin-bottom-10">
+					<div class="col-md-4" same-height="meetingInfo">
+						<p class="size-h4">{{'Time and location' | translate}}</p>
+						<div class="clearfix margin-bottom-10"></div>
+						<ul class="list-unstyled list-info">
+							<li>
+								<i class="fa fa-clock-o"></i>
+								<label>{{ 'Time' | translate}}</label><br>
+								{{ meeting.meetingTime | amDateFormat:'MMMM Do YYYY, h:mm a' }}
+							</li>
+							<li>
+								<i class="fa fa-globe"></i>
+								<label>{{ 'Location' | translate }}</label><br>
+								{{ meeting.location | translate }}
+							</li>
+							<li>
+								<i class="fa fa-wifi"></i>
+								<label>{{ 'Type' }}</label><br>
+								<span ng-show="meeting.isOnline">{{ 'Online' | translate }}</span>
+								<span ng-hide="meeting.isOnline">{{ 'Offline' | translate }}</span>
+							</li>
+						</ul>
+					</div>
+					<div class="col-md-4" same-height="meetingInfo">
+						<p class="size-h4">{{'Participant' | translate}}</p>
+						<div class="clearfix margin-bottom-10"></div>
+						<ul class="list-unstyled list-info">
+							<li ng-repeat="participant in meeting.participants">
+								{{ participant.name}}
+							</li>
+						</ul>
+					</div>
+					<div class="col-md-4" same-height="meetingInfo">
+						<p class="size-h4">{{'Admin data' | translate}}</p>
+						<div class="clearfix margin-bottom-10"></div>
+						<ul class="list-unstyled list-info">
+							<li>
+								<i class="fa fa-users"></i>
+								<label>{{'Workgroup' | translate}}</label><br>
+								{{meeting.workgroup.name}}
+							</li>
+							<li>
+								<i class="fa fa-key"></i>
+								<label>{{'Secret key' | translate}}</label><br>
+								{{meeting.secretKey}}
+							</li>
+						</ul>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="col-md-3 margin-bottom-20">
+					<div ng-show="tabs[0].active">
+						<a class="btn btn-primary btn-block margin-top-0" ng-click="editAgenda()" ng-hide="agendaEdit">
+						{{ 'Edit agenda' | translate }}</a>
+						<a class="btn btn-danger btn-block margin-top-0" ng-click="cancelAgenda()" ng-show="agendaEdit">
+						{{ 'Cancel edit' | translate }}</a>
+						<a class="btn btn-primary btn-block" ng-click="sendAgenda()">
+						{{ 'Send agenda' | translate }}</a>
+						<a class="btn btn-primary btn-block" ng-click="viewPDF(0)">
+						{{ 'View PDF' | translate }}</a>
+						<a class="btn btn-primary btn-block">
+						{{ 'View comments' | translate }}</a>
+					</div>
+					<div ng-show="tabs[1].active">
+						<a class="btn btn-primary btn-block margin-top-0" ng-click="editNotes()" ng-hide="notesEdit">
+						{{ 'Edit notes' | translate }}</a>
+						<a class="btn btn-danger btn-block margin-top-0" ng-click="cancelNotes()" ng-show="notesEdit">
+						{{ 'Cancel edit' | translate }}</a>
+						<a class="btn btn-primary btn-block" ng-click="sendNotes()">
+						{{ 'Send notes' | translate }}</a>
+						<a class="btn btn-primary btn-block" ng-click="viewPDF(1)">
+						{{ 'View PDF' | translate }}</a>
+						<a class="btn btn-primary btn-block">
+						{{ 'View comments' | translate }}</a>
+					</div>
+					<div ng-show="tabs[2].active">
+						<a class="btn btn-primary btn-block margin-top-0" ng-click="viewPDF(2)">
+						{{ 'View PDF' | translate }}</a>
+					</div>
+					<div ng-show="tabs[3].active">
+						<a class="btn btn-primary btn-block margin-top-0" ng-click="viewPDF(3)">
+						{{ 'View PDF' | translate }}</a>
+						<a class="btn btn-primary btn-block" ng-click="sendReminders()">
+						{{ 'Send reminders' | translate }}</a>
+					</div>
+				</div>
+				<div class="col-md-9 margin-bottom-20">
+					<div class="ui-tab-container">
+						<tabset class="ui-tab">
+						<tab ng-repeat="(key, tab) in tabs" heading="{{ tab.title | translate }}" active="tab.active" disabled="tab.disabled">
+						<div ng-include="tab.include"></div>
+						</tab>
+						</tabset>
+					</div>
+				</div>
+				<div class="clearfix margin-top-20"></div>
+			</section>
+		</div>
+	</div>
+	<!-- Modal -->
+	<script type="text/ng-template" id="viewPDF">
+		<div class="modal-body">
+			<iframe id="viewer" style="width: 100%; height: 100%; border: none"></iframe>
+		</div>
+		<div class="modal-footer">
+			<a
+				id="pdf-download"
+				class="btn btn-success">{{ 'Download PDF' | translate }}</a>
+				<button
+					type="button"
+					class="btn btn-warning"
+					ng-click="close()">{{ 'Close' | translate }}</button>
+		</div>
+	</script>
+	<script type="text/ng-template" id="sendAgenda">
+		<div class="modal-header">
+			<h3>{{ 'Send Agenda' | translate }}</h3>
+		</div>
+		<div class="modal-body">
+			<div class="form-group">
+				<div class="input-group table-row">
+					<span class="input-group-addon table-cell">{{ 'To' | translate }}</span>
+					<span class="table-cell input-autocomplete"
+						ng-data-repeat="sendAgendaTo"
+						ng-data-show="name"
+						ng-data-suggest="participantWithEmail"
+						ng-data-suggest-show="email"
+						ng-data-suggest-top="15"></span>
+					<span class="input-group-addon table-cell" style="padding: 5px 12px" ng-hide="CCshown">
+						<button
+							type="button"
+							class="btn btn-success btn-xs"
+							ng-click="CCshown=true">
+							{{ 'CC' | translate }}</button>
+					</span>
+				</div>
+			</div>
+			<div class="form-group" ng-show="CCshown">
+				<div class="input-group">
+					<span class="input-group-addon">{{ 'CC' | translate }}</span>
+					<span class="table-cell input-autocomplete"
+						ng-data-repeat="sendAgendaCC"
+						ng-data-show="name"
+						ng-data-suggest="participantWithEmail"
+						ng-data-suggest-show="email"></span>
+					<span class="input-group-addon" style="padding: 5px 12px">
+						<button
+							type="button"
+							class="btn btn-danger btn-xs"
+							ng-click="CCshown=false">
+							{{ 'Hide' | translate }}</button>
+						<button
+							type="button"
+							class="btn btn-success btn-xs"
+							ng-hide="BCCshown"
+							ng-click="BCCshown=true">{{ 'BCC' | translate }}</button>
+					</span>
+				</div>
+			</div>
+			<div class="form-group" ng-show="BCCshown">
+				<div class="input-group">
+					<span class="input-group-addon">{{ 'BCC' | translate }}</span>
+					<span class="table-cell input-autocomplete"
+						ng-data-repeat="sendAgendaBCC"
+						ng-data-show="name"
+						ng-data-suggest="participantWithEmail"
+						ng-data-suggest-show="email"></span>
+					<span class="input-group-addon" style="padding: 5px 12px">
+						<button
+							type="button"
+							class="btn btn-danger btn-xs"
+							ng-click="BCCshown=false">
+							{{ 'Hide' | translate }}</button>
+					</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<input
+					class="form-control"
+					type="text"
+					ng-model="sendAgendaSubject"
+					placeholder="{{ 'Subject' | translate }}" />
+			</div>
+			<div class="form-group">
+				<textarea
+					class="form-control"
+					ng-model="sendAgendaContent"
+					placeholder="{{'Content' | translate}}"
+					rows="6">
+				</textarea>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button
+				type="button"
+				class="btn btn-success"
+				ng-click="send('agenda')">{{ 'Send Agenda' | translate }}</a>
+			<button
+				type="button"
+				class="btn btn-warning"
+				ng-click="close()">{{ 'Cancel' | translate }}</button>
+		</div>
+	</script>
+	<script type="text/ng-template" id="sendNotes">
+		<div class="modal-header">
+			<h3>{{ 'Send Notes' | translate }}</h3>
+		</div>
+		<div class="modal-body">
+			<div class="form-group">
+				<div class="input-group">
+					<span class="input-group-addon">{{ 'To' | translate }}</span>
+					<span class="table-cell input-autocomplete"
+						ng-data-repeat="sendNotesTo"
+						ng-data-show="name"
+						ng-data-suggest="participantWithEmail"
+						ng-data-suggest-show="email"
+						ng-data-suggest-top="15"></span>
+					<span class="input-group-addon" style="padding: 5px 12px" ng-hide="CCshown">
+						<button
+							type="button"
+							class="btn btn-success btn-xs"
+							ng-click="CCshown=true">
+							{{ 'CC' | translate }}</button>
+					</span>
+				</div>
+			</div>
+			<div class="form-group" ng-show="CCshown">
+				<div class="input-group">
+					<span class="input-group-addon">{{ 'CC' | translate }}</span>
+					<span class="table-cell input-autocomplete"
+						ng-data-repeat="sendNotesCC"
+						ng-data-show="name"
+						ng-data-suggest="participantWithEmail"
+						ng-data-suggest-show="email"></span>
+					<span class="input-group-addon" style="padding: 5px 12px">
+						<button
+							type="button"
+							class="btn btn-danger btn-xs"
+							ng-click="CCshown=false">
+							{{ 'Hide' | translate }}</button>
+						<button
+							type="button"
+							class="btn btn-success btn-xs"
+							ng-hide="BCCshown"
+							ng-click="BCCshown=true">
+							{{ 'BCC' | translate }}</button>
+					</span>
+				</div>
+			</div>
+			<div class="form-group" ng-show="BCCshown">
+				<div class="input-group">
+					<span class="input-group-addon">{{ 'BCC' | translate }}</span>
+					<span class="table-cell input-autocomplete"
+						ng-data-repeat="sendNotesBCC"
+						ng-data-show="name"
+						ng-data-suggest="participantWithEmail"
+						ng-data-suggest-show="email"></span>
+					<span class="input-group-addon" style="padding: 5px 12px">
+						<button
+							type="button"
+							class="btn btn-danger btn-xs"
+							ng-click="BCCshown=false">
+							{{ 'Hide' | translate }}</button>
+					</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<input
+				class="form-control"
+				type="text"
+				ng-model="sendNotesSubject"
+				placeholder="{{ 'Subject' | translate }}" />
+			</div>
+			<div class="form-group">
+				<textarea
+				class="form-control"
+				ng-model="sendNotesContent"
+				placeholder="{{ 'Content' | translate }}"
+				rows="6">
+				</textarea>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button
+				type="button"
+				class="btn btn-success"
+				ng-click="send('notes')">{{ 'Send Notes' | translate }}</a>
+			<button
+				type="button"
+				class="btn btn-warning"
+				ng-click="close()">{{ 'Cancel' | translate }}</button>
+		</div>
+	</script>
+	<script type="text/ng-template" id="sendReminders">
+		<div class="modal-header">
+			<h3>{{ 'Send Reminders' | translate }}</h3>
+		</div>
+		<div class="modal-body">
+			<div class="form-group">
+				<div class="input-group">
+					<span class="input-group-addon">{{ 'To' | translate }}</span>
+					<span class="table-cell input-autocomplete"
+						ng-data-repeat="sendRemindersTo"
+						ng-data-show="name"
+						ng-data-suggest="participantWithEmail"
+						ng-data-suggest-show="email"
+						ng-data-suggest-top="15"></span>
+					<span class="input-group-addon" style="padding: 5px 12px" ng-hide="CCshown">
+						<button
+							type="button"
+							class="btn btn-success btn-xs"
+							ng-click="CCshown=true">
+							{{ 'CC' | translate }}</button>
+					</span>
+				</div>
+			</div>
+			<div class="form-group" ng-show="CCshown">
+				<div class="input-group">
+					<span class="input-group-addon">{{ 'CC' | translate }}</span>
+					<span class="table-cell input-autocomplete"
+						ng-data-repeat="sendRemindersCC"
+						ng-data-show="name"
+						ng-data-suggest="participantWithEmail"
+						ng-data-suggest-show="email"></span>
+					<span class="input-group-addon" style="padding: 5px 12px">
+						<button
+							type="button"
+							class="btn btn-danger btn-xs"
+							ng-click="CCshown=false">
+							{{ 'Hide' | translate }}</button>
+						<button
+							type="button"
+							class="btn btn-success btn-xs"
+							ng-hide="BCCshown"
+							ng-click="BCCshown=true">
+							{{ 'BCC' | translate }}</button>
+					</span>
+				</div>
+			</div>
+			<div class="form-group" ng-show="BCCshown">
+				<div class="input-group">
+					<span class="input-group-addon">{{ 'BCC' | translate }}</span>
+					<span class="table-cell input-autocomplete"
+						ng-data-repeat="sendRemindersBCC"
+						ng-data-show="name"
+						ng-data-suggest="participantWithEmail"
+						ng-data-suggest-show="email"></span>
+					<span class="input-group-addon" style="padding: 5px 12px">
+						<button
+							type="button"
+							class="btn btn-danger btn-xs"
+							ng-click="BCCshown=false">
+							{{ 'Hide' | translate }}</button>
+					</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<input
+					class="form-control"
+					type="text"
+					ng-model="sendRemindersSubject"
+					placeholder="{{ 'Subject' | translate }}" />
+			</div>
+			<div class="form-group">
+				<textarea
+					class="form-control"
+					ng-model="sendRemindersContent"
+					placeholder="{{ 'Content' | translate }}"
+					rows="6">
+				</textarea>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button
+				type="button"
+				class="btn btn-success"
+				ng-click="send('reminders')">
+				{{ 'Send Reminders' | translate }}</a>
+			<button
+				type="button"
+				class="btn btn-warning"
+				ng-click="close()">
+				{{ 'Cancel' | translate }}</button>
+		</div>
+	</script>
+	<script type="text/ng-template" id="tinyMCETask">
+		<div class="modal-header">
+			<h3>{{ 'Task properties' | translate }}</h3>
+		</div>
+		<div class="modal-body">
+			<div class="form-group">
+				<div class="col-md-3">
+					{{ 'Description' | translate }}
+				</div>
+				<div class="col-md-9">
+					<input class="form-control" type="text" ng-model="addedTaskDescription" />
+				</div>
+				<div class="clearfix margin-bottom-10"></div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3">
+					{{ 'Owner' | translate }}
+				</div>
+				<div class="col-md-9">
+					<select
+						ng-show="addedTaskOwners.length>0"
+						class="form-control"
+						ng-model="addedTaskOwner"
+						ng-options="user as user.name for user in addedTaskOwners track by user.ID">
+					</select>
+				</div>
+				<div class="clearfix margin-bottom-10"></div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3">
+					{{ 'Due date' | translate }}
+				</div>
+				<div class="col-md-9">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<div class="ui-datepicker">
+							<input type="text"
+							class="form-control date-picker"
+							datepicker-popup="dd/MM/yyyy"
+							ng-model="addedTaskDuedate"
+							is-open="addedTask.datePopupOpen"
+							ng-required="true"
+							ng-click="addedTask.datePopupOpen=true"
+							close-text="{{ 'Close' | translate }}">
+						</div>
+					</div>
+				</div>
+				<div class="clearfix margin-bottom-10"></div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button
+				type="button"
+				class="btn btn-success"
+				ng-click="addTinyMCETask()">
+				{{ 'Ok' | translate }}</a>
+			<button
+				type="button"
+				class="btn btn-warning"
+				ng-click="close()">
+				{{ 'Cancel' | translate }}</button>
+		</div>
+	</script>
+	<!-- end Modal -->
+</section>

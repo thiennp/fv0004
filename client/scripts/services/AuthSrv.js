@@ -9,7 +9,8 @@ kuvenoApp
 		'$wakanda',
 		'AssistSrv',
 		'Facebook',
-		function ($http, $location, $q, $rootScope, $state, $wakanda, AssistSrv, Facebook) {
+		'KuvenoUser',
+		function ($http, $location, $q, $rootScope, $state, $wakanda, AssistSrv, Facebook, KuvenoUser) {
 			return {
 				verify: function () {
 					var defer = $q.defer();
