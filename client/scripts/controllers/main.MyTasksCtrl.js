@@ -4,9 +4,10 @@ kuvenoApp
 		'$rootScope',
 		'$scope',
 		'AuthSrv',
-		'DataSrv',
+		'KuvenoUser',
 		'LoggerSrv',
-		function ($rootScope, $scope, AuthSrv, DataSrv, LoggerSrv) {
+		'Task',
+		function ($rootScope, $scope, AuthSrv, KuvenoUser, LoggerSrv, Task) {
 			return AuthSrv.verify().then(function (data) {
 				if (data) {
 					if ($rootScope.onBack) {
@@ -49,50 +50,48 @@ kuvenoApp
 				}
 
 				loadTasks = function () {
-					DataSrv.getData('Task').then(function (result) {
-						totalCalculate(result, true);
+					Task.findAll().$promise.then(function (result) {
+						$scope.tasks = result.tasks;
+						totalCalculate(true);
 					});
 				};
 
-				totalCalculate = function (data, user) {
-					tasks = $scope.tasks = [];
+				totalCalculate = function (user) {
 					$scope.openTasks = 0;
 					$scope.closedTasks = 0;
 					$scope.overdueTasks = 0;
-					var i = 0;
-					while (data[i]) {
-						var dateCalculation = $scope.currentDueDate(data[i]);
+					for (var i in $scope.tasks) {
+						var dateCalculation = $scope.currentDueDate($scope.tasks[i]);
 						$scope.closedTasks += dateCalculation.closed;
 						$scope.openTasks += dateCalculation.open;
 						$scope.overdueTasks += dateCalculation.overdue;
-						$scope.tasks.push(data[i]);
 						if (user) {
-							getUser(data[i]);
+							getUser($scope.tasks[i]);
 						}
-						i++;
 					}
 				};
 
 				// Inject owner firstname and owner id to task
 				getUser = function (task) {
-					var owner = task.owner.$fetch();
-					owner.then(function (data) {
-						task.ownerUser = data.firstname;
-						task.ownerUserValue = data.ID;
-					});
+					for (var i in $scope.users) {
+						if (task.owner === $scope.users[i].id) {
+							task.ownerUser = $scope.users[i].firstname;
+							task.ownerUserValue = $scope.users[i].id;
+						}
+					}
 				};
 
 				// Get an user entity which is indicated by userId
 				getUserById = function (userId) {
 					for (var id in $scope.users) {
-						if ($scope.users[id].ID === userId) {
+						if ($scope.users[id].id === userId) {
 							return $scope.users[id];
 						}
 					}
 				};
 
-				DataSrv.getData('User').then(function (result) {
-					$scope.users = result;
+				KuvenoUser.findAll().$promise.then(function (result) {
+					$scope.users = result.users;
 					loadTasks();
 				});
 
@@ -146,24 +145,24 @@ kuvenoApp
 						isCompleted: false
 					};
 
-					DataSrv
-						.createData('Task', task)
-						.then(function () {
-							task.ownerUser = owner.firstname;
-							task.ownerUserValue = $scope.newTask.ownerUserValue;
-							tasks.push(task);
-							totalCalculate($scope.tasks);
-							LoggerSrv.logSuccess('New task: "' + newTask.description + '" added');
-							$scope.newTask = {
-								description: '',
-								assignedBy: $rootScope.currentUser,
-								owner: $rootScope.currentUser,
-								dueDate: new Date()
-							};
-							$scope.openTasks++;
-						}, function () {
-							LoggerSrv.logError('Saving task: "' + newTask.description + '" failed.');
-						});
+					// DataSrv
+					// 	.createData('Task', task)
+					// 	.then(function () {
+					// 		task.ownerUser = owner.firstname;
+					// 		task.ownerUserValue = $scope.newTask.ownerUserValue;
+					// 		tasks.push(task);
+					// 		totalCalculate($scope.tasks);
+					// 		LoggerSrv.logSuccess('New task: "' + newTask.description + '" added');
+					// 		$scope.newTask = {
+					// 			description: '',
+					// 			assignedBy: $rootScope.currentUser,
+					// 			owner: $rootScope.currentUser,
+					// 			dueDate: new Date()
+					// 		};
+					// 		$scope.openTasks++;
+					// 	}, function () {
+					// 		LoggerSrv.logError('Saving task: "' + newTask.description + '" failed.');
+					// 	});
 				};
 
 				$scope.edit = function (task) {
@@ -212,8 +211,12 @@ kuvenoApp
 							LoggerSrv.logSuccess('Congrats! All done :)');
 						}
 					}
-					task.$save();
-					totalCalculate($scope.tasks);
+					console.log(task.id);
+					Task.findById(task.id).$promise.then(function (data) {
+						console.log(data);
+					});
+					// $scope.tasks.$save();
+					// totalCalculate($scope.tasks);
 				};
 
 				$scope.markAll = function (isCompleted) {

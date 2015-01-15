@@ -6,7 +6,8 @@ kuvenoApp
 		'$state',
 		'AuthSrv',
 		'DataSrv',
-		function ($rootScope, $scope, $state, AuthSrv, DataSrv) {
+		'Workgroup',
+		function ($rootScope, $scope, $state, AuthSrv, DataSrv, Workgroup) {
 			return AuthSrv.verify().then(function (data) {
 				if (data) {
 					if ($rootScope.onBack) {
@@ -20,80 +21,80 @@ kuvenoApp
 					$scope.openTasks = 0;
 					$scope.closedTasks = 0;
 					var meetingPromise = [];
-					DataSrv
-						.getData('Workgroup')
-						.then(function (result) {
-							$scope.groups = result;
-							for (var i in $scope.groups) {
-								$scope.groups[i].meetingList = [];
-								$scope.groups[i].futureMeeting = [];
-								$scope.groups[i].pastMeeting = [];
-								getMeeting(i);
-							}
-						});
+
+					Workgroup.findAll().$promise.then(function (result) {
+						$scope.groups = result.workgroups;
+						for (var i in $scope.groups) {
+							$scope.groups[i].meetingList = [];
+							$scope.groups[i].futureMeeting = [];
+							$scope.groups[i].pastMeeting = [];
+							getMeeting(i);
+						}
+					});
 				}
 
 				var getMeeting = function (index) {
-						DataSrv
-							.fetchData($scope.groups[index].meetings)
-							.then(function (result) {
-								var i = 0;
-								while (result[i]) {
-									$scope.groups[index].meetingList[i] = result[i];
-									$scope.groups[index].meetingList[i].group = $scope.groups[index].name;
-									if (moment().diff($scope.groups[index].meetingList[i].meetingTime) < 0) {
-										$scope.groups[index].meetingList[i].status = 'future';
-										$scope.groups[index].futureMeeting.push($scope.groups[index].meetingList[i]);
-										$scope.futureMeeting.push($scope.groups[index].meetingList[i]);
-									} else {
-										$scope.groups[index].meetingList[i].status = 'past';
-										$scope.groups[index].pastMeeting.push($scope.groups[index].meetingList[i]);
-									}
-									getTask(index, i);
-									getDecision(index, i);
-									i++;
-								}
-								switch ($scope.groups[index].futureMeeting.length) {
-								case 0:
-									$scope.groups[index].pastMeeting.splice(3);
-									break;
-								case 1:
-									$scope.groups[index].pastMeeting.splice(2);
-									break;
-								default:
-									$scope.groups[index].pastMeeting.splice(1);
-									break;
-								}
-								if (Number(index) === 0) {
-									$scope.groups[index].isopen = true;
-								}
-							});
+						console.log($scope.groups[index]);
+						// DataSrv
+						// 	.fetchData($scope.groups[index].meetings)
+						// 	.then(function (result) {
+						// 		var i = 0;
+						// 		while (result[i]) {
+						// 			$scope.groups[index].meetingList[i] = result[i];
+						// 			$scope.groups[index].meetingList[i].group = $scope.groups[index].name;
+						// 			if (moment().diff($scope.groups[index].meetingList[i].meetingTime) < 0) {
+						// 				$scope.groups[index].meetingList[i].status = 'future';
+						// 				$scope.groups[index].futureMeeting.push($scope.groups[index].meetingList[i]);
+						// 				$scope.futureMeeting.push($scope.groups[index].meetingList[i]);
+						// 			} else {
+						// 				$scope.groups[index].meetingList[i].status = 'past';
+						// 				$scope.groups[index].pastMeeting.push($scope.groups[index].meetingList[i]);
+						// 			}
+						// 			getTask(index, i);
+						// 			getDecision(index, i);
+						// 			i++;
+						// 		}
+						// 		switch ($scope.groups[index].futureMeeting.length) {
+						// 		case 0:
+						// 			$scope.groups[index].pastMeeting.splice(3);
+						// 			break;
+						// 		case 1:
+						// 			$scope.groups[index].pastMeeting.splice(2);
+						// 			break;
+						// 		default:
+						// 			$scope.groups[index].pastMeeting.splice(1);
+						// 			break;
+						// 		}
+						// 		if (Number(index) === 0) {
+						// 			$scope.groups[index].isopen = true;
+						// 		}
+						// 	});
 					},
 					getTask = function (groupId, meetingId) {
-						DataSrv
-							.getData('Task', 'meeting.ID == :1', [$scope.groups[groupId].meetingList[meetingId].ID])
-							.then(function (result) {
-								$scope.groups[groupId].meetingList[meetingId].tasks = result;
-								for (var i in result) {
-									if (result[i].isCompleted) {
-										$scope.closedTasks++;
-									} else {
-										$scope.openTasks++;
-										if (result[i].dueDate) {
-											if (moment().diff(result[i].dueDate)) {
-												$scope.overdueTasks++;
-											}
-										}
-									}
-								}
-							});
+						// DataSrv
+						// 	.getData('Task', 'meeting.ID == :1', [$scope.groups[groupId].meetingList[meetingId].ID])
+						// 	.then(function (result) {
+						// 		$scope.groups[groupId].meetingList[meetingId].tasks = result;
+						// 		for (var i in result) {
+						// 			if (result[i].isCompleted) {
+						// 				$scope.closedTasks++;
+						// 			} else {
+						// 				$scope.openTasks++;
+						// 				if (result[i].dueDate) {
+						// 					if (moment().diff(result[i].dueDate)) {
+						// 						$scope.overdueTasks++;
+						// 					}
+						// 				}
+						// 			}
+						// 		}
+						// 	});
 					},
 					getDecision = function (groupId, meetingId) {
-						DataSrv
-							.getData('Decision', 'meeting.ID == :1', [$scope.groups[groupId].meetingList[meetingId].ID])
-							.then(function (result) {
-								$scope.groups[groupId].meetingList[meetingId].decisions = result;
-							});
+						// DataSrv
+						// 	.getData('Decision', 'meeting.ID == :1', [$scope.groups[groupId].meetingList[meetingId].ID])
+						// 	.then(function (result) {
+						// 		$scope.groups[groupId].meetingList[meetingId].decisions = result;
+						// 	});
 					};
 
 				$scope.buttonGroupStyle = function () {

@@ -6,7 +6,6 @@ kuvenoApp
 		'$q',
 		'$rootScope',
 		'$state',
-		'$wakanda',
 		'AssistSrv',
 		'Facebook',
 		'KuvenoUser',
@@ -14,7 +13,7 @@ kuvenoApp
 		'Organization',
 		'Task',
 		'Workgroup',
-		function ($http, $location, $q, $rootScope, $state, $wakanda, AssistSrv, Facebook, KuvenoUser, Meeting, Organization, Task, Workgroup) {
+		function ($http, $location, $q, $rootScope, $state, AssistSrv, Facebook, KuvenoUser, Meeting, Organization, Task, Workgroup) {
 			return {
 				login: function (user) {
 					var defer = $q.defer(),
@@ -53,6 +52,32 @@ kuvenoApp
 								};
 							}
 							defer.resolve(status);
+						});
+					return defer.promise;
+				},
+				logout: function (user) {
+					localStorage.removeItem('user_id');
+					localStorage.removeItem('user_facebook_id');
+					localStorage.removeItem('user_firstname');
+					localStorage.removeItem('user_lastname');
+					localStorage.removeItem('user_link');
+					localStorage.removeItem('user_locale');
+					localStorage.removeItem('user_name');
+					localStorage.removeItem('user_timezone');
+					localStorage.removeItem('user_updated_time');
+					localStorage.removeItem('user_verified');
+					localStorage.removeItem('user_avatar');
+					localStorage.removeItem('user_country');
+					localStorage.removeItem('user_email');
+					localStorage.removeItem('user_title');
+					$rootScope.user = {};
+					var defer = $q.defer();
+					KuvenoUser.logout().$promise
+						.catch(function () {
+							defer.resolve();
+						})
+						.then(function () {
+							defer.resolve();
 						});
 					return defer.promise;
 				},

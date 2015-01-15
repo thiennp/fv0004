@@ -18,11 +18,9 @@ window.kuvenoApp = angular
 		'$state',
 		'$stateParams',
 		'$translate',
-		'$wakanda',
 		'amMoment',
-		function ($rootScope, $state, $stateParams, $translate, $wakanda, amMoment) {
+		function ($rootScope, $state, $stateParams, $translate, amMoment) {
 			var oninit;
-			$rootScope.wakandaInit = false;
 			$rootScope.$stateHistory = [];
 			$rootScope.$state = $state;
 			$rootScope.$stateParams = $stateParams;
@@ -56,11 +54,6 @@ window.kuvenoApp = angular
 			} else {
 				amMoment.changeLocale(localStorage.getItem('locale'));
 			}
-			$wakanda.init().then(oninit = function (ds) {
-				$rootScope.initialized = 'initialized';
-				$rootScope.dataClasses = Object.keys(ds.getDataClasses());
-				$rootScope.wakandaInit = true;
-			});
 		}
 	])
 	.config(function (FacebookProvider) {
@@ -86,24 +79,10 @@ window.kuvenoApp = angular
 				})
 				.state('auth.SignOut', {
 					url: '/sign_out',
-					controller: function ($state, $rootScope, $wakanda) {
-						localStorage.removeItem('user_id');
-						localStorage.removeItem('user_facebook_id');
-						localStorage.removeItem('user_firstname');
-						localStorage.removeItem('user_lastname');
-						localStorage.removeItem('user_link');
-						localStorage.removeItem('user_locale');
-						localStorage.removeItem('user_name');
-						localStorage.removeItem('user_timezone');
-						localStorage.removeItem('user_updated_time');
-						localStorage.removeItem('user_verified');
-						localStorage.removeItem('user_avatar');
-						localStorage.removeItem('user_country');
-						localStorage.removeItem('user_email');
-						localStorage.removeItem('user_title');
-						$rootScope.user = {};
-						$wakanda.$logout();
-						$state.go('auth.SignIn');
+					controller: function ($state, AuthSrv) {
+						AuthSrv.logout().then(function () {
+							$state.go('auth.SignIn');
+						});
 					}
 				})
 				.state('createMeetingNote', {
