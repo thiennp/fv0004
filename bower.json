@@ -48,5 +48,6 @@
 		"responsive-tables": "*",
 		"bootstrap-sass-official": "~3.3.0",
 		"angular-wakanda": "~0.3.2"
-	}
+	},
+	"appPath": "client"
 }

@@ -51,6 +51,7 @@ kuvenoApp
 
 				loadTasks = function () {
 					Task.findAll().$promise.then(function (result) {
+						console.log($scope.tasks);
 						$scope.tasks = result.tasks;
 						totalCalculate(true);
 					});
