@@ -9,6 +9,35 @@ kuvenoApp
 		'Task',
 		function ($rootScope, $scope, AuthSrv, KuvenoUser, LoggerSrv, Task) {
 			return AuthSrv.verify().then(function (data) {
+				var myId = $rootScope.me.id,
+					resetNewTask = function () {
+						$scope.newTask = {
+							description: '',
+							assignedBy: myId,
+							owner: myId,
+							dueDate: new Date()
+						};
+					},
+
+					loadTasks = function () {
+						Task.findAll().$promise.then(function (result) {
+							$scope.tasks = result.tasks;
+							totalCalculate(true);
+						});
+					},
+
+					totalCalculate = function (user) {
+						$scope.openTasks = 0;
+						$scope.closedTasks = 0;
+						$scope.overdueTasks = 0;
+						$scope.tasks.forEach(function (task) {
+							var dateCalculation = $scope.currentDueDate(task);
+							$scope.closedTasks += dateCalculation.closed;
+							$scope.openTasks += dateCalculation.open;
+							$scope.overdueTasks += dateCalculation.overdue;
+						});
+					};
+
 				if (data) {
 					if ($rootScope.onBack) {
 						$rootScope.onBack = false;
@@ -16,85 +45,6 @@ kuvenoApp
 						$rootScope.$stateHistory.push('main.MyTasks');
 					}
 				}
-				$scope.overdueTasks = 0;
-				$scope.openTasks = 0;
-				$scope.closedTasks = 0;
-				$scope.users = [];
-				$scope.newTask = {
-					description: '',
-					assignedBy: $rootScope.currentUser,
-					owner: $rootScope.currentUser,
-					dueDate: new Date()
-				};
-				$scope.editedTask = null;
-				$scope.statusFilter = {
-					isCompleted: false
-				};
-				var tasks, loadAllUsers, loadTasks, getUser, totalCalculate, getUserById, newTask = {
-					description: '',
-					assignedBy: $rootScope.currentUser,
-					owner: $rootScope.currentUser,
-					dueDate: new Date()
-				};
-
-				// Load remembered task sorting status
-				if (localStorage.getItem('myTasks_sortType')) {
-					$scope.sortType = localStorage.getItem('myTasks_sortType');
-				} else {
-					$scope.sortType = 'dueDate';
-				}
-				if (localStorage.getItem('myTasks_sortReverse')) {
-					$scope.reverse = localStorage.getItem('myTasks_sortReverse');
-				} else {
-					$scope.reverse = false;
-				}
-
-				loadTasks = function () {
-					Task.findAll().$promise.then(function (result) {
-						$scope.tasks = result.tasks;
-						console.log($scope.tasks);
-						totalCalculate(true);
-					});
-				};
-
-				totalCalculate = function (user) {
-					$scope.openTasks = 0;
-					$scope.closedTasks = 0;
-					$scope.overdueTasks = 0;
-					for (var i in $scope.tasks) {
-						var dateCalculation = $scope.currentDueDate($scope.tasks[i]);
-						$scope.closedTasks += dateCalculation.closed;
-						$scope.openTasks += dateCalculation.open;
-						$scope.overdueTasks += dateCalculation.overdue;
-						if (user) {
-							getUser($scope.tasks[i]);
-						}
-					}
-				};
-
-				// Inject owner firstname and owner id to task
-				getUser = function (task) {
-					for (var i in $scope.users) {
-						if (task.owner === $scope.users[i].id) {
-							task.ownerUser = $scope.users[i].firstname;
-							task.ownerUserValue = $scope.users[i].id;
-						}
-					}
-				};
-
-				// Get an user entity which is indicated by userId
-				getUserById = function (userId) {
-					for (var id in $scope.users) {
-						if ($scope.users[id].id === userId) {
-							return $scope.users[id];
-						}
-					}
-				};
-
-				KuvenoUser.findAll().$promise.then(function (result) {
-					$scope.users = result.users;
-					loadTasks();
-				});
 
 				$scope.sort = function (sortType) {
 					if ($scope.sortType !== sortType) {
@@ -126,44 +76,35 @@ kuvenoApp
 				};
 
 				$scope.add = function () {
-					newTask.description = $scope.newTask.description.trim();
-					if (newTask.description.length === 0) {
+					$scope.newTask.description = $scope.newTask.description.trim();
+					if ($scope.newTask.description.length === 0) {
 						LoggerSrv.logError('Please input description.');
 						return;
 					}
-					if (!$scope.newTask.ownerUserValue) {
+					if (!$scope.newTask.owner) {
 						LoggerSrv.logError('Please select assigned user.');
 						return;
 					}
 
-					// Get owner entity by owner id (chosen by select box)
-					var owner = getUserById($scope.newTask.ownerUserValue);
 					var task = {
 						description: $scope.newTask.description,
 						dueDate: $scope.newTask.dueDate,
-						assignedBy: $rootScope.currentUser,
-						owner: owner,
+						assignedBy: myId,
+						owner: $scope.newTask.owner,
 						isCompleted: false
 					};
 
-					// DataSrv
-					// 	.createData('Task', task)
-					// 	.then(function () {
-					// 		task.ownerUser = owner.firstname;
-					// 		task.ownerUserValue = $scope.newTask.ownerUserValue;
-					// 		tasks.push(task);
-					// 		totalCalculate($scope.tasks);
-					// 		LoggerSrv.logSuccess('New task: "' + newTask.description + '" added');
-					// 		$scope.newTask = {
-					// 			description: '',
-					// 			assignedBy: $rootScope.currentUser,
-					// 			owner: $rootScope.currentUser,
-					// 			dueDate: new Date()
-					// 		};
-					// 		$scope.openTasks++;
-					// 	}, function () {
-					// 		LoggerSrv.logError('Saving task: "' + newTask.description + '" failed.');
-					// 	});
+					Task.create(task).$promise
+						.catch(function () {
+							LoggerSrv.logError('Saving task: "' + task.description + '" failed.');
+						})
+						.then(function () {
+							$scope.tasks.push(task);
+							totalCalculate($scope.tasks);
+							LoggerSrv.logSuccess('New task: "' + task.description + '" added');
+							resetNewTask();
+							$scope.openTasks++;
+						});
 				};
 
 				$scope.edit = function (task) {
@@ -173,17 +114,25 @@ kuvenoApp
 				$scope.doneEditing = function (task) {
 					$scope.editedTask = null;
 					task.description = task.description.trim();
-					task.owner = getUserById(task.ownerUserValue);
-					task.ownerUser = task.owner.firstname;
-					task.ownerUserValue = task.owner.ID;
-					task.assignedBy = $rootScope.currentUser;
+					task.assignedBy = myId;
 					if (!task.description) {
 						$scope.remove(task);
-						task.$remove();
+						Task.removeById(task.id).$promise
+							.catch(function () {
+								LoggerSrv.logError('Error removing task');
+							})
+							.then(function () {
+								LoggerSrv.logError('Task removed');
+							});
 					} else {
-						task.$save();
-						totalCalculate($scope.tasks);
-						LoggerSrv.log('Task updated');
+						Task.upsert(task).$promise
+							.catch(function () {
+								LoggerSrv.logError('Error updating task');
+							})
+							.then(function () {
+								totalCalculate($scope.tasks);
+								LoggerSrv.logSuccess('Task updated');
+							});
 					}
 				};
 
@@ -193,8 +142,13 @@ kuvenoApp
 					$scope.closedTasks -= task.isCompleted ? 1 : 0;
 					index = $scope.tasks.indexOf(task);
 					$scope.tasks.splice(index, 1);
-					task.$remove();
-					LoggerSrv.logError('Task removed');
+					Task.removeById(task.id).$promise
+						.catch(function () {
+							LoggerSrv.logError('Error removing task');
+						})
+						.then(function () {
+							LoggerSrv.logError('Task removed');
+						});
 				};
 
 				$scope.completed = function (task) {
@@ -212,19 +166,30 @@ kuvenoApp
 							LoggerSrv.logSuccess('Congrats! All done :)');
 						}
 					}
-					Task.save(task).$promise.then(function (data) {
-						totalCalculate($scope.tasks);
-					});
+					Task.upsert(task).$promise
+						.catch(function () {
+							LoggerSrv.logError('Error saving task');
+						})
+						.then(function () {
+							totalCalculate($scope.tasks);
+						});
 				};
 
 				$scope.markAll = function (isCompleted) {
-					tasks.forEach(function (task) {
+					$scope.tasks.forEach(function (task) {
 						task.isCompleted = isCompleted;
-						task.$save();
+						Task.upsert(task).$promise
+							.catch(function () {
+								LoggerSrv.logError('Error updating task');
+							})
+							.then(function () {
+								totalCalculate($scope.tasks);
+								LoggerSrv.logSuccess('Task updated');
+							});
 						totalCalculate($scope.tasks);
 					});
-					$scope.openTasks = isCompleted ? 0 : tasks.length;
-					$scope.closedTasks = isCompleted ? tasks.length : 0;
+					$scope.openTasks = isCompleted ? 0 : $scope.tasks.length;
+					$scope.closedTasks = isCompleted ? $scope.tasks.length : 0;
 					if (isCompleted) {
 						LoggerSrv.logSuccess('Congrats! All done :)');
 					}
@@ -257,6 +222,37 @@ kuvenoApp
 						'overdue': overdue
 					};
 				};
+
+				$scope.overdueTasks = 0;
+				$scope.openTasks = 0;
+				$scope.closedTasks = 0;
+				$scope.users = [];
+				$scope.usersById = [];
+				$scope.editedTask = null;
+				$scope.statusFilter = {
+					isCompleted: false
+				};
+				resetNewTask();
+
+				// Load remembered task sorting status
+				if (localStorage.getItem('myTasks_sortType')) {
+					$scope.sortType = localStorage.getItem('myTasks_sortType');
+				} else {
+					$scope.sortType = 'dueDate';
+				}
+				if (localStorage.getItem('myTasks_sortReverse')) {
+					$scope.reverse = localStorage.getItem('myTasks_sortReverse');
+				} else {
+					$scope.reverse = false;
+				}
+
+				KuvenoUser.findAll().$promise.then(function (result) {
+					$scope.users = result.users;
+					$scope.users.forEach(function (user) {
+						$scope.usersById[user.id] = user;
+					});
+					loadTasks();
+				});
 
 				$scope.$watch('openTasks == 0', function (val) {
 					$scope.allChecked = val;

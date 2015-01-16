@@ -32,12 +32,12 @@ kuvenoApp
 							};
 							if (data) {
 								if (data.user) {
-									$rootScope.user = data.user;
-									localStorage.setItem('user_id', $rootScope.user.id);
-									localStorage.setItem('user_email', $rootScope.user.email);
-									localStorage.setItem('user_firstname', $rootScope.user.firstname);
-									localStorage.setItem('user_lastname', $rootScope.user.lastname);
-									localStorage.setItem('user_title', $rootScope.user.title);
+									$rootScope.me = data.user;
+									localStorage.setItem('user_id', $rootScope.me.id);
+									localStorage.setItem('user_email', $rootScope.me.email);
+									localStorage.setItem('user_firstname', $rootScope.me.firstname);
+									localStorage.setItem('user_lastname', $rootScope.me.lastname);
+									localStorage.setItem('user_title', $rootScope.me.title);
 									_self.verify();
 								} else {
 									status = {
@@ -70,7 +70,7 @@ kuvenoApp
 					localStorage.removeItem('user_country');
 					localStorage.removeItem('user_email');
 					localStorage.removeItem('user_title');
-					$rootScope.user = {};
+					$rootScope.me = {};
 					var defer = $q.defer();
 					KuvenoUser.logout().$promise
 						.catch(function () {
@@ -91,16 +91,14 @@ kuvenoApp
 							defer.resolve(false);
 							$state.go('auth.SignIn');
 						} else {
-							$rootScope.user = this.getUserData();
+							$rootScope.me = this.getUserData();
 							var queryAll = function () {
 									var meetingPromise = Meeting.findAll().$promise,
 										taskCollection = Task.findAll().$promise,
-										workgroupCollection = Workgroup.findAll().$promise
-										/*,
-													organizationCollection = Organization.findAll().$promise*/
-									;
-									return $q.all([meetingPromise, taskCollection, workgroupCollection /*, organizationCollection*/ ]);
+										workgroupCollection = Workgroup.findAll().$promise;
+									return $q.all([meetingPromise, taskCollection, workgroupCollection]);
 								},
+
 								taskStatus = function (task) {
 									var completed = 0,
 										overdue = 0;
@@ -117,6 +115,7 @@ kuvenoApp
 										'overdue': overdue
 									};
 								};
+
 							queryAll().then(function (data) {
 								$rootScope.assignedTasks = 0;
 								$rootScope.ownedTasks = 0;
@@ -153,7 +152,7 @@ kuvenoApp
 					var _self = this;
 					this.verify().then(function () {
 						if (localStorage.user_id !== void 0) {
-							$rootScope.user = _self.getUserData();
+							$rootScope.me = _self.getUserData();
 							if (localStorage.user_firstname && localStorage.user_lastname) {
 								$location.path('#/user/profile');
 							} else {
@@ -166,7 +165,7 @@ kuvenoApp
 					var getFacebookInformation, storeUser;
 					storeUser = function (response) {
 						var defer = $q.defer();
-						$rootScope.user = response;
+						$rootScope.me = response;
 						AssistSrv.localeToCountry(response.locale).then(function (data) {
 							localStorage.setItem('user_facebook_id', response.id);
 							localStorage.setItem('user_firstname', response.first_name);
@@ -179,8 +178,8 @@ kuvenoApp
 							localStorage.setItem('user_verified', response.verified);
 							localStorage.setItem('user_avatar', 'http://graph.facebook.com/' + response.id + '/picture');
 							localStorage.setItem('user_country', data);
-							$rootScope.user.country = localStorage.getItem('user_country');
-							$rootScope.user.picture = localStorage.getItem('user_picture');
+							$rootScope.me.country = localStorage.getItem('user_country');
+							$rootScope.me.picture = localStorage.getItem('user_picture');
 							defer.resolve($rootScope.user);
 						});
 						return defer.promise;
@@ -256,7 +255,7 @@ kuvenoApp
 				},
 				getUserData: function () {
 					var user = {
-						'id': localStorage.getItem('user_id'),
+						'id': Number(localStorage.getItem('user_id')),
 						'email': localStorage.getItem('user_email'),
 						'title': localStorage.getItem('user_title'),
 						'facebook_id': localStorage.getItem('user_facebook_id'),

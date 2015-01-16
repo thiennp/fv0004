@@ -5,6 +5,7 @@
 				<div class="col-sm-9">
 					<div class="clearfix"></div>
 					<section class="task-container">
+						<!-- Add new task -->
 						<form ng-submit="add()" class="add-task">
 							<div class="panel panel-default">
 								<div class="panel-heading">
@@ -22,12 +23,10 @@
 									{{ 'Assigned to' | translate }}
 								</div>
 								<div class="col-md-3">
-									<select class="form-control" ng-model="newTask.ownerUserValue">
-										<option value="" disabled="disabled">{{ 'Select user' | translate }}</option>
-										<option ng-repeat="user in users" value="{{user.ID}}">
-											{{user.firstname}}
-										</option>
-									</select>
+									<select
+										ng-options="user.id as user.firstname for user in users"
+										ng-model="newTask.owner"
+										class="form-control"></select>
 								</div>
 								<div class="col-md-2 text-right padding-top-5">
 									{{ 'Due date' | translate }}
@@ -50,6 +49,7 @@
 								<div class="margin-bottom-20 clearfix"></div>
 							</div>
 						</form>
+						<!-- Task list -->
 						<div class="panel panel-default">
 							<section>
 								<ul class="filters list-inline nav nav-tabs">
@@ -98,7 +98,7 @@
 												<div class="row">
 													<div class="col-md-2">
 														<label ng-click="edit(task)">
-															{{ task.ownerUser }}
+															{{ usersById[task.owner].firstname }}
 														</label>
 													</div>
 													<div class="col-md-5">
@@ -122,9 +122,10 @@
 											</div>
 											<div class="edit">
 												<div class="col-md-3">
-													<select class="form-control" ng-model="task.ownerUserValue">
-														<option ng-repeat="user in users" value="{{user.ID}}">{{user.firstname}}</option>
-													</select>
+													<select
+														ng-options="user.id as user.firstname for user in users"
+														ng-model="task.owner"
+														class="form-control"></select>
 												</div>
 												<div class="col-md-5">
 													<input type="text" class="form-control" ng-trim="false" ng-model="task.description" data-task-focus="task == editedTask">
@@ -171,6 +172,7 @@
 						</div>
 					</sections>
 				</div>
+				<!-- Statistic -->
 				<div class="col-md-3">
 					<div class="panel mini-box">
 						<span class="box-icon bg-danger">
