@@ -9,11 +9,12 @@ kuvenoApp
 		'AssistSrv',
 		'Facebook',
 		'KuvenoUser',
+		'LoggerSrv',
 		'Meeting',
 		'Organization',
 		'Task',
 		'Workgroup',
-		function ($http, $location, $q, $rootScope, $state, AssistSrv, Facebook, KuvenoUser, Meeting, Organization, Task, Workgroup) {
+		function ($http, $location, $q, $rootScope, $state, AssistSrv, Facebook, KuvenoUser, LoggerSrv, Meeting, Organization, Task, Workgroup) {
 			return {
 				login: function (user) {
 					var defer = $q.defer(),
@@ -246,11 +247,16 @@ kuvenoApp
 				},
 				changePassword: function (password) {
 					var defer = $q.defer();
-					$rootScope.userCollection.$promise.then(function (user) {
-						user.result[0].password = password;
-						user.result[0].$save();
-						defer.resolve(true);
-					});
+					$rootScope.me.password = password;
+					KuvenoUser.upsert($rootScope.me).$promise
+						.catch(function () {
+							LoggerSrv.logError('Error changing password');
+							defer.resolve(false);
+						})
+						.then(function () {
+							LoggerSrv.logError('Password changed successfully');
+							defer.resolve(true);
+						});
 					return defer.promise;
 				},
 				getUserData: function () {

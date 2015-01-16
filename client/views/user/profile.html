@@ -6,10 +6,10 @@
 					<div class="panel panel-profile">
 						<div class="panel-heading bg-primary clearfix">
 							<a href="" class="pull-left profile">
-								<img alt="" ng-src="{{user.avatar}}" class="img-circle img80_80">
+								<img alt="" ng-src="{{me.avatar}}" class="img-circle img80_80">
 							</a>
-							<h3> {{user.firstname}} {{user.lastname}}</h3>
-							<p>{{user.title}}</p>
+							<h3> {{me.firstname}} {{me.lastname}}</h3>
+							<p>{{me.title}}</p>
 						</div>
 						<div class="media">
 							<div class="media-body">
@@ -17,35 +17,35 @@
 									<li>
 										<i class="icon fa fa-user"></i>
 										<label>{{ 'First name' | translate }}</label>
-										{{user.firstname}}
+										{{me.firstname}}
 									</li>
 									<li>
 										<i class="icon fa fa-user"></i>
 										<label>{{ 'Last name' | translate }}</label>
-										{{user.lastname}}
+										{{me.lastname}}
 									</li>
 									<li>
 										<i class="icon fa fa-user"></i>
 										<label>{{ 'Title' | translate }}</label>
-										{{user.title}}
+										{{me.title}}
 									</li>
 									<li>
 										<i class="icon fa fa-envelope"></i>
 										<label>{{ 'Email' | translate }}</label>
-										{{user.email}}
+										{{me.email}}
 									</li>
 									<li>
 										<i class="icon fa fa-facebook"></i>
 										<label>{{ 'Facebook' | translate }}</label>
-										<a ng-href="{{user.link}}" target="_blank">{{ 'Link' | translate }}</a>
+										<a ng-href="{{me.link}}" target="_blank">{{ 'Link' | translate }}</a>
 									</li>
 									<li>
 										<i class="icon fa fa-flag"></i>
 										<label>{{ 'Nationality' | translate }}</label>
-										{{user.country}}
+										{{me.country}}
 									</li>
 									<li>
-										<a class="btn btn-primary btn-block" ui-sref="user.ProfileUpdate">{{ 'Update Profile' | translate }}</a>
+										<a class="btn btn-primary btn-block" ui-sref="me.ProfileUpdate">{{ 'Update Profile' | translate }}</a>
 									</li>
 								</ul>
 								

@@ -94,7 +94,8 @@ kuvenoApp
 						isCompleted: false
 					};
 
-					Task.create(task).$promise
+					var newTask = new Task();
+					newTask.$save(task)
 						.catch(function () {
 							LoggerSrv.logError('Saving task: "' + task.description + '" failed.');
 						})

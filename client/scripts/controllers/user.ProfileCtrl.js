@@ -12,13 +12,13 @@ kuvenoApp
 					} else {
 						$rootScope.$stateHistory.push('user.Profile');
 					}
-					UserSrv.getFacebookFollower($rootScope.user.facebook_id).then(function (data) {
+					UserSrv.getFacebookFollower($rootScope.me.facebook_id).then(function (data) {
 						// Currently this function doesn't work because of facebook permission limit
 						for (var key in data) {
-							$rootScope.user[key] = data[key];
+							$rootScope.me[key] = data[key];
 							// So you'll see error on this console log
 							// console.log(key, ':');
-							// console.log($rootScope.user[key]);
+							// console.log($rootScope.me[key]);
 							// console.log('------------------------------------------------------------');
 						}
 					});

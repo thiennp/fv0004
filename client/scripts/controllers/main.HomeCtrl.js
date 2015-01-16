@@ -5,9 +5,8 @@ kuvenoApp
 		'$scope',
 		'$state',
 		'AuthSrv',
-		'DataSrv',
 		'Workgroup',
-		function ($rootScope, $scope, $state, AuthSrv, DataSrv, Workgroup) {
+		function ($rootScope, $scope, $state, AuthSrv, Workgroup) {
 			return AuthSrv.verify().then(function (data) {
 				if (data) {
 					if ($rootScope.onBack) {
