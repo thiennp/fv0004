@@ -51,8 +51,8 @@ kuvenoApp
 
 				loadTasks = function () {
 					Task.findAll().$promise.then(function (result) {
-						console.log($scope.tasks);
 						$scope.tasks = result.tasks;
+						console.log($scope.tasks);
 						totalCalculate(true);
 					});
 				};
@@ -212,12 +212,9 @@ kuvenoApp
 							LoggerSrv.logSuccess('Congrats! All done :)');
 						}
 					}
-					console.log(task.id);
-					Task.findById(task.id).$promise.then(function (data) {
-						console.log(data);
+					Task.save(task).$promise.then(function (data) {
+						totalCalculate($scope.tasks);
 					});
-					// $scope.tasks.$save();
-					// totalCalculate($scope.tasks);
 				};
 
 				$scope.markAll = function (isCompleted) {
